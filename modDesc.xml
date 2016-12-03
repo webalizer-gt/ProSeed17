@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no" ?>
+<modDesc descVersion="32">
+   <author>gotchTOM/webalizer</author>
+    <title>
+		<en>Sowing Supplement</en>
+        <de>Sowing Supplement</de>
+		<fr>Sowing Supplement</fr>
+    </title>
+    <description>
+        <en>Sowing Supplement</en>
+		<de>Sowing Supplement</de>
+		<fr>Sowing Supplement</fr>
+ 	</description>
+    <multiplayer supported="true"/>
+	<iconFilename>store.png</iconFilename>
+	<version>0.10.03</version>
+	<extraSourceFiles>
+        <sourceFile filename="register.lua" />
+    </extraSourceFiles>
+	<inputBindings>
+		<input name="SOWINGSUPP_HUD"       			category="VEHICLE" key1="KEY_KP_7"   			key2="" button="" device="0" mouse="" visible="true" />
+		<input name="SOWINGSUPP_MOUSE"       		category="VEHICLE" key1="KEY_lctrl"   					key2="" button="" device="0" mouse="" visible="true" />
+		<input name="DRIVINGLINE"  					category="VEHICLE" key1="KEY_KP_8" 						key2="" button="" device="0" mouse="" visible="true" />	
+    </inputBindings>
+	<l10n>
+		<!-- Buttons -->
+		<text name="input_SOWINGSUPP_HUD">      <en>SowingSupp HUD activate</en>		<de>SowingSupp HUD aktivieren</de>      </text>
+		<text name="input_SOWINGSUPP_MOUSE">    <en>SowingSupp MOUSE activate</en>		<de>SowingSupp MOUSE aktivieren</de>    </text>
+		<text name="input_DRIVINGLINE">        	<en>driving line control</en>			<de>Fahrgassen-Schaltung</de>           </text>
+		<!-- Text -->
+		<text name="SOWINGSUPP_CONFIGLABEL">    <en>Preferences</en>			        <de>Einstellungen</de>             		</text>
+		<text name="SOWINGSUPP_HUDon">          <en>activate HUD</en>			        <de>HUD einschalten</de>             	</text>
+		<text name="SOWINGSUPP_HUDoff">         <en>deactivate HUD</en>			        <de>HUD ausschalten</de>             	</text>
+		<text name="SOWINGCOUNTER">             <en>hectare counter</en>			    <de>Hektarzähler</de>            		</text>
+		<text name="SOWINGSOUNDS">              <en>acoustic signals</en>			    <de>Akustische Signale</de>            	</text>
+		<text name="SOWINGSOUNDS_SIGNAL">       <en>Signals</en>			    		<de>Signale</de>            			</text>
+		<text name="DRIVINGLINE">				<en>Driving lines</en>					<de>Fahrgassen</de>						</text>
+		<text name="DRIVINGLINE_OFF">           <en>switch off driving line</en>        <de>Fahrgasse ausschalten</de>        	</text>
+		<text name="DRIVINGLINE_ON">            <en>switch on driving line</en>         <de>Fahrgasse einschalten</de>         	</text>
+		<text name="DRIVINGLINE_SHIFT">         <en>upshift track counter</en>          <de>Spurzähler hochschalten</de>        </text>
+		<text name="DRIVINGLINE_PAUSE">         <en>pause track counter</en>            <de>Spurzähler pausieren</de>         	</text>
+		<text name="DRIVINGLINE_ENABLE">        <en>enable track counter</en>           <de>Spurzähler aktivieren</de>         	</text>
+		<text name="DRIVINGLINE_MANUAL">        <en>manual</en>           				<de>manuell</de>         				</text>
+		<text name="DRIVINGLINE_SEMIAUTO">      <en>semi</en>           				<de>semi</de>         					</text>
+		<text name="DRIVINGLINE_AUTO">       	<en>auto</en>           				<de>auto</de>         					</text>
+		<text name="DRIVINGLINE_MODE">      	<en>Mode</en>           				<de>Modus</de>         					</text>
+		<text name="DRIVINGLINE_SPWORKWIDTH">   <en>Distance</en>           			<de>Abstand</de>         				</text>
+		<text name="DRIVINGLINE_CURRENTLANE">   <en>Track nr.</en>           			<de>Fahrt Nr.</de>         				</text>
+		<text name="DRIVINGLINE_WORKWIDTH">     <en>Work width:</en>           			<de>Arbeitsbreite:</de>         		</text>
+		<text name="DRIVINGLINE_NUMDRILINE">    <en>Tramline in: </en>           		<de>Fahrgasse in: </de>         		</text>
+	</l10n>
+</modDesc>
