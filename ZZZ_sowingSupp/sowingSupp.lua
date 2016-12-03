@@ -126,8 +126,9 @@ function SowingSupp:load(xmlFile)
 end;
 
 function SowingSupp:checkIsDedi()
-	local pixelX, pixelY = getScreenModeInfo(getScreenMode());
-	return pixelX*pixelY < 1;
+	return g_dedicatedServerInfo ~= nil;
+	-- local pixelX, pixelY = getScreenModeInfo(getScreenMode());
+	-- return pixelX*pixelY < 1;
 end;
 
 function SowingSupp:delete()
