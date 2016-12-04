@@ -4,7 +4,7 @@
 --
 --	@author:		gotchTOM & webalizer
 --	@date: 			4-Dec-2016
---	@version: 	v0.01.03
+--	@version: 	v0.01.04
 --
 -- included modules: sowingCounter, sowingSounds
 --
@@ -162,7 +162,18 @@ function SowingSupp:modules(grid, container, vehicle, guiElement, parameter)
 			elseif vehicle.dlMode == 1 then
 				vehicle.dlMode = 2;
 				guiElement.value = SowingMachine.DRIVINGLINE_AUTO;
-			else --vehicle.dlMode = 2
+			elseif vehicle.dlMode == 2 then
+				if vehicle.AttacherVehicleBackup ~= nil and vehicle.AttacherVehicleBackup.GPSlaneNo ~= nil then
+					vehicle.dlMode = 3;
+					guiElement.value = SowingMachine.DRIVINGLINE_GPS;
+				else	
+					vehicle.dlMode = 0;
+					guiElement.value = SowingMachine.DRIVINGLINE_MANUAL;
+					if vehicle.isPaused then
+						vehicle.isPaused = false;
+					end;
+				end;
+			elseif vehicle.dlMode == 3 then	
 				vehicle.dlMode = 0;
 				guiElement.value = SowingMachine.DRIVINGLINE_MANUAL;
 				if vehicle.isPaused then
@@ -170,20 +181,24 @@ function SowingSupp:modules(grid, container, vehicle, guiElement, parameter)
 				end;
 			end;
 		elseif parameter == -1 then
-			if vehicle.dlMode == 0 then
-				vehicle.dlMode = 2;
-				guiElement.value = SowingMachine.DRIVINGLINE_AUTO;
-			elseif vehicle.dlMode == 1 then
+			-- if vehicle.dlMode == 0 then
+				-- vehicle.dlMode = 2;
+				-- guiElement.value = SowingMachine.DRIVINGLINE_AUTO;
+			if vehicle.dlMode == 1 then
 				vehicle.dlMode = 0;
 				guiElement.value = SowingMachine.DRIVINGLINE_MANUAL;
-			else --vehicle.dlMode = 2
+			elseif vehicle.dlMode == 2 then
 				vehicle.dlMode = 1;
 				guiElement.value = SowingMachine.DRIVINGLINE_SEMIAUTO;
 				if vehicle.isPaused then
 					vehicle.isPaused = false;
 				end;
+			elseif vehicle.dlMode == 3 then
+				vehicle.dlMode = 2;
+				guiElement.value = SowingMachine.DRIVINGLINE_AUTO;
 			end;
 		end;
+		vehicle.lastGPSlaneNo = -1;
 		vehicle:updateDriLiGUI();
 		-- vehicle.hasChanged = true;
 	end;
@@ -321,7 +336,8 @@ function SowingSupp:updateTick(dt)
 			if self.AttacherVehicleBackup == nil then
 				local attacherVehicle = self:getRootAttacherVehicle();
 				self.AttacherVehicleBackup = attacherVehicle;
-			end;
+			end;		
+			-- renderText(0.1,0.1,0.02,"self.AttacherVehicleBackup.GPSlaneNo: "..tostring(self.AttacherVehicleBackup.GPSlaneNo))
 			if self.AttacherVehicleBackup.ActiveHUDs == nil then
 				self.AttacherVehicleBackup.ActiveHUDs = {};
 				self.AttacherVehicleBackup.ActiveHUDs.numActiveHUDs = 0;

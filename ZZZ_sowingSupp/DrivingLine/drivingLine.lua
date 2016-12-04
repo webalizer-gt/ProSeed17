@@ -3,8 +3,8 @@
 -- Specialization for driving lines of sowing machines
 --
 --	@author:		gotchTOM & webalizer
---	@date: 			3-Dec-2016
---	@version: 	v1.6.03
+--	@date: 			4-Dec-2016
+--	@version: 	v1.6.04
 --	@history:		v1.0 	- initial implementation (17-Jun-2012)
 --							v1.5  - SowingSupplement implementation
 --							v1.6  - 
@@ -129,9 +129,10 @@ function DrivingLine:load(savegame)
 	-- self.lastCurrentSeed = 0;
 	-- self.blocksPerDensity = 0;
 
-	self.dlMode = 0; -- 0 = manual, 1 = semiAutomatic, 2 = automatic
+	self.dlMode = 0; -- 0 = manual, 1 = semiAutomatic, 2 = automatic, 3 = GPS
 	self.currentLane = 1; --currentDrive
 	self.nSMdrives = 3;
+	self.lastGPSlaneNo = -1;
 	if (self.nSMdrives%2 == 0) then -- gerade Zahl
 		self.num_DrivingLine = (self.nSMdrives / 2) + 1;
 	elseif (self.nSMdrives%2 ~= 0) then -- ungerade Zahl
@@ -292,14 +293,13 @@ end;
 
 function DrivingLine:updateTick(dt)
 	if self.drivingLinePresent then
-		if self:getIsActive() then
-			if self.dlMode > 0 then
+		if self:getIsActive() then	
+			if self.dlMode > 0 and self.dlMode < 3 then
 				if self.currentLane > self.nSMdrives then
 					self.currentLane = 1;
 				elseif self.currentLane < 1 then
 					self.currentLane = self.nSMdrives;
 				end;
-
 				if self.currentLane == self.num_DrivingLine and not self.drivingLineActiv then--and self.dlCultivatorDelay <= g_currentMission.time then
 					self:setDrivingLine(true, self.dlMode, self.currentLane, self.isPaused, self.nSMdrives, self.smWorkwith, self.allowPeMarker);
 						--print("self.currentLane == self.num_DrivingLine self:setDrivingLine(true); self.num_DrivingLine: "..tostring(self.num_DrivingLine))
@@ -313,7 +313,36 @@ function DrivingLine:updateTick(dt)
 						self:setPeMarker(false);
 					end;
 				end;
+			elseif self.dlMode == 3 then
+				local rootAttacherVehicle = self:getRootAttacherVehicle();
+				if rootAttacherVehicle.GPSlaneNo == nil then
+					-- print("->update(dt) self.dlMode == 3 and rootAttacherVehicle.GPSlaneNo == nil")
+					self.dlMode = 0;
+				end;
+				if rootAttacherVehicle.GPSActive ~= nil and rootAttacherVehicle.GPSlaneNo ~= self.lastGPSlaneNo then
+					local x = rootAttacherVehicle.GPSlaneNo%self.nSMdrives;
+					-- print("x: "..tostring(x))
+					self.currentLane = x+1;
+					if self.currentLane == self.num_DrivingLine and not self.drivingLineActiv then--and self.dlCultivatorDelay <= g_currentMission.time then
+						self:setDrivingLine(true, self.dlMode, self.currentLane, self.isPaused, self.nSMdrives, self.smWorkwith, self.allowPeMarker);
+						--print("self.currentLane == self.num_DrivingLine self:setDrivingLine(true); self.num_DrivingLine: "..tostring(self.num_DrivingLine))
+						if self.allowPeMarker and not self.peMarkerActiv then
+							self:setPeMarker(true);
+						end;
+					elseif self.currentLane ~= self.num_DrivingLine and self.drivingLineActiv then--and self.dlCultivatorDelay <= g_currentMission.time then
+						self:setDrivingLine(false, self.dlMode, self.currentLane, self.isPaused, self.nSMdrives, self.smWorkwith, self.allowPeMarker);
+							--print("self.currentLane ~= self.num_DrivingLine self:setDrivingLine(false); self.num_DrivingLine: "..tostring(self.num_DrivingLine))
+						if self.peMarkerActiv then
+							self:setPeMarker(false);
+						end;
+					end;
+					self.lastGPSlaneNo = rootAttacherVehicle.GPSlaneNo;
+					self:updateDriLiGUI();
+					-- print("self.lastGPSlaneNo: "..tostring(self.lastGPSlaneNo))
+					-- print("self.currentLane: "..tostring(self.currentLane))
+				end;
 			end;
+			
 			if self.IsLoweredBackUp ~= self.soMaIsLowered then
 				if not self.soMaIsLowered then
 					if self.dlMode == 2 and not self.isPaused then
@@ -946,6 +975,7 @@ function DrivingLine:setSPworkwidth(raise, noEventSend)
 			self.nSMdrives = self.nSMdrives + 1;
 		end;
 	end;
+	self.lastGPSlaneNo = -1;
 	self:updateDriLiGUI();
 
 	-- if noEventSend == nil or noEventSend == false then
@@ -1078,14 +1108,26 @@ function DrivingLine:updateDriLiGUI()
 				self.hud1.grids.main.elements.driLiMode.value = SowingMachine.DRIVINGLINE_MANUAL;
 				self.hud1.grids.main.elements.driLiMode.buttonSet.button1IsActive = false;
 				self.hud1.grids.main.elements.driLiMode.buttonSet.button2IsActive = true;
-			elseif self.dlMode == 2 then
-				self.hud1.grids.main.elements.driLiMode.value = SowingMachine.DRIVINGLINE_AUTO;
-				self.hud1.grids.main.elements.driLiMode.buttonSet.button1IsActive = true;
-				self.hud1.grids.main.elements.driLiMode.buttonSet.button2IsActive = false;
-			else --self.dlMode = 1
+			elseif self.dlMode == 1 then
 				self.hud1.grids.main.elements.driLiMode.value = SowingMachine.DRIVINGLINE_SEMIAUTO;
 				self.hud1.grids.main.elements.driLiMode.buttonSet.button1IsActive = true;
 				self.hud1.grids.main.elements.driLiMode.buttonSet.button2IsActive = true;
+			elseif self.dlMode == 2 then
+				local rootAttacherVehicle = self:getRootAttacherVehicle();
+				if rootAttacherVehicle.GPSlaneNo ~= nil then
+					-- print("-> updateDriLiGUI()  rootAttacherVehicle.GPSlaneNo: "..tostring(rootAttacherVehicle.GPSlaneNo))
+					self.hud1.grids.main.elements.driLiMode.value = SowingMachine.DRIVINGLINE_AUTO;
+					self.hud1.grids.main.elements.driLiMode.buttonSet.button1IsActive = true;
+					self.hud1.grids.main.elements.driLiMode.buttonSet.button2IsActive = true;
+				else
+					self.hud1.grids.main.elements.driLiMode.value = SowingMachine.DRIVINGLINE_AUTO;
+					self.hud1.grids.main.elements.driLiMode.buttonSet.button1IsActive = true;
+					self.hud1.grids.main.elements.driLiMode.buttonSet.button2IsActive = false;
+				end;
+			elseif self.dlMode == 3 then
+				self.hud1.grids.main.elements.driLiMode.value = SowingMachine.DRIVINGLINE_GPS;
+				self.hud1.grids.main.elements.driLiMode.buttonSet.button1IsActive = true;
+				self.hud1.grids.main.elements.driLiMode.buttonSet.button2IsActive = false;
 			end;
 			
 			self.hud1.grids.main.elements.driLiPeMarker.isVisible = true;
@@ -1103,7 +1145,7 @@ function DrivingLine:updateDriLiGUI()
 			self.hud1.grids.main.elements.info_workWidth.isVisible = true;
 			self.hud1.grids.main.elements.info_workWidth.value = self.smWorkwith.."m";
 			
-			if self.dlMode > 0 then
+			if self.dlMode > 0 then--and self.dlMode < 3 then
 				self.hud1.grids.main.elements.driLiSpWorkWidth.isVisible = true;
 				self.spWorkwith = self.smWorkwith * self.nSMdrives;
 				-- print("DrivingLine:updateDriLiGUI() "..tostring(self.spWorkwith).."="..tostring(self.smWorkwith).."*"..tostring(self.nSMdrives))
@@ -1127,10 +1169,20 @@ function DrivingLine:updateDriLiGUI()
 				
 				self.hud1.grids.main.elements.driLiCurDrive.isVisible = true;
 				self.hud1.grids.main.elements.driLiCurDrive.value = self.currentLane.." / "..self.nSMdrives;
+				if self.dlMode == 3 then
+					self.hud1.grids.main.elements.driLiCurDrive.buttonSet.button1IsActive = false;
+					self.hud1.grids.main.elements.driLiCurDrive.buttonSet.button2IsActive = false;
+				else	
+					self.hud1.grids.main.elements.driLiCurDrive.buttonSet.button1IsActive = true;
+					self.hud1.grids.main.elements.driLiCurDrive.buttonSet.button2IsActive = true;
+				end;
+				
 				
 				self.hud1.grids.main.elements.info_numDrivingLine.isVisible = true;
 				self.hud1.grids.main.elements.info_numDrivingLine.value = self.num_DrivingLine;
-			else --self.dlMode = 0
+			-- elseif self.dlMode == 3 then
+			
+			elseif self.dlMode == 0 then
 				self.hud1.grids.main.elements.driLiSpWorkWidth.isVisible = false;
 				self.hud1.grids.main.elements.driLiCurDrive.isVisible = false;
 				self.hud1.grids.main.elements.info_numDrivingLine.isVisible = false;

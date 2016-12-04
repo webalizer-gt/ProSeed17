@@ -13,7 +13,7 @@
  	</description>
     <multiplayer supported="true"/>
 	<iconFilename>store.png</iconFilename>
-	<version>0.10.04</version>
+	<version>0.10.05</version>
 	<extraSourceFiles>
         <sourceFile filename="register.lua" />
     </extraSourceFiles>
@@ -43,6 +43,7 @@
 		<text name="DRIVINGLINE_MANUAL">        <en>manual</en>           				<de>manuell</de>         				</text>
 		<text name="DRIVINGLINE_SEMIAUTO">      <en>semi</en>           				<de>semi</de>         					</text>
 		<text name="DRIVINGLINE_AUTO">       	<en>auto</en>           				<de>auto</de>         					</text>
+		<text name="DRIVINGLINE_GPS">       	<en>GPS</en>           					<de>GPS</de>         					</text>
 		<text name="DRIVINGLINE_MODE">      	<en>Mode</en>           				<de>Modus</de>         					</text>
 		<text name="DRIVINGLINE_SPWORKWIDTH">   <en>Distance</en>           			<de>Abstand</de>         				</text>
 		<text name="DRIVINGLINE_CURRENTLANE">   <en>Track nr.</en>           			<de>Fahrt Nr.</de>         				</text>

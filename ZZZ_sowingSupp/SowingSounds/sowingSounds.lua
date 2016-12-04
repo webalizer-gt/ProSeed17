@@ -157,7 +157,7 @@ function SowingSounds:updateTick(dt)
 								if fillLevelInformation.fillType == FillUtil.FILLTYPE_FERTILIZER then
 									if not self.sowingSounds.isFertiLow5Percent then
 										playSample(self.SeSoSoundId4, 1, 1, 0);
-										-- print("playSample(self.SeSoSoundId4, 1, 1, 0);")
+										-- print("playSample(Ferti 5%, 1, 1, 0);")
 										self.sowingSounds.isFertiLow5Percent = true;
 									else
 										if fillLevelInformation.fillLevel > 0.05 * fillLevelInformation.capacity then
@@ -167,7 +167,7 @@ function SowingSounds:updateTick(dt)
 								else
 									if not self.sowingSounds.isSeedLow5Percent then
 										playSample(self.SeSoSoundId4, 1, 1, 0);
-										-- print("playSample(self.SeSoSoundId4, 1, 1, 0);")
+										-- print("playSample(Seed 5%, 1, 1, 0);")
 										self.sowingSounds.isSeedLow5Percent = true;
 									else
 										if fillLevelInformation.fillLevel > 0.05 * fillLevelInformation.capacity then
@@ -181,7 +181,7 @@ function SowingSounds:updateTick(dt)
 								if fillLevelInformation.fillType == FillUtil.FILLTYPE_FERTILIZER then
 									if not self.sowingSounds.isFertiLow1Percent then
 										playSample(self.SeSoSoundId4, 1, 1, 0);
-										-- print("playSample(self.SeSoSoundId4, 1, 1, 0);")
+										-- print("playSample(Ferti 1%, 1, 1, 0);")
 										self.sowingSounds.isFertiLow1Percent = true;
 									else
 										if fillLevelInformation.fillLevel > 0.01 * fillLevelInformation.capacity then
@@ -191,7 +191,7 @@ function SowingSounds:updateTick(dt)
 								else
 									if not self.sowingSounds.isSeedLow1Percent then
 										playSample(self.SeSoSoundId4, 1, 1, 0);
-										-- print("playSample(self.SeSoSoundId4, 1, 1, 0);")
+										-- print("playSample(Seed 1%, 1, 1, 0);")
 										self.sowingSounds.isSeedLow1Percent = true;
 									else
 										if fillLevelInformation.fillLevel > 0.01 * fillLevelInformation.capacity then
@@ -205,13 +205,13 @@ function SowingSounds:updateTick(dt)
 								if fillLevelInformation.fillType == FillUtil.FILLTYPE_FERTILIZER then
 									if not self.sowingSounds.isFertiEmpty then
 										playSample(self.SeSoSoundId4, 1, 1, 0);
-										-- print("playSample(self.SeSoSoundId4, 1, 1, 0);")
+										-- print("playSample(Ferti <= 10, 1, 1, 0);")
 										self.sowingSounds.isFertiEmpty = true;
 									end;
 								else
 									if not self.sowingSounds.isSeedEmpty then
 										playSample(self.SeSoSoundId4, 0, 1, 0);
-										-- print("playSample(self.SeSoSoundId4, 0, 1, 0);")
+										-- print("playSample(Seed <= 10, 0, 1, 0);")
 										self.sowingSounds.isSeedEmpty = true;
 									end;
 								end;
