@@ -3,8 +3,8 @@
 -- a collection of several seeder modifications
 --
 --	@author:		gotchTOM & webalizer
---	@date: 			29-Nov-2016
---	@version: 	v0.01.02
+--	@date: 			4-Dec-2016
+--	@version: 	v0.01.03
 --
 -- included modules: sowingCounter, sowingSounds
 --
