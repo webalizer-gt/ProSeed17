@@ -112,13 +112,12 @@ function SowingSupp.hudGrid:changeGrid( container, offsetX, offsetY, rows, colum
     end;
     self.tempOffsetY = self.tempOffsetY + self.height;
   end;
-
 end;
 
 
 -- Create object "guiElement"
 SowingSupp.guiElement = {};
-function SowingSupp.guiElement:New ( gridPos, functionToCall, parameter1, parameter2, style, label, value, isVisible, graphic, textSize, textAlignment)
+function SowingSupp.guiElement:New ( gridPos, functionToCall, parameter1, parameter2, style, label, value, isVisible, graphic, textSize, textAlignment, uvs)
 	local obj = setmetatable ( { }, { __index = self } )
 	obj.gridPos = gridPos;
 	obj.functionToCall = functionToCall;
@@ -130,6 +129,7 @@ function SowingSupp.guiElement:New ( gridPos, functionToCall, parameter1, parame
 	obj.isVisible = isVisible;
 	obj.textSize = textSize;
 	obj.textAlignment = textAlignment;
+	obj.uvs = uvs;
 	if style == "info" or style == "separator" or style == "image" then
 		if graphic ~= nil then
 		  obj.graphic = createImageOverlay(Utils.getFilename("img/"..graphic..".dds", SowingSupp.path));
@@ -256,6 +256,10 @@ function SowingSupp.guiElement:render(grid, container)
       local iconWidth = iconHeight / g_screenAspectRatio;
       local yOffsetIcon = baseHeight * 0.15;
 	 if self.graphic ~= nil then
+		if self.uvs ~= nil then
+			local u0,v0,u1,v1,u2,v2,u3,v3 = self.uvs[1],self.uvs[2],self.uvs[3],self.uvs[4],self.uvs[5],self.uvs[6],self.uvs[7],self.uvs[8];
+			setOverlayUVs(self.graphic, u0,v0,u1,v1,u2,v2,u3,v3 );
+		end;
         renderOverlay(self.graphic, (grid.table[self.gridPos].x + grid.centerX) - (container.width / 2) * self.parameter1, grid.table[self.gridPos].y, container.width*self.parameter1, container.height*self.parameter2);
       end;
 	

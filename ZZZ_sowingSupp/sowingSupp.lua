@@ -26,7 +26,7 @@ function SowingSupp.prerequisitesPresent(specializations)
 		return SpecializationUtil.hasSpecialization(SowingMachine, specializations);
 end;
 
-local debugmode = 10;
+local debugmode = 1;
 local modItem = ModsUtil.findModItemByModName(g_currentModName);
 local version = (modItem and modItem.version) and modItem.version or "?.?.?";
 local versionText = '*** Sowing Supplement v'..version;
@@ -82,11 +82,12 @@ function SowingSupp:load(xmlFile)
 	self.hud1.grids.config = {};
 	self.hud1.grids.config = SowingSupp.hudGrid:New(self.hud1, -(gridWidth*2) - (gridWidth*.038), 0, 4, 2, gridWidth, gridHeight, false, false, false);
 	
-	-- create gui elements ( grid position [int], function to call [string], parameter1, parameter2, style [string], label [string], value [], is visible [bool], [Grafik], textSize [int], textAlignment [])
+	-- create gui elements ( grid position [int], function to call [string], parameter1, parameter2, style [string], label [string], value [], is visible [bool], [Grafik], textSize [int], textAlignment []), uvs [{u0,v0,u1,v1,u2,v2,u3,v3}]
 	-- main
 	self.hud1.grids.main.elements.titleBar = SowingSupp.guiElement:New( 19, "titleBar", "configHud", "close", "titleBar", "Sowing Supplement", nil, true, nil, 5, nil);
 	
-	self.hud1.grids.main.elements.sowImage = SowingSupp.guiElement:New( 5, nil, .8, .42, "image", nil, nil, true, "sowing_machine", nil, nil);
+	self.hud1.grids.main.elements.sowImage = SowingSupp.guiElement:New( 5, nil, .8, .42, "image", nil, nil, true, "sowing_machine", nil, nil, {0,0, 0,0.3, 1,0, 1,0.3});
+	self.hud1.grids.main.elements.barImage = SowingSupp.guiElement:New( 5, nil, .79, .07, "image", nil, nil, true, "sowing_machine", nil, nil, {0,0.5, 0,0.5, 1,0.5, 1,0.5});
 	
 	self.hud1.grids.main.elements.separator1 = SowingSupp.guiElement:New( 13, nil, nil, nil, "separator", nil, nil, true, "row_bg", nil);
 

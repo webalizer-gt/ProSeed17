@@ -1142,6 +1142,12 @@ function DrivingLine:updateDriLiGUI()
 				end;
 			end;
 			
+			if self.drivingLineActiv then
+				self.hud1.grids.main.elements.barImage.uvs = {0,0.54, 0,0.55, 1,0.54, 1,0.55}
+			else
+				self.hud1.grids.main.elements.barImage.uvs = {0,0.5, 0,0.5, 1,0.5, 1,0.5}
+			end;
+			
 			self.hud1.grids.main.elements.info_workWidth.isVisible = true;
 			self.hud1.grids.main.elements.info_workWidth.value = self.smWorkwith.."m";
 			
