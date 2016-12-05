@@ -13,7 +13,7 @@
  	</description>
     <multiplayer supported="true"/>
 	<iconFilename>store.png</iconFilename>
-	<version>0.10.07</version>
+	<version>0.10.08</version>
 	<extraSourceFiles>
         <sourceFile filename="register.lua" />
     </extraSourceFiles>
@@ -40,6 +40,7 @@
 		<text name="DRIVINGLINE_SHIFT">         <en>upshift track counter</en>          <de>Spurzähler hochschalten</de>        </text>
 		<text name="DRIVINGLINE_PAUSE">         <en>pause track counter</en>            <de>Spurzähler pausieren</de>         	</text>
 		<text name="DRIVINGLINE_ENABLE">        <en>enable track counter</en>           <de>Spurzähler aktivieren</de>         	</text>
+		<text name="DRIVINGLINE_GPSRESET">      <en>reset GPS track counter</en>        <de>GPS Spurzähler zurücksetzen</de>    </text>
 		<text name="DRIVINGLINE_MANUAL">        <en>manual</en>           				<de>manuell</de>         				</text>
 		<text name="DRIVINGLINE_SEMIAUTO">      <en>semi</en>           				<de>semi</de>         					</text>
 		<text name="DRIVINGLINE_AUTO">       	<en>auto</en>           				<de>auto</de>         					</text>

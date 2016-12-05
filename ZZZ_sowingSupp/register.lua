@@ -50,6 +50,7 @@ function SowingSupp_Register:loadMap(name)
 							vs.DRIVINGLINE_SHIFT = g_i18n:getText("DRIVINGLINE_SHIFT");
 							vs.DRIVINGLINE_PAUSE = g_i18n:getText("DRIVINGLINE_PAUSE");
 							vs.DRIVINGLINE_ENABLE = g_i18n:getText("DRIVINGLINE_ENABLE");
+							vs.DRIVINGLINE_GPSRESET = g_i18n:getText("DRIVINGLINE_GPSRESET");
 							vs.DRIVINGLINE_MANUAL = g_i18n:getText("DRIVINGLINE_MANUAL");
 							vs.DRIVINGLINE_SEMIAUTO = g_i18n:getText("DRIVINGLINE_SEMIAUTO");
 							vs.DRIVINGLINE_AUTO = g_i18n:getText("DRIVINGLINE_AUTO");
