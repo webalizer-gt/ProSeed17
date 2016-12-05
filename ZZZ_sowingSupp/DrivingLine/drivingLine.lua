@@ -3,8 +3,8 @@
 -- Specialization for driving lines of sowing machines
 --
 --	@author:		gotchTOM & webalizer
---	@date: 			4-Dec-2016
---	@version: 	v1.6.04
+--	@date: 			5-Dec-2016
+--	@version: 	v1.6.05
 --	@history:		v1.0 	- initial implementation (17-Jun-2012)
 --							v1.5  - SowingSupplement implementation
 --							v1.6  - 
@@ -320,7 +320,7 @@ function DrivingLine:updateTick(dt)
 					self.dlMode = 0;
 				end;
 				if rootAttacherVehicle.GPSActive ~= nil and rootAttacherVehicle.GPSlaneNo ~= self.lastGPSlaneNo then
-					local x = rootAttacherVehicle.GPSlaneNo%self.nSMdrives;
+					local x = math.abs(rootAttacherVehicle.GPSlaneNo)%self.nSMdrives;
 					-- print("x: "..tostring(x))
 					self.currentLane = x+1;
 					if self.currentLane == self.num_DrivingLine and not self.drivingLineActiv then--and self.dlCultivatorDelay <= g_currentMission.time then

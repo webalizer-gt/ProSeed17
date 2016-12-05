@@ -336,8 +336,9 @@ function SowingSupp:updateTick(dt)
 			if self.AttacherVehicleBackup == nil then
 				local attacherVehicle = self:getRootAttacherVehicle();
 				self.AttacherVehicleBackup = attacherVehicle;
-			end;		
+			end;	
 			-- renderText(0.1,0.1,0.02,"self.AttacherVehicleBackup.GPSlaneNo: "..tostring(self.AttacherVehicleBackup.GPSlaneNo))
+			-- renderText(0.1,0.12,0.02,"self.AttacherVehicleBackup.GPSlaneNoOffset: "..tostring(self.AttacherVehicleBackup.GPSlaneNoOffset))
 			if self.AttacherVehicleBackup.ActiveHUDs == nil then
 				self.AttacherVehicleBackup.ActiveHUDs = {};
 				self.AttacherVehicleBackup.ActiveHUDs.numActiveHUDs = 0;
