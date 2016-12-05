@@ -4,7 +4,7 @@
 --
 --	@author:		gotchTOM & webalizer
 --	@date: 			5-Dec-2016
---	@version: 	v1.6.05
+--	@version: 	v1.6.07
 --	@history:		v1.0 	- initial implementation (17-Jun-2012)
 --							v1.5  - SowingSupplement implementation
 --							v1.6  - 
@@ -248,6 +248,13 @@ function DrivingLine:update(dt)
 					end;
 				elseif self.dlMode == 2 then
 					self.isPaused = not self.isPaused;
+				elseif self.dlMode == 3 then
+					local rootAttacherVehicle = self:getRootAttacherVehicle();
+					if rootAttacherVehicle.GPSlaneNo ~= nil then
+						local lr = rootAttacherVehicle.GPSdirectionPlusMinus*-1;
+						rootAttacherVehicle.lhX0 = rootAttacherVehicle.lhX0 - lr*rootAttacherVehicle.GPSlaneNo*rootAttacherVehicle.GPSWidth*rootAttacherVehicle.lhdZ0;
+						rootAttacherVehicle.lhZ0 = rootAttacherVehicle.lhZ0 - lr*rootAttacherVehicle.GPSlaneNo*rootAttacherVehicle.GPSWidth*rootAttacherVehicle.lhdX0;
+					end;
 				end;
 				self:updateDriLiGUI();
 			end;
@@ -893,6 +900,11 @@ function DrivingLine:draw()
 			else
 				g_currentMission:addHelpButtonText(SowingMachine.DRIVINGLINE_PAUSE, InputBinding.DRIVINGLINE, nil, GS_PRIO_HIGH);
 			end;
+		elseif self.dlMode == 3 then
+			local rootAttacherVehicle = self:getRootAttacherVehicle();
+			if rootAttacherVehicle ~= nil and rootAttacherVehicle.GPSActive then
+				g_currentMission:addHelpButtonText(SowingMachine.DRIVINGLINE_GPSRESET, InputBinding.DRIVINGLINE, nil, GS_PRIO_HIGH);
+			end;				
 		end;
 		-- setTextColor(1,1,1,1);
 		-- if self.dlCultivatorDelay > g_currentMission.time then
