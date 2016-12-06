@@ -1154,11 +1154,10 @@ function DrivingLine:updateDriLiGUI()
 				end;
 			end;
 			
-			local yOffset = 0.0195;
 			if self.drivingLineActiv then
-				self.hud1.grids.main.elements.barImage.uvs = {0,0.521-yOffset, 0,0.54-yOffset, 1,0.521-yOffset, 1,0.54-yOffset}
+				self.hud1.grids.main.elements.barImage.uvs = {0,0.54, 0,0.55, 1,0.54, 1,0.55}
 			else
-				self.hud1.grids.main.elements.barImage.uvs = {0,0.521, 0,0.54, 1,0.521, 1,0.54}
+				self.hud1.grids.main.elements.barImage.uvs = {0,0.5, 0,0.5, 1,0.5, 1,0.5}
 			end;
 			
 			self.hud1.grids.main.elements.info_workWidth.isVisible = true;

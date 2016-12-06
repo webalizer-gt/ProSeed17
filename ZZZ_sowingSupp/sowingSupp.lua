@@ -3,15 +3,16 @@
 -- a collection of several seeder modifications
 --
 --	@author:		gotchTOM & webalizer
---	@date: 			4-Dec-2016
---	@version: 	v0.01.04
+--	@date: 			5-Dec-2016
+--	@version: 	v0.01.05
 --
--- included modules: sowingCounter, sowingSounds
+-- included modules: sowingCounter, sowingSounds, drivingLine, fertilization
 --
 -- added modules:
 -- 		sowingCounter:			hectar counter for seeders
 -- 		sowingSounds:				acoustic signals for seeders
---		drivingLine:
+--		drivingLine:				"tramlines" for seeders
+--		fertilization				fertilizer switch
 --
 -- changes in modules:
 --
@@ -46,6 +47,9 @@ function SowingSupp:load(xmlFile)
 		self.activeModules.sowingCounter = true;
 		self.activeModules.sowingSounds = true;
 		self.activeModules.drivingLine = true;
+		if then
+			self.activeModules.fertilization = true;
+		end;	
 		if SowingSupp.isDedi == nil then
 			SowingSupp.isDedi = SowingSupp:checkIsDedi();
 		end;
@@ -87,7 +91,7 @@ function SowingSupp:load(xmlFile)
 	self.hud1.grids.main.elements.titleBar = SowingSupp.guiElement:New( 19, "titleBar", "configHud", "close", "titleBar", "Sowing Supplement", nil, true, nil, 5, nil);
 	
 	self.hud1.grids.main.elements.sowImage = SowingSupp.guiElement:New( 5, nil, .8, .42, "image", nil, nil, true, "sowing_machine", nil, nil, {0,0, 0,0.3, 1,0, 1,0.3});
-	self.hud1.grids.main.elements.barImage = SowingSupp.guiElement:New( 5, nil, .8, .022, "image", nil, nil, true, "sowing_machine", nil, nil, {0,0.521, 0,0.54, 1,0.521, 1,0.54});
+	self.hud1.grids.main.elements.barImage = SowingSupp.guiElement:New( 5, nil, .79, .07, "image", nil, nil, true, "sowing_machine", nil, nil, {0,0.5, 0,0.5, 1,0.5, 1,0.5});
 	
 	self.hud1.grids.main.elements.separator1 = SowingSupp.guiElement:New( 13, nil, nil, nil, "separator", nil, nil, true, "row_bg", nil);
 
@@ -101,7 +105,7 @@ function SowingSupp:load(xmlFile)
 	
 	self.hud1.grids.main.elements.sowingSound = SowingSupp.guiElement:New( 9, "toggleSound", nil, nil, "toggle", SowingMachine.SOWINGSOUNDS_SIGNAL, true, self.activeModules.sowingSounds, "button_Sound",_,_);
 	
-	--self.hud1.grids.main.elements.fertilizer = SowingSupp.guiElement:New( 12, "setFertilization", nil, nil, "toggle", "Fertilization", self.allowsSpraying, true, "button_Toggle",_,_);
+	self.hud1.grids.main.elements.fertilizer = SowingSupp.guiElement:New( 12, "setFertilization", nil, nil, "toggle", "Fertilization", self.allowsSpraying, true, "button_Fertilizer",_,_);
 	
 	self.hud1.grids.main.elements.scSession = SowingSupp.guiElement:New( 2, nil, nil, nil, "info", nil, "0.00ha   (0.0ha/h)", self.activeModules.sowingCounter, "SowingCounter_sessionHUD", 4, RenderText.ALIGN_LEFT);
 	
@@ -262,7 +266,7 @@ function SowingSupp:modules(grid, container, vehicle, guiElement, parameter)
 	end;
 	if guiElement.functionToCall == "setFertilization" then
 		guiElement.value = not guiElement.value;
-		--vehicle.allowsSpraying = guiElement.value;
+		vehicle.allowsSpraying = guiElement.value;
 	end;
 	if guiElement.functionToCall == "toggleSoCoModul" then
 		guiElement.value = not guiElement.value;
@@ -369,7 +373,7 @@ function SowingSupp:loadConfigFile(self)
 		Xml = createXMLFile("sowingSupplement_XML", file, "sowingSupplement");
 	end;
 
-	local moduleList = {"sowingCounter","sowingSounds","drivingLine"};
+	local moduleList = {"sowingCounter","sowingSounds","drivingLine","fertilization"};
 
 	for _,field in pairs(moduleList) do
 		local XmlField = string.upper(string.sub(field,1,1))..string.sub(field,2);
