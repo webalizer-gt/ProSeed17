@@ -87,7 +87,7 @@ function SowingSupp:load(xmlFile)
 	self.hud1.grids.main.elements.titleBar = SowingSupp.guiElement:New( 19, "titleBar", "configHud", "close", "titleBar", "Sowing Supplement", nil, true, nil, 5, nil);
 	
 	self.hud1.grids.main.elements.sowImage = SowingSupp.guiElement:New( 5, nil, .8, .42, "image", nil, nil, true, "sowing_machine", nil, nil, {0,0, 0,0.3, 1,0, 1,0.3});
-	self.hud1.grids.main.elements.barImage = SowingSupp.guiElement:New( 5, nil, .79, .07, "image", nil, nil, true, "sowing_machine", nil, nil, {0,0.5, 0,0.5, 1,0.5, 1,0.5});
+	self.hud1.grids.main.elements.barImage = SowingSupp.guiElement:New( 5, nil, .8, .022, "image", nil, nil, true, "sowing_machine", nil, nil, {0,0.521, 0,0.54, 1,0.521, 1,0.54});
 	
 	self.hud1.grids.main.elements.separator1 = SowingSupp.guiElement:New( 13, nil, nil, nil, "separator", nil, nil, true, "row_bg", nil);
 
