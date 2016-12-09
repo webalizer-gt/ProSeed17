@@ -3,8 +3,8 @@
 -- a collection of several seeder modifications
 --
 --	@author:		gotchTOM & webalizer
---	@date: 			5-Dec-2016
---	@version: 	v0.01.05
+--	@date: 			9-Dec-2016
+--	@version: 	v0.01.06
 --
 -- included modules: sowingCounter, sowingSounds, drivingLine, fertilization
 --
@@ -48,6 +48,7 @@ function SowingSupp:load(xmlFile)
 		self.activeModules.sowingSounds = true;
 		self.activeModules.drivingLine = true;
 		self.activeModules.fertilization = self.allowsSpraying;
+		-- print("!!!self.activeModules.fertilization: "..tostring(self.activeModules.fertilization))
 		if SowingSupp.isDedi == nil then
 			SowingSupp.isDedi = SowingSupp:checkIsDedi();
 		end;
@@ -82,7 +83,7 @@ function SowingSupp:load(xmlFile)
 	self.hud1.grids.main = SowingSupp.hudGrid:New(self.hud1, 0, 0, 7, 3, gridWidth, gridHeight, true, true, false);
 
 	self.hud1.grids.config = {};
-	self.hud1.grids.config = SowingSupp.hudGrid:New(self.hud1, -(gridWidth*2) - (gridWidth*.038), 0, 4, 2, gridWidth, gridHeight, false, false, false);
+	self.hud1.grids.config = SowingSupp.hudGrid:New(self.hud1, -(gridWidth*2) - (gridWidth*.038), 0, 5, 2, gridWidth, gridHeight, false, false, false);
 	
 	-- create gui elements ( grid position [int], function to call [string], parameter1, parameter2, style [string], label [string], value [], is visible [bool], [Grafik], textSize [int], textAlignment []), uvs [{u0,v0,u1,v1,u2,v2,u3,v3}]
 	-- main
@@ -103,9 +104,9 @@ function SowingSupp:load(xmlFile)
 	
 	self.hud1.grids.main.elements.sowingSound = SowingSupp.guiElement:New( 9, "toggleSound", nil, nil, "toggle", SowingMachine.SOWINGSOUNDS_SIGNAL, true, self.activeModules.sowingSounds, "button_Sound",_,_);
 	
-	if self.activeModules.fertilization ~= nil then
+	-- if self.activeModules.fertilization ~= nil then
 		self.hud1.grids.main.elements.fertilizer = SowingSupp.guiElement:New( 12, "setFertilization", nil, nil, "toggle", "Fertilization", self.allowsSpraying, true, "button_Fertilizer",_,_);
-	end;
+	-- end;
 	
 	self.hud1.grids.main.elements.scSession = SowingSupp.guiElement:New( 2, nil, nil, nil, "info", nil, "0.00ha   (0.0ha/h)", self.activeModules.sowingCounter, "SowingCounter_sessionHUD", 4, RenderText.ALIGN_LEFT);
 	
@@ -125,8 +126,10 @@ function SowingSupp:load(xmlFile)
 	self.hud1.grids.config.elements.separator2 = SowingSupp.guiElement:New( 5, nil, nil, nil, "separator", nil, nil, true, "row_bg", nil);
 	self.hud1.grids.config.elements.driLiModul = SowingSupp.guiElement:New( 5, "toggleDriLiModul", nil, nil, "option", SowingMachine.DRIVINGLINE, self.activeModules.drivingLine, true, "button_Option", _,_);
 	self.hud1.grids.config.elements.separator3 = SowingSupp.guiElement:New( 7, nil, nil, nil, "separator", nil, nil, true, "row_bg", nil);
+	self.hud1.grids.config.elements.fertiModul = SowingSupp.guiElement:New( 7, "toggleFertiModul", nil, nil, "option", SowingMachine.FERTILIZATION, self.activeModules.fertilization, true, "button_Option", _,_);
+	self.hud1.grids.config.elements.separator4 = SowingSupp.guiElement:New( 9, nil, nil, nil, "separator", nil, nil, true, "row_bg", nil);
 	
-	self.hud1.grids.config.elements.configLabel = SowingSupp.guiElement:New( 7, nil, nil, nil, "info", nil, SowingMachine.SOWINGSUPP_CONFIGLABEL, true, nil, 3, RenderText.ALIGN_LEFT);
+	self.hud1.grids.config.elements.configLabel = SowingSupp.guiElement:New( 9, nil, nil, nil, "info", nil, SowingMachine.SOWINGSUPP_CONFIGLABEL, true, nil, 3, RenderText.ALIGN_LEFT);
 	
 end;
 
@@ -300,6 +303,11 @@ function SowingSupp:modules(grid, container, vehicle, guiElement, parameter)
 			-- end;
 		-- end;
 		vehicle:updateDriLiGUI();
+	end;
+	if guiElement.functionToCall == "toggleFertiModul" then
+		guiElement.value = not guiElement.value;
+		vehicle.activeModules.fertilization = guiElement.value;
+		vehicle:updateFertiGUI();
 	end;
 end;
 

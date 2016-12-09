@@ -3,8 +3,8 @@
 --	fertilizer switch
 --
 -- @author:  	gotchTOM
--- @date:			06-Dec-2016
--- @version:	v1.02
+-- @date:			09-Dec-2016
+-- @version:	v1.04
 --
 -- free for noncommerical-usage
 --
@@ -22,14 +22,14 @@ end;
 function Fertilization:load(savegame)
 	
 	self.updateFertiGUI = SpecializationUtil.callSpecializationsFunction("updateFertiGUI");
-	self:updateFertiGUI();
+	-- self:updateFertiGUI();
 end;
 
 function Fertilization:postLoad(savegame)  
 	if savegame ~= nil and not savegame.resetVehicles and self.activeModules ~= nil and self.activeModules.fertilization then
 		self.activeModules.fertilization = Utils.getNoNil(getXMLBool(savegame.xmlFile, savegame.key .. "#fertilizationSwitchIsActiv"), self.activeModules.fertilization);
 		self:updateFertiGUI();
-		print("!!!!!!!!!!!!!!Fertilization:postLoad_fertilizationSwitchIsActiv = "..tostring(self.activeModules.fertilization))
+		-- print("!!!!!!!!!!!!!!Fertilization:postLoad_fertilizationSwitchIsActiv = "..tostring(self.activeModules.fertilization))
 	end;
 end;
 
@@ -45,9 +45,9 @@ end;
 function Fertilization:getSaveAttributesAndNodes(nodeIdent)
 	if self.activeModules ~= nil and self.activeModules.fertilization ~= nil then
 		local attributes = 'fertilizationSwitchIsActiv="' .. tostring(self.activeModules.fertilization) ..'"';
-		print("!!!!!!!!!!!!!!Fertilization:getSaveAttributesAndNodes_attributes = "..tostring(attributes))
+		-- print("!!!!!!!!!!!!!!Fertilization:getSaveAttributesAndNodes_attributes = "..tostring(attributes))
 	end;	
-	return attributes;
+	return attributes, nil;
 end;
 
 function Fertilization:update(dt)
@@ -61,9 +61,8 @@ function Fertilization:draw()
 end;
 
 function Fertilization:getIsTurnedOnAllowed(superFunc, isTurnedOn)
-		-- print("Fertilization:getIsTurnedOnAllowed")
-    if not self.allowsSpraying then--and self.isMotorStarted then
-		-- print("Fertilization:getIsTurnedOnAllowed -> not self.allowsSpraying")
+		local attacherVehicle = self:getRootAttacherVehicle();
+    if not self.allowsSpraying and attacherVehicle.isMotorStarted then
         return true;
     end;
     if superFunc ~= nil then
@@ -73,9 +72,10 @@ function Fertilization:getIsTurnedOnAllowed(superFunc, isTurnedOn)
 end;
 
 function Fertilization:updateFertiGUI()
+-- print("Fertilization:updateFertiGUI()")
 	if self.activeModules ~= nil then
 		if self.activeModules.fertilization then
-			self.hud1.grids.main.elements.fertilizer.value = self.sowingSounds.isAllowed;
+			self.hud1.grids.main.elements.fertilizer.value = self.allowsSpraying;
 			self.hud1.grids.main.elements.fertilizer.isVisible = true;
 		else
 			self.hud1.grids.main.elements.fertilizer.isVisible = false;

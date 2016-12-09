@@ -61,6 +61,7 @@ function SowingSupp_Register:loadMap(name)
 							vs.DRIVINGLINE_CURRENTLANE = g_i18n:getText("DRIVINGLINE_CURRENTLANE");
 							vs.DRIVINGLINE_WORKWIDTH = g_i18n:getText("DRIVINGLINE_WORKWIDTH");
 							vs.DRIVINGLINE_NUMDRILINE = g_i18n:getText("DRIVINGLINE_NUMDRILINE");
+							vs.FERTILIZATION = g_i18n:getText("FERTILIZATION");
 							table.insert(v.specializations, SpecializationUtil.getSpecialization("sowingCounter"));
 							table.insert(v.specializations, SpecializationUtil.getSpecialization("sowingSounds"));
 							table.insert(v.specializations, SpecializationUtil.getSpecialization("drivingLine"));

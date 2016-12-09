@@ -4,8 +4,8 @@
 --
 -- source: 		threshing counter v2.3 by Manuel Leithner (edit by gotchTOM)
 -- @author:  	Manuel Leithner/gotchTOM
--- @date:			10-Nov-2016
--- @version:	v1.04
+-- @date:			9-Dec-2016
+-- @version:	v1.05
 -- @history:	v1.0 - initial implementation
 --						v1.01 - part of SowingSupplement
 --						v1.01 - FS 17
@@ -77,7 +77,7 @@ function SowingCounter:getSaveAttributesAndNodes(nodeIdent)
 	local attributes = 'sowingCounterIsActiv="' .. tostring(self.activeModules.sowingCounter) ..'"';
 	attributes = attributes.. ' totalHectars="' .. tostring(self.sowingCounter.totalHectars) ..'"';
 	-- print("!!!!!!!!!!!!!!SowingCounter:getSaveAttributesAndNodes_attributes = "..tostring(attributes))
-	return attributes;
+	return attributes, nil;
 end;
 
 function SowingCounter:resetSessionHectars(sessionHectars, noEventSend)
