@@ -3,8 +3,8 @@
 -- Specialization for driving lines of sowing machines
 --
 --	@author:		gotchTOM & webalizer
---	@date: 			5-Dec-2016
---	@version: 	v1.6.07
+--	@date: 			9-Dec-2016
+--	@version: 	v1.6.08
 --	@history:		v1.0 	- initial implementation (17-Jun-2012)
 --							v1.5  - SowingSupplement implementation
 --							v1.6  - 
@@ -217,7 +217,7 @@ end;
 function DrivingLine:getSaveAttributesAndNodes(nodeIdent)
 	local attributes = 'drivingLineIsActiv="'..tostring(self.activeModules.drivingLine)..'" nSMdrives="'..tostring(self.nSMdrives)..'" dlMode="'..tostring(self.dlMode)..'" allowPeMarker="'..tostring(self.allowPeMarker)..'" currentLane="'..tostring(self.currentLane)..'"';
 	-- print("!!!!!!!!!!!!!!DrivingLine:getSaveAttributesAndNodes_attributes = "..tostring(attributes))
-	return attributes;
+	return attributes, nil;
 end;
 
 function DrivingLine:mouseEvent(posX, posY, isDown, isUp, button)
@@ -965,7 +965,7 @@ function DrivingLine:setDrivingLine(drivingLineActiv, dlMode, currentLane, isPau
 	if allowPeMarker ~= nil then
 		self.allowPeMarker = allowPeMarker;
 	end;
-	
+	self:updateDriLiGUI();
 
 	-- Kuhn Moduliner
 	if self.drivemark ~= nil then
