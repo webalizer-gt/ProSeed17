@@ -13,7 +13,7 @@ SowingSupp_Register.version = (modItem and modItem.version) and modItem.version 
 function SowingSupp_Register:loadMap(name)
 	if self.firstRun == nil then
 		self.firstRun = false;
-		print('*** SowingSupplement v'..SowingSupp_Register.version..' specialization loading ***');
+		print('*** ProSeed v'..SowingSupp_Register.version..' specialization loading ***');
 
 		for k, v in pairs(VehicleTypeUtil.vehicleTypes) do
 			if v ~= nil then
@@ -27,15 +27,15 @@ function SowingSupp_Register:loadMap(name)
 							local _name = string.sub(v_name_string, 1, point_location-1);
 							if rawget(SpecializationUtil.specializations, string.format("%s.sowingSupp", _name)) ~= nil then
 								allowInsertion = false;
-								print(tostring(v.name)..": Specialization sowingSupp is present! SowingSupp was not inserted!");
+								print(tostring(v.name)..": Specialization ProSeed is present! ProSeed was not inserted!");
 							end;
 							if rawget(SpecializationUtil.specializations, string.format("%s.SowingSupp", _name)) ~= nil then
 								allowInsertion = false;
-								print(tostring(v.name)..": Specialization SowingSupp is present! SowingSupp was not inserted!");
+								print(tostring(v.name)..": Specialization ProSeed is present! ProSeed was not inserted!");
 							end;
 							if rawget(SpecializationUtil.specializations, string.format("%s.F_35", _name)) ~= nil then
 								allowInsertion = false;
-								print(tostring(v.name)..": Specialization F_35 is present! SowingSupp was not inserted!");
+								print(tostring(v.name)..": Specialization F_35 is present! ProSeed was not inserted!");
 							end;
 						end;
 						if allowInsertion then

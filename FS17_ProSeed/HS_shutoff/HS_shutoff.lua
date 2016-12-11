@@ -114,16 +114,20 @@ function HS_shutoff:setShutoff(shutoff)
 			setTranslation(self.origWorkArea.width.id, 0, self.origWorkArea.width.y, self.origWorkArea.width.z);
 		end;
 		if self.origWorkArea.height.x < 0 then
-			setTranslation(self.origWorkArea.height.id, self.origWorkArea.height.x*-1, self.origWorkArea.height.y, self.origWorkArea.height.z);
+			setTranslation(self.origWorkArea.height.id, 0, self.origWorkArea.height.y, self.origWorkArea.height.z);
 		end;
 	elseif shutoff == 2 then
 		if self.origWorkArea.start.x > 0 then
 			setTranslation(self.origWorkArea.start.id, 0, self.origWorkArea.start.y, self.origWorkArea.start.z);
+			setTranslation(self.origWorkArea.width.id, self.origWorkArea.width.x, self.origWorkArea.width.y, self.origWorkArea.width.z);
 		elseif self.origWorkArea.width.x > 0 then
 			setTranslation(self.origWorkArea.width.id, 0, self.origWorkArea.width.y, self.origWorkArea.width.z);
+			setTranslation(self.origWorkArea.start.id, self.origWorkArea.start.x, self.origWorkArea.start.y, self.origWorkArea.start.z);
 		end;
 		if self.origWorkArea.height.x > 0 then
-			setTranslation(self.origWorkArea.height.id, self.origWorkArea.height.x*-1, self.origWorkArea.height.y, self.origWorkArea.height.z);
+			setTranslation(self.origWorkArea.height.id, 0, self.origWorkArea.height.y, self.origWorkArea.height.z);
+		else
+			setTranslation(self.origWorkArea.height.id, self.origWorkArea.height.x, self.origWorkArea.height.y, self.origWorkArea.height.z);
 		end;
 	elseif shutoff == 0 then
 		setTranslation(self.origWorkArea.start.id, self.origWorkArea.start.x, self.origWorkArea.start.y, self.origWorkArea.start.z);

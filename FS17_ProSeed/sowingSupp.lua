@@ -28,7 +28,7 @@ function SowingSupp.prerequisitesPresent(specializations)
 		return SpecializationUtil.hasSpecialization(SowingMachine, specializations);
 end;
 
-local debugmode = 1;
+local debugmode = 10;
 local modItem = ModsUtil.findModItemByModName(g_currentModName);
 local version = (modItem and modItem.version) and modItem.version or "?.?.?";
 local versionText = '*** ProSeed v'..version;
