@@ -32,19 +32,19 @@ function SowingSounds:load(xmlFile)
 	self.sowingSounds.isAllowed = true;
 	self.sowingSounds.checkOnLeave = false;
 
-	local SeSoSoundFile1 = Utils.getFilename("lower.wav", SowingSupp.path.."/SowingSounds/");
+	local SeSoSoundFile1 = Utils.getFilename("lower.wav", SowingSupp.path.."SowingSounds/");
     self.SeSoSoundId1 = createSample("SeSoSound1");
     loadSample(self.SeSoSoundId1, SeSoSoundFile1, false);
 
-	local SeSoSoundFile2 = Utils.getFilename("raised.wav", SowingSupp.path.."/SowingSounds/");
+	local SeSoSoundFile2 = Utils.getFilename("raised.wav", SowingSupp.path.."SowingSounds/");
     self.SeSoSoundId2 = createSample("SeSoSound2");
     loadSample(self.SeSoSoundId2, SeSoSoundFile2, false);
 
-	local SeSoSoundFile3 = Utils.getFilename("line.wav", SowingSupp.path.."/SowingSounds/");
+	local SeSoSoundFile3 = Utils.getFilename("line.wav", SowingSupp.path.."SowingSounds/");
     self.SeSoSoundId3 = createSample("SeSoSound3");
     loadSample(self.SeSoSoundId3, SeSoSoundFile3, false);
 		
-	local SeSoSoundFile4 = Utils.getFilename("empty.wav", SowingSupp.path.."/SowingSounds/");
+	local SeSoSoundFile4 = Utils.getFilename("empty.wav", SowingSupp.path.."SowingSounds/");
     self.SeSoSoundId4 = createSample("SeSoSound4");
     loadSample(self.SeSoSoundId4, SeSoSoundFile4, false);
 

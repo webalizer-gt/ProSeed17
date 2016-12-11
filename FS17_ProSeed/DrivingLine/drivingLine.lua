@@ -3,8 +3,8 @@
 -- Specialization for driving lines of sowing machines
 --
 --	@author:		gotchTOM & webalizer
---	@date: 			9-Dec-2016
---	@version: 	v1.6.08
+--	@date: 			11-Dec-2016
+--	@version: 	v1.6.09
 --	@history:		v1.0 	- initial implementation (17-Jun-2012)
 --							v1.5  - SowingSupplement implementation
 --							v1.6  - 
@@ -12,7 +12,7 @@
 
 DrivingLine = {};
 
-source(SowingSupp.path.."/DrivingLine/drivingLine_Events.lua");
+source(SowingSupp.path.."DrivingLine/drivingLine_Events.lua");
 
 function DrivingLine.prerequisitesPresent(specializations)
     return SpecializationUtil.hasSpecialization(SowingMachine, specializations);
