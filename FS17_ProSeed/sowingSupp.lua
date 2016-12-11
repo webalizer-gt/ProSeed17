@@ -1,18 +1,19 @@
--- SowingSupplement
+-- ProSeed
 --
 -- a collection of several seeder modifications
 --
 --	@author:		gotchTOM & webalizer
---	@date: 			9-Dec-2016
---	@version: 	v0.01.06
+--	@date: 			11-Dec-2016
+--	@version: 	v0.01.07
 --
 -- included modules: sowingCounter, sowingSounds, drivingLine, fertilization
 --
 -- added modules:
 -- 		sowingCounter:			hectar counter for seeders
--- 		sowingSounds:				acoustic signals for seeders
+-- 		sowingSounds:			acoustic signals for seeders
 --		drivingLine:				"tramlines" for seeders
 --		fertilization				fertilizer switch
+--		hs_shutoff				halfside shutoff & ridgemarker
 --
 -- changes in modules:
 --
@@ -30,7 +31,7 @@ end;
 local debugmode = 1;
 local modItem = ModsUtil.findModItemByModName(g_currentModName);
 local version = (modItem and modItem.version) and modItem.version or "?.?.?";
-local versionText = '*** Sowing Supplement v'..version;
+local versionText = '*** ProSeed v'..version;
 
 function logInfo(mode,message)
 	if (mode >= debugmode and mode < 5) then
@@ -87,7 +88,7 @@ function SowingSupp:load(xmlFile)
 	
 	-- create gui elements ( grid position [int], function to call [string], parameter1, parameter2, style [string], label [string], value [], is visible [bool], [Grafik], textSize [int], textAlignment []), uvs [{u0,v0,u1,v1,u2,v2,u3,v3}]
 	-- main
-	self.hud1.grids.main.elements.titleBar = SowingSupp.guiElement:New( 19, "titleBar", "configHud", "close", "titleBar", "Sowing Supplement", nil, true, nil, 5, nil);
+	self.hud1.grids.main.elements.titleBar = SowingSupp.guiElement:New( 19, "titleBar", "configHud", "close", "titleBar", "ProSeed", nil, true, nil, 5, nil);
 	
 	self.hud1.grids.main.elements.sowImage = SowingSupp.guiElement:New( 5, nil, .8, .42, "image", nil, nil, true, "sowing_machine", nil, nil, {0,0, 0,0.3, 1,0, 1,0.3});
 	self.hud1.grids.main.elements.barImage = SowingSupp.guiElement:New( 5, nil, .8, .022, "image", nil, nil, true, "sowing_machine", nil, nil, {0,0.521, 0,0.54, 1,0.521, 1,0.54});

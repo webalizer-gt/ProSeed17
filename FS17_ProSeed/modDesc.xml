@@ -2,14 +2,14 @@
 <modDesc descVersion="32">
    <author>gotchTOM/webalizer</author>
     <title>
-		<en>Sowing Supplement</en>
-        <de>Sowing Supplement</de>
-		<fr>Sowing Supplement</fr>
+		<en>ProSeed</en>
+        <de>ProSeed</de>
+		<fr>ProSeed</fr>
     </title>
     <description>
-        <en>Sowing Supplement</en>
-		<de>Sowing Supplement</de>
-		<fr>Sowing Supplement</fr>
+        <en>Additional functionality for sowing machines.</en>
+		<de>Erweiterte Funktionalität für Sämaschinen.</de>
+		<fr>Fonctionnalité supplémentaire pour les machines à coudre.</fr>
  	</description>
     <multiplayer supported="true"/>
 	<iconFilename>store.png</iconFilename>

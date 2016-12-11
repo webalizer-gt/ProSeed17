@@ -1,9 +1,10 @@
 SpecializationUtil.registerSpecialization("sowingSupp", "SowingSupp", g_currentModDirectory.."sowingSupp.lua")
 SpecializationUtil.registerSpecialization("sowingCounter", "SowingCounter", g_currentModDirectory.."SowingCounter/sowingCounter.lua")
 SpecializationUtil.registerSpecialization("sowingSounds", "SowingSounds", g_currentModDirectory.."SowingSounds/sowingSounds.lua")
+SpecializationUtil.registerSpecialization("hs_shutoff", "HS_shutoff", g_currentModDirectory.."HS_shutoff/HS_shutoff.lua")
 SpecializationUtil.registerSpecialization("drivingLine", "DrivingLine", g_currentModDirectory.."DrivingLine/drivingLine.lua")
 SpecializationUtil.registerSpecialization("fertilization", "Fertilization", g_currentModDirectory.."Fertilization/fertilization.lua")
-SpecializationUtil.registerSpecialization("hs_shutoff", "HS_shutoff", g_currentModDirectory.."HS_shutoff/HS_shutoff.lua")
+
 
 SowingSupp_Register = {};
 local modItem = ModsUtil.findModItemByModName(g_currentModName);
@@ -67,9 +68,9 @@ function SowingSupp_Register:loadMap(name)
 							vs.HS_SHUTOFF_TOGGLESHUTOFF = g_i18n:getText("HS_SHUTOFF_TOGGLESHUTOFF");
 							table.insert(v.specializations, SpecializationUtil.getSpecialization("sowingCounter"));
 							table.insert(v.specializations, SpecializationUtil.getSpecialization("sowingSounds"));
+							table.insert(v.specializations, SpecializationUtil.getSpecialization("hs_shutoff"));
 							table.insert(v.specializations, SpecializationUtil.getSpecialization("drivingLine"));
 							table.insert(v.specializations, SpecializationUtil.getSpecialization("fertilization"));
-							table.insert(v.specializations, SpecializationUtil.getSpecialization("hs_shutoff"));
 						end;
 					end;
 				end;

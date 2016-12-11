@@ -49,7 +49,7 @@ function HS_shutoff:load(savegame)
 				logInfo(1,('lx1: %s, lx2: %s, lx3: %s'):format(self.origWorkArea.start.x, self.origWorkArea.width.x, self.origWorkArea.height.x));
 			end;
 		end;
-		shutoff = 0;
+		self.shutoff = 0;
 end;
 
 function HS_shutoff:delete()
@@ -62,7 +62,7 @@ function HS_shutoff:mouseEvent(posX, posY, isDown, isUp, button)
 end;
 
 function HS_shutoff:update(dt)
-	if self:getIsActive() then
+	if self:getIsActiveForInput() then
 		if self.ridgeMarkerState ~= nil then
 			if InputBinding.hasEvent(InputBinding.IMPLEMENT_EXTRA3) then
 				local rmState = self.ridgeMarkerState;
@@ -71,7 +71,7 @@ function HS_shutoff:update(dt)
 				else
 					rmState = 0;
 				end;
-				self:setRidgeMarkerState(rmState);
+				--self:setRidgeMarkerState(rmState);
 			end;
 			if InputBinding.hasEvent(InputBinding.HS_SHUTOFF_RMright) then
 				local rmState = self.ridgeMarkerState;
@@ -84,7 +84,7 @@ function HS_shutoff:update(dt)
 			end;
 		end;
 		if InputBinding.hasEvent(InputBinding.HS_SHUTOFF_TOGGLESHUTOFF) then
-			shutoff = shutoff + 1;
+			local shutoff = self.shutoff + 1;
 			if shutoff > 2 then
 				shutoff = 0;
 			end;
@@ -98,9 +98,11 @@ function HS_shutoff:updateTick(dt)
 end;
 
 function HS_shutoff:draw()
-    g_currentMission:addHelpButtonText(SowingMachine.HS_SHUTOFF_TOGGLESHUTOFF, InputBinding.HS_SHUTOFF_TOGGLESHUTOFF, nil, GS_PRIO_HIGH);
-	if self.ridgeMarkerState ~= nil then
-		g_currentMission:addHelpButtonText(SowingMachine.HS_SHUTOFF_RMright, InputBinding.HS_SHUTOFF_RMright, nil, GS_PRIO_HIGH);
+	if self.isClient then
+		g_currentMission:addHelpButtonText(SowingMachine.HS_SHUTOFF_TOGGLESHUTOFF, InputBinding.HS_SHUTOFF_TOGGLESHUTOFF, nil, GS_PRIO_HIGH);
+		if self.ridgeMarkerState ~= nil then
+			g_currentMission:addHelpButtonText(SowingMachine.HS_SHUTOFF_RMright, InputBinding.HS_SHUTOFF_RMright, nil, GS_PRIO_HIGH);
+		end;
 	end;
 end;
 
@@ -128,14 +130,15 @@ function HS_shutoff:setShutoff(shutoff)
 		setTranslation(self.origWorkArea.width.id, self.origWorkArea.width.x, self.origWorkArea.width.y, self.origWorkArea.width.z);
 		setTranslation(self.origWorkArea.height.id, self.origWorkArea.height.x, self.origWorkArea.height.y, self.origWorkArea.height.z);
 	end;
+	self.shutoff = shutoff;
 	self:updateShutoffGUI();
 end;
 
 function HS_shutoff:updateShutoffGUI()
 	local yOffset = 0.0195;
-	if shutoff == 1 then
+	if self.shutoff == 1 then
 		self.hud1.grids.main.elements.barImage.uvs = {0,0.521+yOffset, 0,0.54+yOffset, 1,0.521+yOffset, 1,0.54+yOffset}
-	elseif shutoff == 2 then
+	elseif self.shutoff == 2 then
 		self.hud1.grids.main.elements.barImage.uvs = {0,0.521+(2*yOffset), 0,0.54+(2*yOffset), 1,0.521+(2*yOffset), 1,0.54+(2*yOffset)}
 	else
 		self.hud1.grids.main.elements.barImage.uvs = {0,0.521, 0,0.54, 1,0.521, 1,0.54}

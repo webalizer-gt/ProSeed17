@@ -12,7 +12,7 @@
 
 DrivingLine = {};
 
-source(g_modsDirectory.."/ZZZ_sowingSupp/DrivingLine/drivingLine_Events.lua");
+source(SowingSupp.path.."/DrivingLine/drivingLine_Events.lua");
 
 function DrivingLine.prerequisitesPresent(specializations)
     return SpecializationUtil.hasSpecialization(SowingMachine, specializations);
@@ -1018,34 +1018,12 @@ function DrivingLine:workAreaMinMaxHeight(areas)
 			local lx2,ly2,lz2 = worldToLocal(self.dlRootNode,x2,y2,z2);
 			local lx3,ly3,lz3 = worldToLocal(self.dlRootNode,x3,y3,z3);
 
--- print("lx1"..tostring(lx1))
--- print("lx2"..tostring(lx2))
--- print("lx3"..tostring(lx3))
--- print("ly1"..tostring(ly1))
--- print("lz3"..tostring(lz3))
-			if lx1 < self.xMin then
-				self.xMin = lx1;
-			end
-			if lx1 > self.xMax then
-				self.xMax = lx1;
-			end
-			if lx2 < self.xMin then
-				self.xMin = lx2;
-			end
-			if lx2 > self.xMax then
-				self.xMax = lx2;
-			end
-			if lx3 < self.xMin then
-				self.xMin = lx3;
-			end;
-			if lx3 > self.xMax then
-				self.xMax = lx3;
-			end
+			self.xMin = math.min(self.xMin, lx1, lx2, lx3)
+			self.xMax = math.max(self.xMax, lx1, lx2, lx3)
 			self.yStart = ly1;
 			self.zHeight = lz3;
-		end
-	end
-	-- return self.xMin, self.xMax, self.yStart, self.zHeight;
+		end;
+	end;
 end;
 
 function DrivingLine:createDrivingLines()
