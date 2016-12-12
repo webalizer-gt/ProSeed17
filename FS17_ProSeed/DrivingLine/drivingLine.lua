@@ -3,8 +3,8 @@
 -- Specialization for driving lines of sowing machines
 --
 --	@author:		gotchTOM & webalizer
---	@date: 			11-Dec-2016
---	@version: 	v1.6.09
+--	@date: 			12-Dec-2016
+--	@version: 	v1.6.10
 --	@history:		v1.0 	- initial implementation (17-Jun-2012)
 --							v1.5  - SowingSupplement implementation
 --							v1.6  - 
@@ -888,22 +888,22 @@ function DrivingLine:draw()
 	if self.drivingLinePresent and self.activeModules ~= nil and self.activeModules.drivingLine then
 		if self.dlMode == 0 then
 			if self.drivingLineActiv then
-				g_currentMission:addHelpButtonText(SowingMachine.DRIVINGLINE_OFF, InputBinding.DRIVINGLINE, nil, GS_PRIO_HIGH);
+				g_currentMission:addHelpButtonText(SowingMachine.DRIVINGLINE_OFF, InputBinding.DRIVINGLINE, nil, GS_PRIO_VERY_HIGH);
 			else
-				g_currentMission:addHelpButtonText(SowingMachine.DRIVINGLINE_ON, InputBinding.DRIVINGLINE, nil, GS_PRIO_HIGH);
+				g_currentMission:addHelpButtonText(SowingMachine.DRIVINGLINE_ON, InputBinding.DRIVINGLINE, nil, GS_PRIO_VERY_HIGH);
 			end;
 		elseif self.dlMode == 1 then
-			g_currentMission:addHelpButtonText(SowingMachine.DRIVINGLINE_SHIFT, InputBinding.DRIVINGLINE, nil, GS_PRIO_HIGH);
+			g_currentMission:addHelpButtonText(SowingMachine.DRIVINGLINE_SHIFT, InputBinding.DRIVINGLINE, nil, GS_PRIO_VERY_HIGH);
 		elseif self.dlMode == 2 then
 			if self.isPaused then
-				g_currentMission:addHelpButtonText(SowingMachine.DRIVINGLINE_ENABLE, InputBinding.DRIVINGLINE, nil, GS_PRIO_HIGH);
+				g_currentMission:addHelpButtonText(SowingMachine.DRIVINGLINE_ENABLE, InputBinding.DRIVINGLINE, nil, GS_PRIO_VERY_HIGH);
 			else
-				g_currentMission:addHelpButtonText(SowingMachine.DRIVINGLINE_PAUSE, InputBinding.DRIVINGLINE, nil, GS_PRIO_HIGH);
+				g_currentMission:addHelpButtonText(SowingMachine.DRIVINGLINE_PAUSE, InputBinding.DRIVINGLINE, nil, GS_PRIO_VERY_HIGH);
 			end;
 		elseif self.dlMode == 3 then
 			local rootAttacherVehicle = self:getRootAttacherVehicle();
 			if rootAttacherVehicle ~= nil and rootAttacherVehicle.GPSActive then
-				g_currentMission:addHelpButtonText(SowingMachine.DRIVINGLINE_GPSRESET, InputBinding.DRIVINGLINE, nil, GS_PRIO_HIGH);
+				g_currentMission:addHelpButtonText(SowingMachine.DRIVINGLINE_GPSRESET, InputBinding.DRIVINGLINE, nil, GS_PRIO_VERY_HIGH);
 			end;		
 		end;
 		-- setTextColor(1,1,1,1);

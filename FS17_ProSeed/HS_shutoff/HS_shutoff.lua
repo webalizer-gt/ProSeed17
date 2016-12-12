@@ -3,8 +3,8 @@
 --	halfside shutoff of sowing machines
 --
 -- @author:  	webalizer
--- @date:			10-Dec-2016
--- @version:	v1.01
+-- @date:			12-Dec-2016
+-- @version:	v1.02
 --
 -- free for noncommerical-usage
 --
@@ -102,10 +102,10 @@ end;
 function HS_shutoff:draw()
 	--if self.isClient then
 		if self.drivingLineActiv == nil or not self.drivingLineActiv then
-			g_currentMission:addHelpButtonText(SowingMachine.HS_SHUTOFF_TOGGLESHUTOFF, InputBinding.HS_SHUTOFF_TOGGLESHUTOFF, nil, GS_PRIO_HIGH);
+			g_currentMission:addHelpButtonText(SowingMachine.HS_SHUTOFF_TOGGLESHUTOFF, InputBinding.HS_SHUTOFF_TOGGLESHUTOFF, nil, GS_PRIO_VERY_HIGH);
 		end;
 		if self.ridgeMarkerState ~= nil then
-			g_currentMission:addHelpButtonText(SowingMachine.HS_SHUTOFF_RMright, InputBinding.HS_SHUTOFF_RMright, nil, GS_PRIO_HIGH);
+			g_currentMission:addHelpButtonText(SowingMachine.HS_SHUTOFF_RMright, InputBinding.HS_SHUTOFF_RMright, nil, GS_PRIO_VERY_HIGH);
 		end;
 	--end;
 end;
