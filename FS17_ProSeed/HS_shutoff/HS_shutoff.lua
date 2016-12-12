@@ -4,7 +4,7 @@
 --
 -- @author:  	webalizer
 -- @date:			10-Dec-2016
--- @version:	v1.00
+-- @version:	v1.01
 --
 -- free for noncommerical-usage
 --
@@ -83,13 +83,15 @@ function HS_shutoff:update(dt)
 				self:setRidgeMarkerState(rmState);
 			end;
 		end;
-		if InputBinding.hasEvent(InputBinding.HS_SHUTOFF_TOGGLESHUTOFF) then
-			local shutoff = self.shutoff + 1;
-			if shutoff > 2 then
-				shutoff = 0;
+		if self.drivingLineActiv == nil or not self.drivingLineActiv then
+			if InputBinding.hasEvent(InputBinding.HS_SHUTOFF_TOGGLESHUTOFF) then
+				local shutoff = self.shutoff + 1;
+				if shutoff > 2 then
+					shutoff = 0;
+				end;
+				logInfo(1,('shutoff: %s'):format(shutoff));
+				self:setShutoff(shutoff);
 			end;
-			logInfo(1,('shutoff: %s'):format(shutoff));
-			self:setShutoff(shutoff);
 		end;
 	end;
  end;
@@ -98,12 +100,14 @@ function HS_shutoff:updateTick(dt)
 end;
 
 function HS_shutoff:draw()
-	if self.isClient then
-		g_currentMission:addHelpButtonText(SowingMachine.HS_SHUTOFF_TOGGLESHUTOFF, InputBinding.HS_SHUTOFF_TOGGLESHUTOFF, nil, GS_PRIO_HIGH);
+	--if self.isClient then
+		if self.drivingLineActiv == nil or not self.drivingLineActiv then
+			g_currentMission:addHelpButtonText(SowingMachine.HS_SHUTOFF_TOGGLESHUTOFF, InputBinding.HS_SHUTOFF_TOGGLESHUTOFF, nil, GS_PRIO_HIGH);
+		end;
 		if self.ridgeMarkerState ~= nil then
 			g_currentMission:addHelpButtonText(SowingMachine.HS_SHUTOFF_RMright, InputBinding.HS_SHUTOFF_RMright, nil, GS_PRIO_HIGH);
 		end;
-	end;
+	--end;
 end;
 
 function HS_shutoff:setShutoff(shutoff)
