@@ -3,13 +3,14 @@
 --	halfside shutoff of sowing machines
 --
 -- @author:  	webalizer
--- @date:			12-Dec-2016
--- @version:	v1.02
+-- @date:			13-Dec-2016
+-- @version:	v1.03
 --
 -- free for noncommerical-usage
 --
 
 HS_shutoff = {};
+source(SowingSupp.path.."HS_shutoff/HS_shutoffEvents.lua");
 
 function SowingCounter.prerequisitesPresent(specializations)
     return SpecializationUtil.hasSpecialization(SowingMachine, specializations);
@@ -55,6 +56,15 @@ end;
 function HS_shutoff:delete()
 end;
 
+function HS_shutoff:readStream(streamId, connection)
+  local shutoff = streamReadInt8(streamId);
+	self:setShutoff(shutoff, true);
+end;
+
+function HS_shutoff:writeStream(streamId, connection)
+  streamWriteInt8(streamId, self.shutoff);
+end;
+
 function HS_shutoff:keyEvent(unicode, sym, modifier, isDown)
 end;
 
@@ -63,7 +73,7 @@ end;
 
 function HS_shutoff:update(dt)
 	if self:getIsActiveForInput() then
-		if self.ridgeMarkerState ~= nil then
+		if self.ridgeMarkers ~= nil and self.ridgeMarkers > 1 then
 			if InputBinding.hasEvent(InputBinding.IMPLEMENT_EXTRA3) then
 				local rmState = self.ridgeMarkerState;
 				if rmState == 0 then
@@ -104,13 +114,16 @@ function HS_shutoff:draw()
 		if self.drivingLineActiv == nil or not self.drivingLineActiv then
 			g_currentMission:addHelpButtonText(SowingMachine.HS_SHUTOFF_TOGGLESHUTOFF, InputBinding.HS_SHUTOFF_TOGGLESHUTOFF, nil, GS_PRIO_VERY_HIGH);
 		end;
-		if self.ridgeMarkerState ~= nil then
+		if if self.ridgeMarkers ~= nil and self.ridgeMarkers > 1 then
 			g_currentMission:addHelpButtonText(SowingMachine.HS_SHUTOFF_RMright, InputBinding.HS_SHUTOFF_RMright, nil, GS_PRIO_VERY_HIGH);
 		end;
 	--end;
 end;
 
 function HS_shutoff:setShutoff(shutoff)
+  --synchronize shutoff state in mp
+  HS_shutoffEvent.sendEvent(self, shutoff, noEventSend);
+
 	if shutoff == 1 then
 		if self.origWorkArea.start.x < 0 then
 			setTranslation(self.origWorkArea.start.id, 0, self.origWorkArea.start.y, self.origWorkArea.start.z);
