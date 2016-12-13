@@ -73,7 +73,7 @@ end;
 
 function HS_shutoff:update(dt)
 	if self:getIsActiveForInput() then
-		if self.ridgeMarkers ~= nil and self.ridgeMarkers > 1 then
+		if self.ridgeMarkers ~= nil then
 			if InputBinding.hasEvent(InputBinding.IMPLEMENT_EXTRA3) then
 				local rmState = self.ridgeMarkerState;
 				if rmState == 0 then
@@ -114,7 +114,7 @@ function HS_shutoff:draw()
 		if self.drivingLineActiv == nil or not self.drivingLineActiv then
 			g_currentMission:addHelpButtonText(SowingMachine.HS_SHUTOFF_TOGGLESHUTOFF, InputBinding.HS_SHUTOFF_TOGGLESHUTOFF, nil, GS_PRIO_VERY_HIGH);
 		end;
-		if if self.ridgeMarkers ~= nil and self.ridgeMarkers > 1 then
+		if self.ridgeMarkers ~= nil then
 			g_currentMission:addHelpButtonText(SowingMachine.HS_SHUTOFF_RMright, InputBinding.HS_SHUTOFF_RMright, nil, GS_PRIO_VERY_HIGH);
 		end;
 	--end;
