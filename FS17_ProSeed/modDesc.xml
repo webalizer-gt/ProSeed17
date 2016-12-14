@@ -19,10 +19,10 @@
     </extraSourceFiles>
 	<inputBindings>
 		<input name="SOWINGSUPP_HUD"       			category="VEHICLE" key1="KEY_KP_7"   			key2="" button="" device="0" mouse="" visible="true" />
-		<input name="SOWINGSUPP_MOUSE"       		category="VEHICLE" key1="KEY_lctrl"   					key2="" button="" device="0" mouse="" visible="true" />
-		<input name="DRIVINGLINE"  					category="VEHICLE" key1="KEY_KP_8" 						key2="" button="" device="0" mouse="" visible="true" />	
-		<input name="HS_SHUTOFF_RMright"		category="VEHICLE" key1="KEY_lshift KEY_z" 						key2="" button="" device="0" mouse="" visible="true" />	
-		<input name="HS_SHUTOFF_TOGGLESHUTOFF"		category="VEHICLE" key1="KEY_KP_9" 						key2="" button="" device="0" mouse="" visible="true" />	
+		<input name="SOWINGSUPP_MOUSE"       		category="VEHICLE" key1="KEY_lctrl"   			key2="" button="" device="0" mouse="" visible="true" />
+		<input name="DRIVINGLINE"  					category="VEHICLE" key1="KEY_KP_8" 				key2="" button="" device="0" mouse="" visible="true" />	
+		<input name="HS_SHUTOFF_RMright"			category="VEHICLE" key1="KEY_lshift KEY_z" 		key2="" button="" device="0" mouse="" visible="true" />	
+		<input name="HS_SHUTOFF_TOGGLESHUTOFF"		category="VEHICLE" key1="KEY_KP_9" 				key2="" button="" device="0" mouse="" visible="true" />	
     </inputBindings>
 	<l10n>
 		<!-- Buttons -->
@@ -30,7 +30,7 @@
 		<text name="input_SOWINGSUPP_MOUSE">    <en>SowingSupp MOUSE activate</en>		<de>SowingSupp MOUSE aktivieren</de>    </text>
 		<text name="input_DRIVINGLINE">        	<en>driving line control</en>			<de>Fahrgassen-Schaltung</de>           </text>
 		<text name="input_HS_SHUTOFF_RMright">        	<en>Ridgemarker right</en>           		<de>Spurreisser rechts</de>            </text>
-		<text name="input_HS_SHUTOFF_TOGGLESHUTOFF">        	<en>Toggle halfside shutoff</en>           		<de>Halbseitige Abschaltung</de>            </text>
+		<text name="input_HS_SHUTOFF_TOGGLESHUTOFF">   	<en>Toggle halfside shutoff</en>           	<de>Halbseitige Abschaltung</de>       </text>
 		<!-- Text -->
 		<text name="SOWINGSUPP_CONFIGLABEL">    <en>Preferences</en>			        <de>Einstellungen</de>             		</text>
 		<text name="SOWINGSUPP_HUDon">          <en>activate HUD</en>			        <de>HUD einschalten</de>             	</text>

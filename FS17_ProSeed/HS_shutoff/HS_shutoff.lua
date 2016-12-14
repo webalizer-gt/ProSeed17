@@ -2,9 +2,9 @@
 --	HS_shutoff
 --	halfside shutoff of sowing machines
 --
--- @author:  	webalizer
--- @date:			13-Dec-2016
--- @version:	v1.03
+-- @author:  	webalizer & gotchTOM
+-- @date:			14-Dec-2016
+-- @version:	v1.04
 --
 -- free for noncommerical-usage
 --
@@ -19,6 +19,8 @@ end;
 function HS_shutoff:load(savegame)
 		self.setShutoff = SpecializationUtil.callSpecializationsFunction("setShutoff");
 		self.updateShutoffGUI = SpecializationUtil.callSpecializationsFunction("updateShutoffGUI");
+		self.canFoldRidgeMarker = Utils.overwrittenFunction(self.canFoldRidgeMarker, HS_shutoff.canFoldRidgeMarker);
+		self.newCanFoldRidgeMarker = HS_shutoff.newCanFoldRidgeMarker;
 
 		local componentNr = string.sub(getXMLString(self.xmlFile, "vehicle.ai.areaMarkers#leftIndex"),1,1) +1;
 		self.areaRootNode = self.components[componentNr].node;
@@ -74,14 +76,16 @@ end;
 function HS_shutoff:update(dt)
 	if self:getIsActiveForInput() then
 		if self.numRigdeMarkers > 1 then
-			if InputBinding.hasEvent(InputBinding.IMPLEMENT_EXTRA3) then
+			if InputBinding.hasEvent(self.ridgeMarkerInputButton) then
 				local rmState = self.ridgeMarkerState;
 				if rmState == 0 then
 					rmState = 1;
 				else
 					rmState = 0;
 				end;
-				--self:setRidgeMarkerState(rmState);
+				if self:newCanFoldRidgeMarker(rmState) then
+					self:setRidgeMarkerState(rmState);
+				end;	
 			end;
 			if InputBinding.hasEvent(InputBinding.HS_SHUTOFF_RMright) then
 				local rmState = self.ridgeMarkerState;
@@ -90,7 +94,9 @@ function HS_shutoff:update(dt)
 				else
 					rmState = 0;
 				end;
-				self:setRidgeMarkerState(rmState);
+				if self:newCanFoldRidgeMarker(rmState) then
+					self:setRidgeMarkerState(rmState);
+				end;	
 			end;
 		end;
 		if self.drivingLineActiv == nil or not self.drivingLineActiv then
@@ -118,9 +124,11 @@ function HS_shutoff:draw()
 			g_currentMission:addHelpButtonText(SowingMachine.HS_SHUTOFF_RMright, InputBinding.HS_SHUTOFF_RMright, nil, GS_PRIO_VERY_HIGH);
 		end;
 	--end;
+	
+	-- renderText(0.1,0.12,0.02,"self.ridgeMarkerState: "..tostring(self.ridgeMarkerState))	
 end;
 
-function HS_shutoff:setShutoff(shutoff)
+function HS_shutoff:setShutoff(shutoff, noEventSend)
   --synchronize shutoff state in mp
   HS_shutoffEvent.sendEvent(self, shutoff, noEventSend);
 
@@ -156,6 +164,7 @@ function HS_shutoff:setShutoff(shutoff)
 end;
 
 function HS_shutoff:updateShutoffGUI()
+	-- print("updateShutoffGUI() -> self.shutoff: "..tostring(self.shutoff))
 	local yOffset = 0.0195;
 	if self.shutoff == 1 then
 		self.hud1.grids.main.elements.barImage.uvs = {0,0.521+yOffset, 0,0.54+yOffset, 1,0.521+yOffset, 1,0.54+yOffset}
@@ -164,4 +173,18 @@ function HS_shutoff:updateShutoffGUI()
 	else
 		self.hud1.grids.main.elements.barImage.uvs = {0,0.521, 0,0.54, 1,0.521, 1,0.54}
 	end;
+end;
+
+function HS_shutoff:newCanFoldRidgeMarker(state)
+  if self.foldAnimTime ~= nil and (self.foldAnimTime < self.ridgeMarkerMinFoldTime or self.foldAnimTime > self.ridgeMarkerMaxFoldTime) then
+      return false;
+  end;
+  if state ~= 0 and not self.moveToMiddle and self.foldDisableDirection ~= nil and (self.foldDisableDirection == self.foldMoveDirection or self.foldMoveDirection == 0) then
+      return false;
+  end;
+  return true;
+end;
+
+function HS_shutoff:canFoldRidgeMarker(state)
+	return false;
 end;
