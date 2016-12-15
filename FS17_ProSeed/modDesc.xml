@@ -13,7 +13,7 @@
  	</description>
     <multiplayer supported="true"/>
 	<iconFilename>store.png</iconFilename>
-	<version>0.10.09</version>
+	<version>0.10.10</version>
 	<extraSourceFiles>
         <sourceFile filename="register.lua" />
     </extraSourceFiles>
@@ -21,20 +21,22 @@
 		<input name="SOWINGSUPP_HUD"       			category="VEHICLE" key1="KEY_KP_7"   			key2="" button="" device="0" mouse="" visible="true" />
 		<input name="SOWINGSUPP_MOUSE"       		category="VEHICLE" key1="KEY_lctrl"   			key2="" button="" device="0" mouse="" visible="true" />
 		<input name="DRIVINGLINE"  					category="VEHICLE" key1="KEY_KP_8" 				key2="" button="" device="0" mouse="" visible="true" />	
-		<input name="HS_SHUTOFF_RMright"			category="VEHICLE" key1="KEY_lshift KEY_z" 		key2="" button="" device="0" mouse="" visible="true" />	
-		<input name="HS_SHUTOFF_TOGGLESHUTOFF"		category="VEHICLE" key1="KEY_KP_9" 				key2="" button="" device="0" mouse="" visible="true" />	
+		<input name="RM_UPGRADE_RMright"			category="VEHICLE" key1="KEY_lshift KEY_z" 		key2="" button="" device="0" mouse="" visible="true" />	
+		<input name="RM_UPGRADE_RMleft"				category="VEHICLE" key1="KEY_z" 				key2="" button="" device="0" mouse="" visible="true" />	
+		<input name="DRIVINGLINE_TOGGLESHUTOFF"		category="VEHICLE" key1="KEY_KP_9" 				key2="" button="" device="0" mouse="" visible="true" />	
     </inputBindings>
 	<l10n>
 		<!-- Buttons -->
-		<text name="input_SOWINGSUPP_HUD">      <en>SowingSupp HUD activate</en>		<de>SowingSupp HUD aktivieren</de>      </text>
-		<text name="input_SOWINGSUPP_MOUSE">    <en>SowingSupp MOUSE activate</en>		<de>SowingSupp MOUSE aktivieren</de>    </text>
-		<text name="input_DRIVINGLINE">        	<en>driving line control</en>			<de>Fahrgassen-Schaltung</de>           </text>
-		<text name="input_HS_SHUTOFF_RMright">        	<en>Ridgemarker right</en>           		<de>Spurreisser rechts</de>            </text>
-		<text name="input_HS_SHUTOFF_TOGGLESHUTOFF">   	<en>Toggle halfside shutoff</en>           	<de>Halbseitige Abschaltung</de>       </text>
+		<text name="input_SOWINGSUPP_HUD">      		<en>ProSeed   HUD activate</en>					<de>ProSeed   HUD aktivieren</de>      			</text>
+		<text name="input_SOWINGSUPP_MOUSE">    		<en>ProSeed   MOUSE activate</en>				<de>ProSeed   MOUSE aktivieren</de>    			</text>
+		<text name="input_DRIVINGLINE">        			<en>ProSeed   driving line control</en>			<de>ProSeed   Fahrgassen-Schaltung</de>     	</text>
+		<text name="input_RM_UPGRADE_RMright">        	<en>ProSeed   Ridgemarker right</en>           	<de>ProSeed   Spurreisser rechts</de>           </text>
+		<text name="input_RM_UPGRADE_RMleft">        	<en>ProSeed   Ridgemarker left</en>           	<de>ProSeed   Spurreisser links</de>           	</text>
+		<text name="input_DRIVINGLINE_TOGGLESHUTOFF">   <en>ProSeed   Toggle halfside shutoff</en>      <de>ProSeed   Halbseitige Abschaltung</de>      </text>
 		<!-- Text -->
 		<text name="SOWINGSUPP_CONFIGLABEL">    <en>Preferences</en>			        <de>Einstellungen</de>             		</text>
-		<text name="SOWINGSUPP_HUDon">          <en>activate HUD</en>			        <de>HUD einschalten</de>             	</text>
-		<text name="SOWINGSUPP_HUDoff">         <en>deactivate HUD</en>			        <de>HUD ausschalten</de>             	</text>
+		<text name="SOWINGSUPP_HUDon">          <en>activate ProSeed HUD</en>			<de>ProSeed HUD einschalten</de>        </text>
+		<text name="SOWINGSUPP_HUDoff">         <en>deactivate ProSeed HUD</en>			<de>ProSeed HUD ausschalten</de>        </text>
 		<text name="SOWINGCOUNTER">             <en>hectare counter</en>			    <de>Hektarzähler</de>            		</text>
 		<text name="SOWINGSOUNDS">              <en>acoustic signals</en>			    <de>Akustische Signale</de>            	</text>
 		<text name="SOWINGSOUNDS_SIGNAL">       <en>Signals</en>			    		<de>Signale</de>            			</text>
@@ -53,9 +55,10 @@
 		<text name="DRIVINGLINE_SPWORKWIDTH">   <en>Distance</en>           			<de>Abstand</de>         				</text>
 		<text name="DRIVINGLINE_CURRENTLANE">   <en>Track nr.</en>           			<de>Fahrt Nr.</de>         				</text>
 		<text name="DRIVINGLINE_WORKWIDTH">     <en>Work width:</en>           			<de>Arbeitsbreite:</de>         		</text>
-		<text name="DRIVINGLINE_NUMDRILINE">    <en>Tramline in: </en>           		<de>Fahrgasse in: </de>         		</text>
+		<text name="DRIVINGLINE_NUMDRILINE">    <en>Tramline in: </en>           		<de>Fahrgasse in: </de>         		</text>	
+		<text name="DRIVINGLINE_TOGGLESHUTOFF"> <en>Toggle halfside shutoff</en>        <de>Halbseitige Abschaltung</de>        </text>	
 		<text name="FERTILIZATION">    			<en>fertilization </en>           		<de>Düngung </de>         				</text>
-		<text name="HS_SHUTOFF_RMright">    	<en>Ridgemarker right</en>           	<de>Spurreisser rechts</de>         	</text>		
-		<text name="HS_SHUTOFF_TOGGLESHUTOFF">  <en>Toggle halfside shutoff</en>        <de>Halbseitige Abschaltung</de>        </text>		
+		<text name="RM_UPGRADE_RMright">    	<en>Ridgemarker right</en>           	<de>Spurreisser rechts</de>         	</text>	
+		<text name="RM_UPGRADE_RMleft">    		<en>Ridgemarker left</en>           	<de>Spurreisser links</de>         		</text>	
 	</l10n>
 </modDesc>

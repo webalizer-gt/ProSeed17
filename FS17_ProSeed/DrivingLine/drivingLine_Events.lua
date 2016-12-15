@@ -256,6 +256,51 @@ function DrivingLineAreaEvent.runLocally(cuttingAreas, limitToField)
     end;
 end;
 
+RootVehGPS_Event = {};
+RootVehGPS_Event_mt = Class(RootVehGPS_Event, Event);
+
+InitEventClass(RootVehGPS_Event, "RootVehGPS_Event");
+
+function RootVehGPS_Event:emptyNew()
+    local self = Event:new(RootVehGPS_Event_mt);
+    return self;
+end;
+
+
+function RootVehGPS_Event:new(object)
+    local self = RootVehGPS_Event:emptyNew()
+    self.object = object;
+    return self;
+end;
+
+function RootVehGPS_Event:readStream(streamId, connection)
+  local id = streamReadInt32(streamId);
+  self.object = networkGetObject(id);
+    self:run(connection);
+print("!!!!readStream! self.object: "..tostring(self.object).." streamId: "..tostring(streamId).." connection: "..tostring(connection)) 
+end;
+
+function RootVehGPS_Event:writeStream(streamId, connection)
+    streamWriteInt32(streamId, networkGetObjectId(self.object));
+print("!!!!writeStream! self.object: "..tostring(self.object).." streamId: "..tostring(streamId).." connection: "..tostring(connection)) --!!!
+end;
+
+function RootVehGPS_Event:run(connection)
+  
+  if not connection:getIsServer() then	
+		g_server:broadcastEvent(self, false, connection, self.object);
+	end;
+	if self.object ~= nil then
+		self.object:setRootVehGPS(true); 
+	end;	
+  
+    -- if not connection:getIsServer() then
+        -- g_server:broadcastEvent(RootVehGPS_Event:new(self.object, self.x, self.z, self.dx, self.dz, self.w, self.o,self.aStop,self.aStopDis,self.aTurn,self.aTurnMin,self.aTurnDir,self.laneOff,self.autoInv), nil, connection, self.object);
+	-- print("!!!! RootVehGPS_Event:run(connection) -> g_server:broadcastEvent(RootVehGPS_Event:new(self.object: "..tostring(self.object)..", self.autoInv: "..tostring(self.autoInv).."), nil, connection, self.object: "..tostring(self.object)..")")
+    -- end;
+end;
+
+
 --[[SetSPworkwidthEvent = {};
 SetSPworkwidthEvent_mt = Class(SetSPworkwidthEvent, Event);
 

@@ -3,8 +3,8 @@
 -- Specialization for driving lines of sowing machines
 --
 --	@author:		gotchTOM & webalizer
---	@date: 			14-Dec-2016
---	@version: 	v1.6.11
+--	@date: 			15-Dec-2016
+--	@version: 	v1.6.12
 --	@history:		v1.0 	- initial implementation (17-Jun-2012)
 --							v1.5  - SowingSupplement implementation
 --							v1.6  - 
@@ -13,6 +13,7 @@
 DrivingLine = {};
 
 source(SowingSupp.path.."DrivingLine/drivingLine_Events.lua");
+source(SowingSupp.path.."DrivingLine/HS_shutoffEvents.lua");
 
 function DrivingLine.prerequisitesPresent(specializations)
     return SpecializationUtil.hasSpecialization(SowingMachine, specializations);
@@ -31,6 +32,8 @@ function DrivingLine:load(savegame)
 	self.updateDriLiGUI = SpecializationUtil.callSpecializationsFunction("updateDriLiGUI");
 	self.workAreaMinMaxHeight = SpecializationUtil.callSpecializationsFunction("self.workAreaMinMaxHeight");
 	self.workAreaMinMaxHeight = DrivingLine.workAreaMinMaxHeight;
+	self.setRootVehGPS = SpecializationUtil.callSpecializationsFunction("setRootVehGPS");
+	
 
 	local numDrivingLines = Utils.getNoNil(getXMLInt(self.xmlFile, "vehicle.drivingLines#count"),0);
 	--print("DrivingLine load: numDrivingLines = "..tostring(numDrivingLines))--!!!
@@ -154,8 +157,42 @@ function DrivingLine:load(savegame)
 			i = i + 1;
 	end;
 	
-	-- self.testFaktordlLaneWidth = .3;
-	-- self.testFaktordrivingLineWidth = .6;
+	-------------------
+	-- HS_shutoff
+	-- halfside shutoff of sowing machines
+	
+	self.setShutoff = SpecializationUtil.callSpecializationsFunction("setShutoff");
+	local componentNr = string.sub(getXMLString(self.xmlFile, "vehicle.ai.areaMarkers#leftIndex"),1,1) +1;
+	self.areaRootNode = self.components[componentNr].node;
+	local workAreas;
+	for _,workArea in pairs(self.workAreaByType) do
+		for _,a in pairs(workArea) do
+			local areaTypeStr = WorkArea.areaTypeIntToName[a.type];
+			if areaTypeStr == "sowingMachine" then
+				workAreas = self.workAreaByType[a.type];
+			end;
+		end;
+	end;
+	if workAreas ~= nil then
+		--for k,v in pairs(workAreas[1].refNode) do
+		--	logInfo(1,('workAreas.%s: %s'):format(k,v));
+		--end;
+		for _,workArea in pairs(workAreas) do
+			local x1,y1,z1 = getWorldTranslation(workArea.start);
+			local x2,y2,z2 = getWorldTranslation(workArea.width);
+			local x3,y3,z3 = getWorldTranslation(workArea.height);
+			self.origWorkArea = {};
+			self.origWorkArea.start, self.origWorkArea.width, self.origWorkArea.height = {},{},{};
+			self.origWorkArea.start.id = workArea.start;
+			self.origWorkArea.width.id = workArea.width;
+			self.origWorkArea.height.id = workArea.height;
+			self.origWorkArea.start.x, self.origWorkArea.start.y, self.origWorkArea.start.z = worldToLocal(self.areaRootNode,x1,y1,z1);
+			self.origWorkArea.width.x, self.origWorkArea.width.y, self.origWorkArea.width.z = worldToLocal(self.areaRootNode,x2,y2,z2);
+			self.origWorkArea.height.x, self.origWorkArea.height.y, self.origWorkArea.height.z = worldToLocal(self.areaRootNode,x3,y3,z3);
+			logInfo(1,('lx1: %s, lx2: %s, lx3: %s'):format(self.origWorkArea.start.x, self.origWorkArea.width.x, self.origWorkArea.height.x));
+		end;
+	end;
+	self.shutoff = 0;
 end;
 
 function DrivingLine:postLoad(savegame)  
@@ -165,6 +202,7 @@ function DrivingLine:postLoad(savegame)
 		self.dlMode = Utils.getNoNil(getXMLInt(savegame.xmlFile, savegame.key .. "#dlMode"), self.dlMode);
 		self.allowPeMarker = Utils.getNoNil(getXMLBool(savegame.xmlFile, savegame.key .. "#allowPeMarker"), self.allowPeMarker);
 		self.currentLane = Utils.getNoNil(getXMLInt(savegame.xmlFile, savegame.key .. "#currentLane"), self.currentLane);
+		self.shutoff = Utils.getNoNil(getXMLInt(savegame.xmlFile, savegame.key .. "#shutoff"), self.shutoff);
 		if (self.nSMdrives%2 == 0) then -- gerade Zahl
 			self.num_DrivingLine = (self.nSMdrives / 2) + 1;
 		elseif (self.nSMdrives%2 ~= 0) then -- ungerade Zahl
@@ -176,6 +214,7 @@ function DrivingLine:postLoad(savegame)
 		-- print("!!!!!!!!!!!!!!DrivingLine:postLoad_dlMode = "..tostring(self.dlMode))
 		-- print("!!!!!!!!!!!!!!DrivingLine:postLoad_allowPeMarker = "..tostring(self.allowPeMarker))
 		-- print("!!!!!!!!!!!!!!DrivingLine:postLoad_currentLane = "..tostring(self.currentLane))
+		-- print("!!!!!!!!!!!!!!DrivingLine:postLoad_shutoff = "..tostring(self.shutoff))
   end
 end;
 
@@ -193,10 +232,9 @@ function DrivingLine:readStream(streamId, connection)
 		elseif (self.nSMdrives%2 ~= 0) then -- ungerade Zahl
 			self.num_DrivingLine = (self.nSMdrives + 1) / 2;
 		end;
-		-- print("DrivingLine:readStream self.nSMdrives: "..tostring(self.nSMdrives))
 		self.isPaused = streamReadBool(streamId);
 		self.allowPeMarker = streamReadBool(streamId);
-		--print("DrivingLine:readStream self.allowPeMarker: "..tostring(self.allowPeMarker))
+		self.shutoff = streamReadInt8(streamId);
 		self:updateDriLiGUI();
 	end;
 end;
@@ -207,15 +245,14 @@ function DrivingLine:writeStream(streamId, connection)
 		streamWriteInt8(streamId, self.dlMode);
 		streamWriteInt8(streamId, self.currentLane);
 		streamWriteInt8(streamId, self.nSMdrives);
-		-- print("DrivingLine:writeStream self.nSMdrives: "..tostring(self.nSMdrives))
 		streamWriteBool(streamId, self.isPaused);
 		streamWriteBool(streamId, self.allowPeMarker);
-		--print("DrivingLine:writeStream self.allowPeMarker: "..tostring(self.allowPeMarker))
+		streamWriteInt8(streamId, self.shutoff);
 	end;
 end;
 
 function DrivingLine:getSaveAttributesAndNodes(nodeIdent)
-	local attributes = 'drivingLineIsActiv="'..tostring(self.activeModules.drivingLine)..'" nSMdrives="'..tostring(self.nSMdrives)..'" dlMode="'..tostring(self.dlMode)..'" allowPeMarker="'..tostring(self.allowPeMarker)..'" currentLane="'..tostring(self.currentLane)..'"';
+	local attributes = 'drivingLineIsActiv="'..tostring(self.activeModules.drivingLine)..'" nSMdrives="'..tostring(self.nSMdrives)..'" dlMode="'..tostring(self.dlMode)..'" allowPeMarker="'..tostring(self.allowPeMarker)..'" currentLane="'..tostring(self.currentLane)..'" shutoff="'..tostring(self.shutoff)..'"';
 	-- print("!!!!!!!!!!!!!!DrivingLine:getSaveAttributesAndNodes_attributes = "..tostring(attributes))
 	return attributes, nil;
 end;
@@ -246,20 +283,30 @@ function DrivingLine:update(dt)
 					else
 						self.currentLane = 1;
 					end;
+					self:updateDriLiGUI();
 				elseif self.dlMode == 2 then
 					self.isPaused = not self.isPaused;
+					self:updateDriLiGUI();--!!!!!!!!!!!!!!
 				elseif self.dlMode == 3 then
-					local rootAttacherVehicle = self:getRootAttacherVehicle();
-					if rootAttacherVehicle.GPSlaneNo ~= nil then
-						local lr = rootAttacherVehicle.GPSdirectionPlusMinus*-1;
-						rootAttacherVehicle.lhX0 = rootAttacherVehicle.lhX0 - lr*rootAttacherVehicle.GPSlaneNo*rootAttacherVehicle.GPSWidth*rootAttacherVehicle.lhdZ0;
-						rootAttacherVehicle.lhZ0 = rootAttacherVehicle.lhZ0 - lr*rootAttacherVehicle.GPSlaneNo*rootAttacherVehicle.GPSWidth*rootAttacherVehicle.lhdX0;
-					end;
+					self:setRootVehGPS();
 				end;
-				self:updateDriLiGUI();
+				-- self:updateDriLiGUI();
 			end;
 			
-			-- if InputBinding.hasEvent(InputBinding.TOGGLE_WORK_LIGHT_BACK) then
+			if InputBinding.hasEvent(InputBinding.DRIVINGLINE_TOGGLESHUTOFF) then
+				if not self.drivingLineActiv then
+					local shutoff = self.shutoff + 1;
+					if shutoff > 2 then
+						shutoff = 0;
+					end;
+					logInfo(1,('shutoff: %s'):format(shutoff));
+					self:setShutoff(shutoff);
+				end;	
+			end;
+			
+			
+			
+			--[[ if InputBinding.hasEvent(InputBinding.TOGGLE_WORK_LIGHT_BACK) then
 				-- self.dlLaneWidth = self.dlLaneWidth + .001;
 				-- self.drivingLines = self:createDrivingLines();
 			-- end;
@@ -284,17 +331,36 @@ function DrivingLine:update(dt)
 			-- if InputBinding.hasEvent(InputBinding.RADIO_PREVIOUS_CHANNEL) then
 				-- self.blocksPerDensity = self.blocksPerDensity - .1;
 				-- self.drivingLines = self:createDrivingLines();
-			-- end;
+			-- end;]]
 		end;
 
-
-		--test
+		
+		--[[test
 		-- if self.isTurnedOn and self.dlLastTime < g_currentMission.time - 1000 then
 			-- self.diff = self.fillLevel - self.dlLastFillLevel;
 
 			-- self.dlLastFillLevel = self.fillLevel;
 			-- self.dlLastTime = g_currentMission.time;
-		-- end;
+		-- end;]]
+	end;
+end;
+
+function DrivingLine:setRootVehGPS(noEventSend)
+	local rootAttacherVehicle = self:getRootAttacherVehicle();
+	if rootAttacherVehicle.GPSlaneNo ~= nil then
+		print("DrivingLine:setRootVehGPS(noEventSend="..tostring(noEventSend)..")")
+		local lr = rootAttacherVehicle.GPSdirectionPlusMinus*-1;
+		rootAttacherVehicle.lhX0 = rootAttacherVehicle.lhX0 - lr*rootAttacherVehicle.GPSlaneNo*rootAttacherVehicle.GPSWidth*rootAttacherVehicle.lhdZ0;
+		rootAttacherVehicle.lhZ0 = rootAttacherVehicle.lhZ0 - lr*rootAttacherVehicle.GPSlaneNo*rootAttacherVehicle.GPSWidth*rootAttacherVehicle.lhdX0;
+		
+		--TODO: send Event to server?
+		if noEventSend == nil or noEventSend == false then
+			if g_server ~= nil then
+					g_server:broadcastEvent(RootVehGPS_Event:new(self), nil, nil, self);
+			else
+					g_client:getServerConnection():sendEvent(RootVehGPS_Event:new(self));
+			end;
+		end;	
 	end;
 end;
 
@@ -367,24 +433,24 @@ function DrivingLine:updateTick(dt)
 			end;
 		
 			if self.isServer then
-				if self:getIsTurnedOn() then--and self.seeds[self.currentSeed] ~= self.lastCurrentSeed then
-					-- local selectedSeedFruitType = self.seeds[self.currentSeed];
-					-- if selectedSeedFruitType == FruitUtil.FRUITTYPE_SUGARBEET then
-					-- print("selectedSeedFruitType == FruitUtil.FRUITTYPE_SUGARBEET")
-						-- self.blocksPerDensity = 4
-						-- self.dlLaneWidth = .025;
-						-- self.drivingLineWidth = 1;
-						-- self.drivingLines = self:createDrivingLines();
-						-- self.lastCurrentSeed = self.seeds[self.currentSeed];
-					-- elseif selectedSeedFruitType == FruitUtil.FRUITTYPE_WHEAT then
-						-- print("selectedSeedFruitType == FruitUtil.FRUITTYPE_WHEAT")
-						-- self.blocksPerDensity = 1.5
-						-- self.dlLaneWidth = .066;
-						-- self.drivingLineWidth = 1.32;
-						-- self.drivingLines = self:createDrivingLines();
-						-- self.lastCurrentSeed = self.seeds[self.currentSeed];
-					-- end;
-				end;
+				--[[if self:getIsTurnedOn() then--and self.seeds[self.currentSeed] ~= self.lastCurrentSeed then
+					local selectedSeedFruitType = self.seeds[self.currentSeed];
+					if selectedSeedFruitType == FruitUtil.FRUITTYPE_SUGARBEET then
+					print("selectedSeedFruitType == FruitUtil.FRUITTYPE_SUGARBEET")
+						self.blocksPerDensity = 4
+						self.dlLaneWidth = .025;
+						self.drivingLineWidth = 1;
+						self.drivingLines = self:createDrivingLines();
+						self.lastCurrentSeed = self.seeds[self.currentSeed];
+					elseif selectedSeedFruitType == FruitUtil.FRUITTYPE_WHEAT then
+						print("selectedSeedFruitType == FruitUtil.FRUITTYPE_WHEAT")
+						self.blocksPerDensity = 1.5
+						self.dlLaneWidth = .066;
+						self.drivingLineWidth = 1.32;
+						self.drivingLines = self:createDrivingLines();
+						self.lastCurrentSeed = self.seeds[self.currentSeed];
+					end;
+				end;]]
 				if self.drivingLineActiv then
 					local allowDrivingLine = self.soMaIsLowered;
 					if allowDrivingLine and self.dlCultivatorDelay <= g_currentMission.time then
@@ -819,6 +885,12 @@ function DrivingLine:updateTick(dt)
 							end;
 						end;
 					end;
+					
+					if self.shutoff > 0 then --hsa abschalten wenn Fahrgasse aktiv
+						local shutoff = 0;
+						logInfo(1,('shutoff: %s'):format(shutoff));
+						self:setShutoff(shutoff);
+					end;
 				end;
 			end;
 			
@@ -905,6 +977,9 @@ function DrivingLine:draw()
 			if rootAttacherVehicle ~= nil and rootAttacherVehicle.GPSActive then
 				g_currentMission:addHelpButtonText(SowingMachine.DRIVINGLINE_GPSRESET, InputBinding.DRIVINGLINE, nil, GS_PRIO_VERY_HIGH);
 			end;		
+		end;
+		if not self.drivingLineActiv then
+			g_currentMission:addHelpButtonText(SowingMachine.DRIVINGLINE_TOGGLESHUTOFF, InputBinding.DRIVINGLINE_TOGGLESHUTOFF, nil, GS_PRIO_VERY_HIGH);
 		end;
 		-- setTextColor(1,1,1,1);
 		-- if self.dlCultivatorDelay > g_currentMission.time then
@@ -1002,6 +1077,41 @@ function DrivingLine:setPeMarker(peMarkerActiv, noEventSend)
 		-- print("DrivingLine:setPeMarker->SetPeMarkerEvent.sendEvent(self, peMarkerActiv, noEventSend);")
 	end;
 	self.peMarkerActiv = peMarkerActiv;
+end;
+
+function DrivingLine:setShutoff(shutoff, noEventSend)
+  --synchronize shutoff state in mp
+  HS_shutoffEvent.sendEvent(self, shutoff, noEventSend);
+
+	if shutoff == 1 then
+		if self.origWorkArea.start.x < 0 then
+			setTranslation(self.origWorkArea.start.id, 0, self.origWorkArea.start.y, self.origWorkArea.start.z);
+		elseif self.origWorkArea.width.x < 0 then
+			setTranslation(self.origWorkArea.width.id, 0, self.origWorkArea.width.y, self.origWorkArea.width.z);
+		end;
+		if self.origWorkArea.height.x < 0 then
+			setTranslation(self.origWorkArea.height.id, 0, self.origWorkArea.height.y, self.origWorkArea.height.z);
+		end;
+	elseif shutoff == 2 then
+		if self.origWorkArea.start.x > 0 then
+			setTranslation(self.origWorkArea.start.id, 0, self.origWorkArea.start.y, self.origWorkArea.start.z);
+			setTranslation(self.origWorkArea.width.id, self.origWorkArea.width.x, self.origWorkArea.width.y, self.origWorkArea.width.z);
+		elseif self.origWorkArea.width.x > 0 then
+			setTranslation(self.origWorkArea.width.id, 0, self.origWorkArea.width.y, self.origWorkArea.width.z);
+			setTranslation(self.origWorkArea.start.id, self.origWorkArea.start.x, self.origWorkArea.start.y, self.origWorkArea.start.z);
+		end;
+		if self.origWorkArea.height.x > 0 then
+			setTranslation(self.origWorkArea.height.id, 0, self.origWorkArea.height.y, self.origWorkArea.height.z);
+		else
+			setTranslation(self.origWorkArea.height.id, self.origWorkArea.height.x, self.origWorkArea.height.y, self.origWorkArea.height.z);
+		end;
+	elseif shutoff == 0 then
+		setTranslation(self.origWorkArea.start.id, self.origWorkArea.start.x, self.origWorkArea.start.y, self.origWorkArea.start.z);
+		setTranslation(self.origWorkArea.width.id, self.origWorkArea.width.x, self.origWorkArea.width.y, self.origWorkArea.width.z);
+		setTranslation(self.origWorkArea.height.id, self.origWorkArea.height.x, self.origWorkArea.height.y, self.origWorkArea.height.z);
+	end;
+	self.shutoff = shutoff;
+	self:updateDriLiGUI();
 end;
 
 function DrivingLine:workAreaMinMaxHeight(areas)
@@ -1133,24 +1243,15 @@ function DrivingLine:updateDriLiGUI()
 			end;
 			
 			local yOffset = 0.0195;
-			-- if self.activeModules.halfSideShutoff then
-				-- if self.drivingLineActiv then
-					-- self.hud1.grids.main.elements.barImage.uvs = {0,0.521-yOffset, 0,0.54-yOffset, 1,0.521-yOffset, 1,0.54-yOffset}
-				-- elseif self.shutoff == 1 then
-					-- self.hud1.grids.main.elements.barImage.uvs = {0,0.521+yOffset, 0,0.54+yOffset, 1,0.521+yOffset, 1,0.54+yOffset}
-				-- elseif self.shutoff == 2 then
-					-- self.hud1.grids.main.elements.barImage.uvs = {0,0.521+(2*yOffset), 0,0.54+(2*yOffset), 1,0.521+(2*yOffset), 1,0.54+(2*yOffset)}
-				-- else
-					-- self.hud1.grids.main.elements.barImage.uvs = {0,0.521, 0,0.54, 1,0.521, 1,0.54}
-				-- end;
-				self:updateShutoffGUI();
-			-- else	
-				-- if self.drivingLineActiv then
-					-- self.hud1.grids.main.elements.barImage.uvs = {0,0.521-yOffset, 0,0.54-yOffset, 1,0.521-yOffset, 1,0.54-yOffset}
-				-- else
-					-- self.hud1.grids.main.elements.barImage.uvs = {0,0.521, 0,0.54, 1,0.521, 1,0.54}
-				-- end;
-			-- end;	
+			if self.drivingLineActiv then
+				self.hud1.grids.main.elements.barImage.uvs = {0,0.521-yOffset, 0,0.54-yOffset, 1,0.521-yOffset, 1,0.54-yOffset}
+			elseif self.shutoff == 1 then
+				self.hud1.grids.main.elements.barImage.uvs = {0,0.521+yOffset, 0,0.54+yOffset, 1,0.521+yOffset, 1,0.54+yOffset}
+			elseif self.shutoff == 2 then
+				self.hud1.grids.main.elements.barImage.uvs = {0,0.521+(2*yOffset), 0,0.54+(2*yOffset), 1,0.521+(2*yOffset), 1,0.54+(2*yOffset)}
+			else
+				self.hud1.grids.main.elements.barImage.uvs = {0,0.521, 0,0.54, 1,0.521, 1,0.54}
+			end;
 			
 			self.hud1.grids.main.elements.info_workWidth.isVisible = true;
 			self.hud1.grids.main.elements.info_workWidth.value = self.smWorkwith.."m";

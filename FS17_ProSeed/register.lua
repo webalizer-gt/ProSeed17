@@ -1,7 +1,7 @@
 SpecializationUtil.registerSpecialization("sowingSupp", "SowingSupp", g_currentModDirectory.."sowingSupp.lua")
 SpecializationUtil.registerSpecialization("sowingCounter", "SowingCounter", g_currentModDirectory.."SowingCounter/sowingCounter.lua")
 SpecializationUtil.registerSpecialization("sowingSounds", "SowingSounds", g_currentModDirectory.."SowingSounds/sowingSounds.lua")
-SpecializationUtil.registerSpecialization("hs_shutoff", "HS_shutoff", g_currentModDirectory.."HS_shutoff/HS_shutoff.lua")
+SpecializationUtil.registerSpecialization("ridgeMarkerUpgrade", "RidgeMarkerUpgrade", g_currentModDirectory.."RidgeMarkerUpgrade/RidgeMarkerUpgrade.lua")
 SpecializationUtil.registerSpecialization("drivingLine", "DrivingLine", g_currentModDirectory.."DrivingLine/drivingLine.lua")
 SpecializationUtil.registerSpecialization("fertilization", "Fertilization", g_currentModDirectory.."Fertilization/fertilization.lua")
 
@@ -63,12 +63,13 @@ function SowingSupp_Register:loadMap(name)
 							vs.DRIVINGLINE_CURRENTLANE = g_i18n:getText("DRIVINGLINE_CURRENTLANE");
 							vs.DRIVINGLINE_WORKWIDTH = g_i18n:getText("DRIVINGLINE_WORKWIDTH");
 							vs.DRIVINGLINE_NUMDRILINE = g_i18n:getText("DRIVINGLINE_NUMDRILINE");
+							vs.DRIVINGLINE_TOGGLESHUTOFF = g_i18n:getText("DRIVINGLINE_TOGGLESHUTOFF");
 							vs.FERTILIZATION = g_i18n:getText("FERTILIZATION");
-							vs.HS_SHUTOFF_RMright = g_i18n:getText("HS_SHUTOFF_RMright");
-							vs.HS_SHUTOFF_TOGGLESHUTOFF = g_i18n:getText("HS_SHUTOFF_TOGGLESHUTOFF");
+							vs.RM_UPGRADE_RMright = g_i18n:getText("RM_UPGRADE_RMright");
+							vs.RM_UPGRADE_RMleft = g_i18n:getText("RM_UPGRADE_RMleft");
 							table.insert(v.specializations, SpecializationUtil.getSpecialization("sowingCounter"));
 							table.insert(v.specializations, SpecializationUtil.getSpecialization("sowingSounds"));
-							table.insert(v.specializations, SpecializationUtil.getSpecialization("hs_shutoff"));
+							table.insert(v.specializations, SpecializationUtil.getSpecialization("ridgeMarkerUpgrade"));
 							table.insert(v.specializations, SpecializationUtil.getSpecialization("drivingLine"));
 							table.insert(v.specializations, SpecializationUtil.getSpecialization("fertilization"));
 						end;
