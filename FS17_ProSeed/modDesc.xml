@@ -13,7 +13,7 @@
  	</description>
     <multiplayer supported="true"/>
 	<iconFilename>store.png</iconFilename>
-	<version>0.10.08</version>
+	<version>0.10.09</version>
 	<extraSourceFiles>
         <sourceFile filename="register.lua" />
     </extraSourceFiles>
@@ -55,7 +55,7 @@
 		<text name="DRIVINGLINE_WORKWIDTH">     <en>Work width:</en>           			<de>Arbeitsbreite:</de>         		</text>
 		<text name="DRIVINGLINE_NUMDRILINE">    <en>Tramline in: </en>           		<de>Fahrgasse in: </de>         		</text>
 		<text name="FERTILIZATION">    			<en>fertilization </en>           		<de>Düngung </de>         				</text>
-		<text name="HS_SHUTOFF_RMright">    			<en>Ridgemarker right</en>           		<de>Spurreisser rechts</de>         				</text>		
-		<text name="HS_SHUTOFF_TOGGLESHUTOFF">    			<en>Toggle halfside shutoff</en>           		<de>Halbseitige Abschaltung</de>         				</text>		
+		<text name="HS_SHUTOFF_RMright">    	<en>Ridgemarker right</en>           	<de>Spurreisser rechts</de>         	</text>		
+		<text name="HS_SHUTOFF_TOGGLESHUTOFF">  <en>Toggle halfside shutoff</en>        <de>Halbseitige Abschaltung</de>        </text>		
 	</l10n>
 </modDesc>

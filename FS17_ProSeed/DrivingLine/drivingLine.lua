@@ -3,8 +3,8 @@
 -- Specialization for driving lines of sowing machines
 --
 --	@author:		gotchTOM & webalizer
---	@date: 			12-Dec-2016
---	@version: 	v1.6.10
+--	@date: 			14-Dec-2016
+--	@version: 	v1.6.11
 --	@history:		v1.0 	- initial implementation (17-Jun-2012)
 --							v1.5  - SowingSupplement implementation
 --							v1.6  - 
@@ -300,7 +300,7 @@ end;
 
 function DrivingLine:updateTick(dt)
 	if self.drivingLinePresent then
-		if self:getIsActive() then	
+		if self:getIsActive() and self.activeModules.drivingLine then	
 			if self.dlMode > 0 and self.dlMode < 3 then
 				if self.currentLane > self.nSMdrives then
 					self.currentLane = 1;
@@ -1133,11 +1133,24 @@ function DrivingLine:updateDriLiGUI()
 			end;
 			
 			local yOffset = 0.0195;
-			if self.drivingLineActiv then
-				self.hud1.grids.main.elements.barImage.uvs = {0,0.521-yOffset, 0,0.54-yOffset, 1,0.521-yOffset, 1,0.54-yOffset}
-			else
-				self.hud1.grids.main.elements.barImage.uvs = {0,0.521, 0,0.54, 1,0.521, 1,0.54}
-			end;
+			-- if self.activeModules.halfSideShutoff then
+				-- if self.drivingLineActiv then
+					-- self.hud1.grids.main.elements.barImage.uvs = {0,0.521-yOffset, 0,0.54-yOffset, 1,0.521-yOffset, 1,0.54-yOffset}
+				-- elseif self.shutoff == 1 then
+					-- self.hud1.grids.main.elements.barImage.uvs = {0,0.521+yOffset, 0,0.54+yOffset, 1,0.521+yOffset, 1,0.54+yOffset}
+				-- elseif self.shutoff == 2 then
+					-- self.hud1.grids.main.elements.barImage.uvs = {0,0.521+(2*yOffset), 0,0.54+(2*yOffset), 1,0.521+(2*yOffset), 1,0.54+(2*yOffset)}
+				-- else
+					-- self.hud1.grids.main.elements.barImage.uvs = {0,0.521, 0,0.54, 1,0.521, 1,0.54}
+				-- end;
+				self:updateShutoffGUI();
+			-- else	
+				-- if self.drivingLineActiv then
+					-- self.hud1.grids.main.elements.barImage.uvs = {0,0.521-yOffset, 0,0.54-yOffset, 1,0.521-yOffset, 1,0.54-yOffset}
+				-- else
+					-- self.hud1.grids.main.elements.barImage.uvs = {0,0.521, 0,0.54, 1,0.521, 1,0.54}
+				-- end;
+			-- end;	
 			
 			self.hud1.grids.main.elements.info_workWidth.isVisible = true;
 			self.hud1.grids.main.elements.info_workWidth.value = self.smWorkwith.."m";

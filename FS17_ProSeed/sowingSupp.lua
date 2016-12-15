@@ -3,8 +3,8 @@
 -- a collection of several seeder modifications
 --
 --	@author:		gotchTOM & webalizer
---	@date: 			11-Dec-2016
---	@version: 	v0.01.07
+--	@date: 			14-Dec-2016
+--	@version: 	v0.01.08
 --
 -- included modules: sowingCounter, sowingSounds, drivingLine, fertilization
 --
@@ -49,7 +49,7 @@ function SowingSupp:load(xmlFile)
 		self.activeModules.sowingSounds = true;
 		self.activeModules.drivingLine = true;
 		self.activeModules.fertilization = self.allowsSpraying;
-		-- print("!!!self.activeModules.fertilization: "..tostring(self.activeModules.fertilization))
+		-- self.activeModules.halfSideShutoff = true;
 		if SowingSupp.isDedi == nil then
 			SowingSupp.isDedi = SowingSupp:checkIsDedi();
 		end;
@@ -131,8 +131,12 @@ function SowingSupp:load(xmlFile)
 	self.hud1.grids.config.elements.driLiModul = SowingSupp.guiElement:New( 5, "toggleDriLiModul", nil, nil, "option", SowingMachine.DRIVINGLINE, self.activeModules.drivingLine, true, "button_Option", _,_);
 	self.hud1.grids.config.elements.separator3 = SowingSupp.guiElement:New( 7, nil, nil, nil, "separator", nil, nil, true, "row_bg", nil);
 	self.hud1.grids.config.elements.fertiModul = SowingSupp.guiElement:New( 7, "toggleFertiModul", nil, nil, "option", SowingMachine.FERTILIZATION, self.activeModules.fertilization, true, "button_Option", _,_);
-	self.hud1.grids.config.elements.separator4 = SowingSupp.guiElement:New( 9, nil, nil, nil, "separator", nil, nil, true, "row_bg", nil);
 	
+	-- self.hud1.grids.config.elements.separator4 = SowingSupp.guiElement:New( 9, nil, nil, nil, "separator", nil, nil, true, "row_bg", nil);
+	-- self.hud1.grids.config.elements.hsaModul = SowingSupp.guiElement:New( 9, "toggleHsaModul", nil, nil, "option", SowingMachine.HS_SHUTOFF_TOGGLESHUTOFF, self.activeModules.halfSideShutoff, true, "button_Option", _,_);
+	
+	
+	self.hud1.grids.config.elements.separator4 = SowingSupp.guiElement:New( 9, nil, nil, nil, "separator", nil, nil, true, "row_bg", nil);
 	self.hud1.grids.config.elements.configLabel = SowingSupp.guiElement:New( 9, nil, nil, nil, "info", nil, SowingMachine.SOWINGSUPP_CONFIGLABEL, true, nil, 3, RenderText.ALIGN_LEFT);
 	
 end;
@@ -313,6 +317,11 @@ function SowingSupp:modules(grid, container, vehicle, guiElement, parameter)
 		vehicle.activeModules.fertilization = guiElement.value;
 		vehicle:updateFertiGUI();
 	end;
+	-- if guiElement.functionToCall == "toggleHsaModul" then
+		-- guiElement.value = not guiElement.value;
+		-- vehicle.activeModules.halfSideShutoff = guiElement.value;
+		-- vehicle:updateShutoffGUI();
+	-- end;
 end;
 
 function SowingSupp:update(dt)

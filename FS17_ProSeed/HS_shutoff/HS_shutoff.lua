@@ -3,8 +3,8 @@
 --	halfside shutoff of sowing machines
 --
 -- @author:  	webalizer & gotchTOM
--- @date:			14-Dec-2016
--- @version:	v1.04
+-- @date:			15-Dec-2016
+-- @version:	v1.05
 --
 -- free for noncommerical-usage
 --
@@ -108,6 +108,10 @@ function HS_shutoff:update(dt)
 				logInfo(1,('shutoff: %s'):format(shutoff));
 				self:setShutoff(shutoff);
 			end;
+		-- elseif self.drivingLineActiv then --hsa abschalten wenn Fahrgasse aktiv? weil HUD das so auch anzeigt... kann, muss aber nicht
+			-- shutoff = 0;
+			-- logInfo(1,('shutoff: %s'):format(shutoff));
+			-- self:setShutoff(shutoff);
 		end;
 	end;
  end;
@@ -164,9 +168,11 @@ function HS_shutoff:setShutoff(shutoff, noEventSend)
 end;
 
 function HS_shutoff:updateShutoffGUI()
-	-- print("updateShutoffGUI() -> self.shutoff: "..tostring(self.shutoff))
+	-- print("updateShutoffGUI() -> self.shutoff: "..tostring(self.shutoff).." self.drivingLineActiv: "..tostring(self.drivingLineActiv))
 	local yOffset = 0.0195;
-	if self.shutoff == 1 then
+	if self.drivingLineActiv then
+		self.hud1.grids.main.elements.barImage.uvs = {0,0.521-yOffset, 0,0.54-yOffset, 1,0.521-yOffset, 1,0.54-yOffset}
+	elseif self.shutoff == 1 then
 		self.hud1.grids.main.elements.barImage.uvs = {0,0.521+yOffset, 0,0.54+yOffset, 1,0.521+yOffset, 1,0.54+yOffset}
 	elseif self.shutoff == 2 then
 		self.hud1.grids.main.elements.barImage.uvs = {0,0.521+(2*yOffset), 0,0.54+(2*yOffset), 1,0.521+(2*yOffset), 1,0.54+(2*yOffset)}
