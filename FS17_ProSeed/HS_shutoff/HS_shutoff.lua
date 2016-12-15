@@ -108,10 +108,10 @@ function HS_shutoff:update(dt)
 				logInfo(1,('shutoff: %s'):format(shutoff));
 				self:setShutoff(shutoff);
 			end;
-		-- elseif self.drivingLineActiv then --hsa abschalten wenn Fahrgasse aktiv? weil HUD das so auch anzeigt... kann, muss aber nicht
-			-- shutoff = 0;
-			-- logInfo(1,('shutoff: %s'):format(shutoff));
-			-- self:setShutoff(shutoff);
+		 elseif self.drivingLineActiv then
+			 shutoff = 0;
+			 logInfo(1,('shutoff: %s'):format(shutoff));
+			self:setShutoff(shutoff);
 		end;
 	end;
  end;
@@ -126,6 +126,23 @@ function HS_shutoff:draw()
 		end;
 		if self.numRigdeMarkers > 1 then
 			g_currentMission:addHelpButtonText(SowingMachine.HS_SHUTOFF_RMright, InputBinding.HS_SHUTOFF_RMright, nil, GS_PRIO_VERY_HIGH);
+		
+			if self.ridgeMarkerState == 1 then
+				self.hud1.grids.main.elements.ridgeMarkerLeft.isVisible = false;
+				self.hud1.grids.main.elements.ridgeMarkerLeftActive.isVisible = true;
+				self.hud1.grids.main.elements.ridgeMarkerRight.isVisible = true;
+				self.hud1.grids.main.elements.ridgeMarkerRightActive.isVisible = false;	
+			elseif self.ridgeMarkerState == 2 then
+				self.hud1.grids.main.elements.ridgeMarkerLeft.isVisible = true;
+				self.hud1.grids.main.elements.ridgeMarkerLeftActive.isVisible = false;
+				self.hud1.grids.main.elements.ridgeMarkerRight.isVisible = false;
+				self.hud1.grids.main.elements.ridgeMarkerRightActive.isVisible = true;			
+			else
+				self.hud1.grids.main.elements.ridgeMarkerLeft.isVisible = true;
+				self.hud1.grids.main.elements.ridgeMarkerLeftActive.isVisible = false;
+				self.hud1.grids.main.elements.ridgeMarkerRight.isVisible = true;
+				self.hud1.grids.main.elements.ridgeMarkerRightActive.isVisible = false;			
+			end;
 		end;
 	--end;
 	
