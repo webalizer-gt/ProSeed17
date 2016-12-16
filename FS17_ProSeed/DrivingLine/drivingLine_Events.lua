@@ -1,8 +1,8 @@
 -- Events for DrivingLine Specialization
 --
 --	@author:		gotchTOM 
---	@date: 			06-Dec-2016
---	@version: 	v1.24
+--	@date: 			15-Dec-2016
+--	@version: 	v1.25
 
 SetDrivingLineEvent = {};
 SetDrivingLineEvent_mt = Class(SetDrivingLineEvent, Event);
@@ -256,6 +256,7 @@ function DrivingLineAreaEvent.runLocally(cuttingAreas, limitToField)
     end;
 end;
 
+
 RootVehGPS_Event = {};
 RootVehGPS_Event_mt = Class(RootVehGPS_Event, Event);
 
@@ -266,38 +267,57 @@ function RootVehGPS_Event:emptyNew()
     return self;
 end;
 
-
-function RootVehGPS_Event:new(object)
+function RootVehGPS_Event:new(object, lhX0, lhZ0)
     local self = RootVehGPS_Event:emptyNew()
     self.object = object;
+    self.lhX0 = lhX0;
+    self.lhZ0 = lhZ0;
     return self;
 end;
 
 function RootVehGPS_Event:readStream(streamId, connection)
-  local id = streamReadInt32(streamId);
-  self.object = networkGetObject(id);
-    self:run(connection);
-print("!!!!readStream! self.object: "..tostring(self.object).." streamId: "..tostring(streamId).." connection: "..tostring(connection)) 
+  self.object = readNetworkNodeObject(streamId);
+  self.lhX0 = streamReadFloat32(streamId);
+  self.lhZ0 = streamReadFloat32(streamId);
+  self:run(connection);
+	-- print("!!!!readStream! self.object: "..tostring(self.object).." streamId: "..tostring(streamId).." connection: "..tostring(connection))
+	-- print("self.lhX0: "..tostring(self.lhX0))
+	-- print("self.lhZ0: "..tostring(self.lhZ0))
+	-- print("---------------------------------") 
 end;
 
 function RootVehGPS_Event:writeStream(streamId, connection)
-    streamWriteInt32(streamId, networkGetObjectId(self.object));
-print("!!!!writeStream! self.object: "..tostring(self.object).." streamId: "..tostring(streamId).." connection: "..tostring(connection)) --!!!
+	writeNetworkNodeObject(streamId, self.object);
+	streamWriteFloat32(streamId, self.lhX0);
+	streamWriteFloat32(streamId, self.lhZ0);
+	-- print("!!!!writeStream! self.object: "..tostring(self.object).." streamId: "..tostring(streamId).." connection: "..tostring(connection)) --!!!
+	-- print("self.lhX0: "..tostring(self.lhX0))
+	-- print("self.lhZ0: "..tostring(self.lhZ0))
+	-- print("---------------------------------")
 end;
 
 function RootVehGPS_Event:run(connection)
   
-  if not connection:getIsServer() then	
-		g_server:broadcastEvent(self, false, connection, self.object);
+  if not connection:getIsServer() then
+		g_server:broadcastEvent(RootVehGPS_Event:new(self.object, self.lhX0, self.lhZ0), nil, connection, self.object);
 	end;
 	if self.object ~= nil then
-		self.object:setRootVehGPS(true); 
-	end;	
-  
-    -- if not connection:getIsServer() then
-        -- g_server:broadcastEvent(RootVehGPS_Event:new(self.object, self.x, self.z, self.dx, self.dz, self.w, self.o,self.aStop,self.aStopDis,self.aTurn,self.aTurnMin,self.aTurnDir,self.laneOff,self.autoInv), nil, connection, self.object);
-	-- print("!!!! RootVehGPS_Event:run(connection) -> g_server:broadcastEvent(RootVehGPS_Event:new(self.object: "..tostring(self.object)..", self.autoInv: "..tostring(self.autoInv).."), nil, connection, self.object: "..tostring(self.object)..")")
-    -- end;
+		self.object:setRootVehGPS(self.lhX0, self.lhZ0, true); 
+	end;
+end;
+
+function RootVehGPS_Event.sendEvent(object, lhX0, lhZ0, noEventSend)
+	if noEventSend == nil or noEventSend == false then
+		if g_server ~= nil then
+			g_server:broadcastEvent(RootVehGPS_Event:new(object, lhX0, lhZ0), nil, nil, object);
+			-- print("!!!!sendEvent: g_server:broadcast Event! lhX0: "..tostring(lhX0).. " lhZ0: "..tostring(lhZ0).. " object: "..tostring(object).." noEventSend: "..tostring(noEventSend)) --!!!
+			-- print("---------------------------------")
+		else
+			g_client:getServerConnection():sendEvent(RootVehGPS_Event:new(object, lhX0, lhZ0));
+			-- print("!!!!sendEvent: g_client:send Event! lhX0: "..tostring(lhX0).." lhZ0: "..tostring(lhZ0).. " object: "..tostring(object).." noEventSend: "..tostring(noEventSend)) --!!!
+			-- print("---------------------------------")
+		end;
+	end;
 end;
 
 
