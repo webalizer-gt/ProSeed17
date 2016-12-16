@@ -286,13 +286,77 @@ function DrivingLine:update(dt)
 					self:updateDriLiGUI();
 				elseif self.dlMode == 2 then
 					self.isPaused = not self.isPaused;
-					self:updateDriLiGUI();--!!!!!!!!!!!!!!
 				elseif self.dlMode == 3 then
-					self:setRootVehGPS();
+					local rootAttacherVehicle = self:getRootAttacherVehicle();
+					if rootAttacherVehicle.GPSlaneNo ~= nil and rootAttacherVehicle.GPSlaneNo ~= 0 then
+						local lr = rootAttacherVehicle.GPSdirectionPlusMinus--*(-1);
+						local lhdX0 = rootAttacherVehicle.lhdX0
+						local lhdZ0 = rootAttacherVehicle.lhdZ0
+						local diff = math.abs(lhdX0) - math.abs(lhdZ0)
+						-- print("lhdX0: "..tostring(lhdX0))
+						-- print("lhdZ0: "..tostring(lhdZ0))
+						-- print("diff: "..tostring(diff))
+						-- print("lr: "..tostring(lr))
+						if diff < 0.00001 then
+							lr = rootAttacherVehicle.GPSdirectionPlusMinus*(-1);
+							if lhdZ0 ~= 0 then
+								lhdX0 = 0;
+							else
+								lhdX0 = 1;
+							end;
+							if lr > 0 then
+								-- local lhX0 = rootAttacherVehicle.lhX0 - lr*rootAttacherVehicle.GPSlaneNo*(rootAttacherVehicle.GPSWidth+math.abs(diff))*lhdZ0;
+								-- local lhZ0 = rootAttacherVehicle.lhZ0 - lr*rootAttacherVehicle.GPSlaneNo*(rootAttacherVehicle.GPSWidth+math.abs(diff))*lhdX0;
+								local lhX0 = rootAttacherVehicle.lhX0 - lr*rootAttacherVehicle.GPSlaneNo*rootAttacherVehicle.GPSWidth*lhdZ0;
+								local lhZ0 = rootAttacherVehicle.lhZ0 - lr*rootAttacherVehicle.GPSlaneNo*rootAttacherVehicle.GPSWidth*lhdX0;
+								self:setRootVehGPS(lhX0, lhZ0);
+							elseif lr < 0 then
+								local lhX0 = rootAttacherVehicle.lhX0 + lr*rootAttacherVehicle.GPSlaneNo*rootAttacherVehicle.GPSWidth*lhdZ0;
+								local lhZ0 = rootAttacherVehicle.lhZ0 + lr*rootAttacherVehicle.GPSlaneNo*rootAttacherVehicle.GPSWidth*lhdX0;
+								self:setRootVehGPS(lhX0, lhZ0);
+							end;
+						else
+							if lr < 0 then
+								local lhX0 = rootAttacherVehicle.lhX0 - lr*rootAttacherVehicle.GPSlaneNo*rootAttacherVehicle.GPSWidth*lhdZ0;
+								local lhZ0 = rootAttacherVehicle.lhZ0 - lr*rootAttacherVehicle.GPSlaneNo*rootAttacherVehicle.GPSWidth*lhdX0;
+								self:setRootVehGPS(lhX0, lhZ0);
+							elseif lr > 0 then
+								local lhX0 = rootAttacherVehicle.lhX0 + lr*rootAttacherVehicle.GPSlaneNo*rootAttacherVehicle.GPSWidth*lhdZ0;
+								local lhZ0 = rootAttacherVehicle.lhZ0 + lr*rootAttacherVehicle.GPSlaneNo*rootAttacherVehicle.GPSWidth*lhdX0;
+								self:setRootVehGPS(lhX0, lhZ0);
+							end;
+						end;
+						
+						-- print("lr: "..tostring(lr))
+						-- print("GPSlaneNo: "..tostring(rootAttacherVehicle.GPSlaneNo))
+						-- if rootAttacherVehicle.GPSlaneNo < 0 then	
+							-- if lr < 0 then
+								-- local lhX0 = rootAttacherVehicle.lhX0 - lr*rootAttacherVehicle.GPSlaneNo*rootAttacherVehicle.GPSWidth*lhdZ0;
+								-- local lhZ0 = rootAttacherVehicle.lhZ0 - lr*rootAttacherVehicle.GPSlaneNo*rootAttacherVehicle.GPSWidth*lhdX0;
+								-- self:setRootVehGPS(lhX0, lhZ0);
+							-- elseif lr > 0 then
+								-- local lhX0 = rootAttacherVehicle.lhX0 + lr*rootAttacherVehicle.GPSlaneNo*rootAttacherVehicle.GPSWidth*lhdZ0;
+								-- local lhZ0 = rootAttacherVehicle.lhZ0 + lr*rootAttacherVehicle.GPSlaneNo*rootAttacherVehicle.GPSWidth*lhdX0;
+								-- self:setRootVehGPS(lhX0, lhZ0);
+							-- end;
+						-- elseif rootAttacherVehicle.GPSlaneNo > 0 then	
+							-- if lr < 0 then
+								-- local lhX0 = rootAttacherVehicle.lhX0 - lr*rootAttacherVehicle.GPSlaneNo*rootAttacherVehicle.GPSWidth*lhdZ0;
+								-- local lhZ0 = rootAttacherVehicle.lhZ0 - lr*rootAttacherVehicle.GPSlaneNo*rootAttacherVehicle.GPSWidth*lhdX0;
+								-- self:setRootVehGPS(lhX0, lhZ0);
+							-- elseif lr > 0 then
+								-- local lhX0 = rootAttacherVehicle.lhX0 + lr*rootAttacherVehicle.GPSlaneNo*rootAttacherVehicle.GPSWidth*lhdZ0;
+								-- local lhZ0 = rootAttacherVehicle.lhZ0 + lr*rootAttacherVehicle.GPSlaneNo*rootAttacherVehicle.GPSWidth*lhdX0;
+								-- self:setRootVehGPS(lhX0, lhZ0);
+							-- end;
+						-- end;
+						
+					end;
 				end;
 				-- self:updateDriLiGUI();
 			end;
-			
+			local rootAttacherVehicle = self:getRootAttacherVehicle();
+			-- renderText(0.1,0.1,0.015,"rootAttacherVehicle.GPSlaneNo = "..tostring(rootAttacherVehicle.GPSlaneNo))
 			if InputBinding.hasEvent(InputBinding.DRIVINGLINE_TOGGLESHUTOFF) then
 				if not self.drivingLineActiv then
 					local shutoff = self.shutoff + 1;
@@ -345,23 +409,16 @@ function DrivingLine:update(dt)
 	end;
 end;
 
-function DrivingLine:setRootVehGPS(noEventSend)
+function DrivingLine:setRootVehGPS(lhX0, lhZ0, noEventSend)
+	print("---------------------------------")
+	print("DrivingLine:setRootVehGPS(lhX0="..tostring(lhX0)..", lhZ0="..tostring(lhZ0)..", noEventSend)")
+	RootVehGPS_Event.sendEvent(self, lhX0, lhZ0, noEventSend);
 	local rootAttacherVehicle = self:getRootAttacherVehicle();
 	if rootAttacherVehicle.GPSlaneNo ~= nil then
-		print("DrivingLine:setRootVehGPS(noEventSend="..tostring(noEventSend)..")")
-		local lr = rootAttacherVehicle.GPSdirectionPlusMinus*-1;
-		rootAttacherVehicle.lhX0 = rootAttacherVehicle.lhX0 - lr*rootAttacherVehicle.GPSlaneNo*rootAttacherVehicle.GPSWidth*rootAttacherVehicle.lhdZ0;
-		rootAttacherVehicle.lhZ0 = rootAttacherVehicle.lhZ0 - lr*rootAttacherVehicle.GPSlaneNo*rootAttacherVehicle.GPSWidth*rootAttacherVehicle.lhdX0;
+		rootAttacherVehicle.lhX0 = lhX0;
+		rootAttacherVehicle.lhZ0 = lhZ0;
+	end;	
 		
-		--TODO: send Event to server?
-		if noEventSend == nil or noEventSend == false then
-			if g_server ~= nil then
-					g_server:broadcastEvent(RootVehGPS_Event:new(self), nil, nil, self);
-			else
-					g_client:getServerConnection():sendEvent(RootVehGPS_Event:new(self));
-			end;
-		end;	
-	end;
 end;
 
 function DrivingLine:updateTick(dt)
