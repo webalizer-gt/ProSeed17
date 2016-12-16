@@ -353,7 +353,6 @@ function DrivingLine:update(dt)
 						
 					end;
 				end;
-				-- self:updateDriLiGUI();
 			end;
 			local rootAttacherVehicle = self:getRootAttacherVehicle();
 			-- renderText(0.1,0.1,0.015,"rootAttacherVehicle.GPSlaneNo = "..tostring(rootAttacherVehicle.GPSlaneNo))

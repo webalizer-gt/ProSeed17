@@ -129,11 +129,6 @@ function SetPeMarkerEvent:run(connection)
   
 	if not connection:getIsServer() then	
 		g_server:broadcastEvent(self, false, connection, self.vehicle);
-		-- for k, v in pairs(g_server.clientConnections) do
-			-- if v ~= connection and not v:getIsLocal() then
-				-- v:sendEvent(SetPeMarkerEvent:new(self.vehicle, self.peMarkerActiv));
-			-- end;
-		-- end;
 	end;
 	if self.vehicle ~= nil then
 		self.vehicle:setPeMarker(self.peMarkerActiv, true); 
