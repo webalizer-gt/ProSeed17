@@ -88,30 +88,31 @@ function SowingSupp:load(xmlFile)
 	self.hud1.grids.main.elements.titleBar = SowingSupp.guiElement:NewTitlebar( 25, "titleBar", "configHud", "close", "ProSeed", true, 5);
 
 	--NewImage ( gridPos [int], offsetX [number], offsetY [number], width [number], height [number], color [{r,g,b,a}], isVisible [bool], graphic, uvs  [{u0,v0,u1,v1,u2,v2,u3,v3})
-	self.hud1.grids.main.elements.ridgeMarkerLeft = SowingSupp.guiElement:NewImage( 4, -.013,.016, .1, .11, {1,1,1,1}, false, "sowing_machine", {0.005,0.333, 0.005,0.4, 0.1,0.333, 0.1,0.4});
-	self.hud1.grids.main.elements.ridgeMarkerLeftActive = SowingSupp.guiElement:NewImage( 4, -.013,-.004, .1, .11, {0,1,0,1}, false, "sowing_machine", {0.005,0.4, 0.005,0.333, 0.1,0.4, 0.1,0.333});
-	self.hud1.grids.main.elements.ridgeMarkerRight = SowingSupp.guiElement:NewImage( 6, .013,.016, .1, .11, {1,1,1,1}, false, "sowing_machine", {0.1,0.333, 0.1,0.4, 0.005,0.333, 0.005,0.4});
-	self.hud1.grids.main.elements.ridgeMarkerRightActive = SowingSupp.guiElement:NewImage( 6, .013,-.004, .1, .11, {0,1,0,1}, false, "sowing_machine", {0.1,0.4, 0.1,0.333, 0.005,0.4, 0.005,0.333});
+	self.hud1.grids.main.elements.ridgeMarkerLeft = SowingSupp.guiElement:NewImage( 4, -.017,.0165, .066, .0915, {.35,.35,.35,1}, false, "sowing_machine", {0,0.332, 0,0.4, 0.051,0.332, 0.051,0.4});
+	self.hud1.grids.main.elements.ridgeMarkerLeftActive = SowingSupp.guiElement:NewImage( 4, -.017,.0005, .066, .0915, {0,.4,0,1}, false, "sowing_machine", {0,0.4, 0,0.332, 0.051,0.4, 0.051,0.332});
+	self.hud1.grids.main.elements.ridgeMarkerRight = SowingSupp.guiElement:NewImage( 6, .017,.0165, .066, .0915, {.35,.35,.35,1}, false, "sowing_machine", {0.051,0.332, 0.051,0.4, 0,0.332, 0,0.4});
+	self.hud1.grids.main.elements.ridgeMarkerRightActive = SowingSupp.guiElement:NewImage( 6, .017,.0005, .066, .0915, {0,.4,0,1}, false, "sowing_machine", {0.051,0.4, 0.051,0.332, 0,0.4, 0,0.332});
 
 	self.hud1.grids.main.elements.sowImage = SowingSupp.guiElement:NewImage( 5, 0,.0085, .8, .47, {1,1,1,1}, true, "sowing_machine", {0,0, 0,0.3, 1,0, 1,0.3});
 	self.hud1.grids.main.elements.barImage = SowingSupp.guiElement:NewImage( 5, 0,.0085, .8, .021, {1,1,1,1}, true, "sowing_machine", {0,0.521, 0,0.54, 1,0.521, 1,0.54});
-	self.hud1.grids.main.elements.proseedImage = SowingSupp.guiElement:NewImage( 5, 0,0.0285, .2, .31, {1,1,1,0.1}, true, "sowing_machine", {0,0.59, 0,0.88, 0.18,0.59, 0.18,0.88});
+	self.hud1.grids.main.elements.proSeedImage = SowingSupp.guiElement:NewImage( 5, 0,0.0285, .2, .31, {.1,.1,.1,.5}, true, "sowing_machine", {0,0.586, 0,0.828, 0.168,0.586, 0.168,0.828});
 
-	--NewSeparator ( gridPos [int], offsetX [number], offsetY [number], color [{r,g,b,a}], style ["h" or "v"], isVisible [bool]
+	--NewSeparator ( gridPos [int], offsetX [number], offsetY [number], color [{r,g,b,a}], style ["h" or "v"], isVisible [bool])
 	self.hud1.grids.main.elements.separator1 = SowingSupp.guiElement:NewSeparator( 19, 0,0, {1,1,1,1}, "h", true);
 
-	self.hud1.grids.main.elements.driLiMode = SowingSupp.guiElement:New( 19, "changeDriLiMode", -1, 1, "arrow", SowingMachine.DRIVINGLINE_MODE, SowingMachine.DRIVINGLINE_MANUAL, true, nil,4,_);
-	self.hud1.grids.main.elements.driLiSpWorkWidth = SowingSupp.guiElement:New( 20, "changeSpWorkWidth", -1, 1, "plusminus", SowingMachine.DRIVINGLINE_SPWORKWIDTH, 0, true, nil, 4,_);
-	self.hud1.grids.main.elements.driLiCurDrive = SowingSupp.guiElement:New( 21, "changeCurDrive", -1, 1, "plusminus", SowingMachine.DRIVINGLINE_CURRENTLANE, 1, true, nil, 4,_);
+	--NewInteraction ( gridPos [int], offsetX [number], offsetY [number], textColor [{r,g,b,a}], functionToCall [string], parameter1, parameter2, style [string], label [string], value [], isvisible [bool], [graphics], labelTextSize [int], valueTextSize [int], textBold [bool])
+	self.hud1.grids.main.elements.driLiMode = SowingSupp.guiElement:NewInteraction( 19, 0,0, {1,1,1,1}, "changeDriLiMode", -1, 1, "arrow", SowingMachine.DRIVINGLINE_MODE, SowingMachine.DRIVINGLINE_MANUAL, true, nil, 1, 4, false );
+	self.hud1.grids.main.elements.driLiSpWorkWidth = SowingSupp.guiElement:NewInteraction( 20, 0,0, {1,1,1,1}, "changeSpWorkWidth", -1, 1, "plusminus", SowingMachine.DRIVINGLINE_SPWORKWIDTH, 0, true, nil, 1, 4, false );
+	self.hud1.grids.main.elements.driLiCurDrive = SowingSupp.guiElement:NewInteraction( 21, 0,0, {1,1,1,1}, "changeCurDrive", -1, 1, "plusminus", SowingMachine.DRIVINGLINE_CURRENTLANE, 1, true, nil, 1, 4, false );
 
 	--NewText ( gridPos [int], offsetX [number], offsetY [number], color [{r,g,b,a}], label [string], value [string], isVisible [bool] , labelTextSize [int], valueTextSize [int], textBold [bool], textAlignment [])
 	self.hud1.grids.main.elements.info_workWidth = SowingSupp.guiElement:NewText( 14, 0,0, {0,0,0,1}, SowingMachine.DRIVINGLINE_WORKWIDTH, 0, true, 2, 4, true, RenderText.ALIGN_CENTER);
 	self.hud1.grids.main.elements.info_numDrivingLine = SowingSupp.guiElement:NewText( 11, 0,-0.01, {0,0,0,1}, SowingMachine.DRIVINGLINE_NUMDRILINE, 0, true, 2, 4, true, RenderText.ALIGN_CENTER);
 
-	self.hud1.grids.main.elements.sowingSound = SowingSupp.guiElement:New( 9, "toggleSound", nil, nil, "toggle", nil, true, self.activeModules.sowingSounds, "button_Sound",_,_);
+	self.hud1.grids.main.elements.sowingSound = SowingSupp.guiElement:NewInteraction( 9, 0,0, {1,1,1,1}, "toggleSound", nil, nil, "toggle", nil, true, self.activeModules.sowingSounds, "button_Sound", 1, _, false );
 
 	-- if self.activeModules.fertilization ~= nil then
-		self.hud1.grids.main.elements.fertilizer = SowingSupp.guiElement:New( 13, "setFertilization", nil, nil, "toggle", nil, self.allowsSpraying, true, "button_Fertilizer",_,_);
+		self.hud1.grids.main.elements.fertilizer = SowingSupp.guiElement:NewInteraction( 13, 0,0, {1,1,1,1}, "setFertilization", nil, nil, "toggle", nil, self.allowsSpraying, true, "button_Fertilizer", 1, _, false);
 	-- end;
 
 	--NewIconText ( gridPos [int], offsetX [number], offsetY [number], color [{r,g,b,a}], value [string], valueTextSize [int], textBold [bool], isVisible [bool], graphic, uvs [{u0,v0,u1,v1,u2,v2,u3,v3}]
@@ -120,24 +121,20 @@ function SowingSupp:load(xmlFile)
 	self.hud1.grids.main.elements.scTotal = SowingSupp.guiElement:NewIconText( 1, 0,0, {1,1,1,1}, "0.0ha", 4, false, self.activeModules.sowingCounter, "SowingCounter_totalHUD", nil);
 
 
-	self.hud1.grids.main.elements.driLiPeMarker = SowingSupp.guiElement:New( 7, "togglePeMarker", nil, nil, "toggle", nil, true, true, "button_peMarker",_,_);
+	self.hud1.grids.main.elements.driLiPeMarker = SowingSupp.guiElement:NewInteraction( 7, 0,0, {1,1,1,1}, "togglePeMarker", nil, nil, "toggle", nil, true, true, "button_peMarker",1, _, false);
 
 	-- self.hud1.grids.main.elements.separator1 = SowingSupp.guiElement:New( 19, nil, nil, nil, "separator", nil, nil, true, "row_bg", nil);
 
 	-- self.hud1.grids.main.elements.changeSomething = SowingSupp.guiElement:New( 20, "changeSomething", -3, 1, "plusminus", "Verschieben", 21, true, nil);
 
 	-- config
-	self.hud1.grids.config.elements.soCoModul = SowingSupp.guiElement:New( 1, "toggleSoCoModul", nil, nil, "option", SowingMachine.SOWINGCOUNTER, self.activeModules.sowingCounter, true, "button_Option", _,_);
+	self.hud1.grids.config.elements.soCoModul = SowingSupp.guiElement:NewInteraction( 1, 0,0, {1,1,1,1}, "toggleSoCoModul", nil, nil, "option", SowingMachine.SOWINGCOUNTER, self.activeModules.sowingCounter, true, "button_Option", 2, _, false);
 	self.hud1.grids.config.elements.separator1 = SowingSupp.guiElement:NewSeparator( 3, 0,0, {1,1,1,1}, "h", true);
-	self.hud1.grids.config.elements.soSoModul = SowingSupp.guiElement:New( 3, "toggleSoSoModul", nil, nil, "option", SowingMachine.SOWINGSOUNDS, self.activeModules.sowingSounds, true, "button_Option", _,_);
+	self.hud1.grids.config.elements.soSoModul = SowingSupp.guiElement:NewInteraction( 3, 0,0, {1,1,1,1}, "toggleSoSoModul", nil, nil, "option", SowingMachine.SOWINGSOUNDS, self.activeModules.sowingSounds, true, "button_Option", 2, _, false);
 	self.hud1.grids.config.elements.separator2 = SowingSupp.guiElement:NewSeparator( 5, 0,0, {1,1,1,1}, "h", true);
-	self.hud1.grids.config.elements.driLiModul = SowingSupp.guiElement:New( 5, "toggleDriLiModul", nil, nil, "option", SowingMachine.DRIVINGLINE, self.activeModules.drivingLine, true, "button_Option", _,_);
+	self.hud1.grids.config.elements.driLiModul = SowingSupp.guiElement:NewInteraction( 5, 0,0, {1,1,1,1}, "toggleDriLiModul", nil, nil, "option", SowingMachine.DRIVINGLINE, self.activeModules.drivingLine, true, "button_Option", 2, _, false);
 	self.hud1.grids.config.elements.separator3 = SowingSupp.guiElement:NewSeparator( 7, 0,0, {1,1,1,1}, "h", true);
-	self.hud1.grids.config.elements.fertiModul = SowingSupp.guiElement:New( 7, "toggleFertiModul", nil, nil, "option", SowingMachine.FERTILIZATION, self.activeModules.fertilization, true, "button_Option", _,_);
-
-	-- self.hud1.grids.config.elements.separator4 = SowingSupp.guiElement:New( 9, nil, nil, nil, "separator", nil, nil, true, "row_bg", nil);
-	-- self.hud1.grids.config.elements.hsaModul = SowingSupp.guiElement:New( 9, "toggleHsaModul", nil, nil, "option", SowingMachine.HS_SHUTOFF_TOGGLESHUTOFF, self.activeModules.halfSideShutoff, true, "button_Option", _,_);
-
+	self.hud1.grids.config.elements.fertiModul = SowingSupp.guiElement:NewInteraction( 7, 0,0, {1,1,1,1},"toggleFertiModul", nil, nil, "option", SowingMachine.FERTILIZATION, self.activeModules.fertilization, true, "button_Option", 2, _, false);
 
 	self.hud1.grids.config.elements.separator4 = SowingSupp.guiElement:NewSeparator( 9, 0,0, {1,1,1,1}, "h", true);
 	self.hud1.grids.config.elements.configLabel = SowingSupp.guiElement:NewIconText( 9, 0,0, {1,1,1,1}, SowingMachine.SOWINGSUPP_CONFIGLABEL, 3, true, true, nil, nil );
@@ -154,7 +151,7 @@ function SowingSupp:delete()
 end;
 
 function SowingSupp:mouseEvent(posX, posY, isDown, isUp, button)
-	self.hud1:mouseEvent(self, posX, posY, isDown, isUp, button);
+	self.hud1.mouseEvent(self, posX, posY, isDown, isUp, button);
 	--self.hud1.grids.config:mouseEvent(self, posX, posY, isDown, isUp, button);
 end;
 
@@ -374,7 +371,7 @@ function SowingSupp:updateTick(dt)
 			end;
 			if self.AttacherVehicleBackup.ActiveHUDs.numActiveHUDs ~= self.lastNumActiveHUDs and self.hud1.baseX == g_currentMission.vehicleHudBg.x then
 				local yPos = g_currentMission.vehicleHudBg.y + g_currentMission.fuelLevelIconOverlay.height * (self.AttacherVehicleBackup.ActiveHUDs.numActiveHUDs) + g_currentMission.vehicleHudBg.height * .038 + g_currentMission.vehicleHudBg.height;
-				self.hud1:changeContainer(self.hud1.baseX, yPos);
+				self.hud1.moveMe(self.hud1.baseX, yPos);
 				self.lastNumActiveHUDs = self.AttacherVehicleBackup.ActiveHUDs.numActiveHUDs;
 			end;
 		end;
