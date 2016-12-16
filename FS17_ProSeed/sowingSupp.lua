@@ -3,19 +3,17 @@
 -- a collection of several seeder modifications
 --
 --	@author:		gotchTOM & webalizer
---	@date: 			14-Dec-2016
---	@version: 	v0.01.08
+--	@date: 			15-Dec-2016
+--	@version: 	v0.01.09
 --
 -- included modules: sowingCounter, sowingSounds, drivingLine, fertilization
 --
 -- added modules:
--- 		sowingCounter:			hectar counter for seeders
--- 		sowingSounds:			acoustic signals for seeders
---		drivingLine:				"tramlines" for seeders
---		fertilization				fertilizer switch
---		hs_shutoff				halfside shutoff & ridgemarker
---
--- changes in modules:
+-- 		sowingCounter:				hectar counter for seeders
+-- 		sowingSounds:					acoustic signals for seeders
+--		drivingLine:					"tramlines" for seeders + halfside shutoff
+--		fertilization:				switch fertilizer
+--		RidgeMarkerUpgrade:		switch ridgemarker
 --
 
 
@@ -49,7 +47,6 @@ function SowingSupp:load(xmlFile)
 		self.activeModules.sowingSounds = true;
 		self.activeModules.drivingLine = true;
 		self.activeModules.fertilization = self.allowsSpraying;
-		-- self.activeModules.halfSideShutoff = true;
 		if SowingSupp.isDedi == nil then
 			SowingSupp.isDedi = SowingSupp:checkIsDedi();
 		end;
@@ -65,8 +62,7 @@ function SowingSupp:load(xmlFile)
 	self.sosuHUDisActive = false;
 	self.lastNumActiveHUDs = -1;
 	SowingSupp.stopMouse = false;
-	self.soMaIsLowered = false;
-	-- self.soMaHasGroundContact = false; -- is required by sowingSounds and drivingLine, because self.sowingMachineHasGroundContact doesn´t work like it should :(
+	self.soMaIsLowered = false;-- is required by sowingSounds and drivingLine, because self.sowingMachineHasGroundContact doesn´t work like it should :(
 
 	SowingSupp.snd_click = createSample("snd_click");
 	loadSample(SowingSupp.snd_click, Utils.getFilename("snd/snd_click.wav", SowingSupp.path), false);
