@@ -228,6 +228,22 @@ function SowingSupp.guiElement:NewInteraction ( gridPos, offsetX, offsetY, textC
 	      else
 	        renderOverlay(obj.buttonSet.overlays.overlayToggleOff, obj.offsetX + (grid.table[obj.gridPos].x + grid.centerX - iconWidth/2), obj.offsetY + (grid.table[obj.gridPos].y + yOffsetIcon), iconWidth, iconHeight);
 	      end;
+		  
+		elseif obj.style == "push" then
+	      setTextAlignment(RenderText.ALIGN_CENTER);
+				if obj.textBold then
+					setTextBold(true);
+				else
+					setTextBold(false);
+				end;
+	      local iconHeight = 1.1*baseHeight;
+	      local iconWidth = iconHeight / g_screenAspectRatio;
+	      local yOffsetIcon = baseHeight * 0.15;
+	      local yOffsetText = 1.5*baseHeight;
+		  if obj.label ~= nil then
+			renderText(obj.offsetX + (grid.table[obj.gridPos].x + grid.centerX), obj.offsetY + (grid.table[obj.gridPos].y + yOffsetText), SowingSupp.textSize[obj.labelTextSize], tostring(obj.label));
+		end;
+	        renderOverlay(obj.buttonSet.overlays.overlayPush, obj.offsetX + (grid.table[obj.gridPos].x + grid.centerX - iconWidth/2), obj.offsetY + (grid.table[obj.gridPos].y + yOffsetIcon), iconWidth, iconHeight);
 
 	    elseif obj.style == "option" then
 	      local iconHeight = .7 * baseHeight;
@@ -471,6 +487,9 @@ function SowingSupp.buttonSet:New ( functionToCall, style, gridPos, graphic)
     obj.overlays.overlayToggleOptionOff = createImageOverlay(Utils.getFilename("img/2_"..graphic..".dds", SowingSupp.path));
     obj.overlays.overlayToggleOptionOn = createImageOverlay(Utils.getFilename("img/1_"..graphic..".dds", SowingSupp.path));
 
+   elseif style == "push" then -- push button
+    obj.overlays.overlayPush = createImageOverlay(Utils.getFilename("img/1_"..graphic..".dds", SowingSupp.path));
+
   elseif style == "titleBar" then -- title Bar
     obj.overlays.overlayRowBg = createImageOverlay(Utils.getFilename("img/row_bg.dds", SowingSupp.path));
     obj.overlays.overlayConfig = createImageOverlay(Utils.getFilename("img/button_Config.dds", SowingSupp.path));
@@ -493,7 +512,7 @@ function SowingSupp.buttonSet:New ( functionToCall, style, gridPos, graphic)
 		obj.areas.plus.xMax = 1.5*iconWidth;
 		obj.areas.plus.yMin = obj.areas.minus.yMin;
 		obj.areas.plus.yMax = obj.areas.minus.yMax;
-  elseif style == "toggle" then
+  elseif style == "toggle" or style == "push" then
 		local iconWidth = 1.1*baseWidth;
 		obj.areas.toggle.xMin = -iconWidth/2;
 		obj.areas.toggle.xMax =  iconWidth/2;
@@ -554,6 +573,18 @@ function SowingSupp.guiElement:mouseEvent(grid, container, vehicle, posX, posY, 
          and (grid.table[self.gridPos].y + self.buttonSet.areas.toggle.yMin < posY) then
           SowingSupp:modules(grid, container, vehicle, self);
         end;
+      end;
+   elseif self.style == "push" then
+      if isDown and button == 1 then
+        if (grid.table[self.gridPos].x + grid.centerX + self.buttonSet.areas.toggle.xMax) > posX
+         and (grid.table[self.gridPos].x + grid.centerX + self.buttonSet.areas.toggle.xMin) < posX
+         and (grid.table[self.gridPos].y + self.buttonSet.areas.toggle.yMax) > posY
+         and (grid.table[self.gridPos].y + self.buttonSet.areas.toggle.yMin < posY) then
+          SowingSupp:modules(grid, container, vehicle, self);
+		  setOverlayColor(self.buttonSet.overlays.overlayPush, .5,.5,.5,1);
+        end;
+	 else
+	  setOverlayColor(self.buttonSet.overlays.overlayPush, 1,1,1,1);	
       end;
     elseif self.style == "option" then
       if isDown and button == 1 then
