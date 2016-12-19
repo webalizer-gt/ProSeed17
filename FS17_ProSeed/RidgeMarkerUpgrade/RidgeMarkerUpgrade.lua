@@ -40,7 +40,7 @@ end;
 
 function RidgeMarkerUpgrade:update(dt)
 	if self:getIsActiveForInput() then
-		if self.numRigdeMarkers > 1 then
+		if self.numRigdeMarkers ~= nil and self.numRigdeMarkers > 1 then
 			if InputBinding.hasEvent(InputBinding.RM_UPGRADE_RMleft) and InputBinding.hasEvent(InputBinding.RM_UPGRADE_RMright) then
 				local rmState = self.ridgeMarkerState;
 				if rmState == 0 then
@@ -107,7 +107,7 @@ function RidgeMarkerUpgrade:updateTick(dt)
 end;
 
 function RidgeMarkerUpgrade:draw()
-	if self.numRigdeMarkers > 1 then
+	if self.numRigdeMarkers ~= nil and self.numRigdeMarkers > 1 then
 		if self.rmHasSameInputbinding then
 			g_currentMission:addHelpButtonText(g_i18n:getText("action_toggleRidgeMarker"), InputBinding.RM_UPGRADE_RMright, nil, GS_PRIO_VERY_HIGH);
 		else
