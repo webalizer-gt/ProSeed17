@@ -111,7 +111,7 @@ function SowingSupp:load(xmlFile)
 
 	self.hud1.grids.main.elements.sowingSound = SowingSupp.guiElement:NewInteraction( 9, 0,0, {1,1,1,1}, "toggleSound", nil, nil, "toggle", nil, true, self.activeModules.sowingSounds, "button_Sound", 1, _, false );
 
-	--self.hud1.grids.main.elements.gpsWidth = SowingSupp.guiElement:NewInteraction( 15, 0,0, {1,1,1,1}, "setGPSWidth", nil, nil, "push", nil, true, true, "button_GPS", 1, _, false );
+	self.hud1.grids.main.elements.gpsWidth = SowingSupp.guiElement:NewInteraction( 15, 0,0, {1,1,1,1}, "setGPSWidth", nil, nil, "push", nil, true, true, "button_GPS", 1, _, false );
 	-- if self.activeModules.fertilization ~= nil then
 		self.hud1.grids.main.elements.fertilizer = SowingSupp.guiElement:NewInteraction( 13, 0,0, {1,1,1,1}, "setFertilization", nil, nil, "toggle", nil, self.allowsSpraying, true, "button_Fertilizer", 1, _, false);
 	-- end;
@@ -319,10 +319,10 @@ function SowingSupp:modules(grid, container, vehicle, guiElement, parameter)
 		vehicle:updateFertiGUI();
 	end;
 	 if guiElement.functionToCall == "setGPSWidth" then
-		--local rootAttacherVehicle = vehicle:getRootAttacherVehicle();
-		--if rootAttacherVehicle.GPSWidth ~= nil then
-			--rootAttacherVehicle.GPSWidth = vehicle.smWorkwith;
-		--end;	
+		local rootAttacherVehicle = vehicle:getRootAttacherVehicle();
+		if rootAttacherVehicle.GPSWidth ~= nil then
+			rootAttacherVehicle.GPSWidth = vehicle.smWorkwith;
+		end;	
 	 end;
 end;
 

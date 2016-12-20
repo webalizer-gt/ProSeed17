@@ -329,28 +329,7 @@ function DrivingLine:update(dt)
 						
 						-- print("lr: "..tostring(lr))
 						-- print("GPSlaneNo: "..tostring(rootAttacherVehicle.GPSlaneNo))
-						-- if rootAttacherVehicle.GPSlaneNo < 0 then	
-							-- if lr < 0 then
-								-- local lhX0 = rootAttacherVehicle.lhX0 - lr*rootAttacherVehicle.GPSlaneNo*rootAttacherVehicle.GPSWidth*lhdZ0;
-								-- local lhZ0 = rootAttacherVehicle.lhZ0 - lr*rootAttacherVehicle.GPSlaneNo*rootAttacherVehicle.GPSWidth*lhdX0;
-								-- self:setRootVehGPS(lhX0, lhZ0);
-							-- elseif lr > 0 then
-								-- local lhX0 = rootAttacherVehicle.lhX0 + lr*rootAttacherVehicle.GPSlaneNo*rootAttacherVehicle.GPSWidth*lhdZ0;
-								-- local lhZ0 = rootAttacherVehicle.lhZ0 + lr*rootAttacherVehicle.GPSlaneNo*rootAttacherVehicle.GPSWidth*lhdX0;
-								-- self:setRootVehGPS(lhX0, lhZ0);
-							-- end;
-						-- elseif rootAttacherVehicle.GPSlaneNo > 0 then	
-							-- if lr < 0 then
-								-- local lhX0 = rootAttacherVehicle.lhX0 - lr*rootAttacherVehicle.GPSlaneNo*rootAttacherVehicle.GPSWidth*lhdZ0;
-								-- local lhZ0 = rootAttacherVehicle.lhZ0 - lr*rootAttacherVehicle.GPSlaneNo*rootAttacherVehicle.GPSWidth*lhdX0;
-								-- self:setRootVehGPS(lhX0, lhZ0);
-							-- elseif lr > 0 then
-								-- local lhX0 = rootAttacherVehicle.lhX0 + lr*rootAttacherVehicle.GPSlaneNo*rootAttacherVehicle.GPSWidth*lhdZ0;
-								-- local lhZ0 = rootAttacherVehicle.lhZ0 + lr*rootAttacherVehicle.GPSlaneNo*rootAttacherVehicle.GPSWidth*lhdX0;
-								-- self:setRootVehGPS(lhX0, lhZ0);
-							-- end;
-						-- end;
-						
+						-- print("-----------------------------------------------")
 					end;
 				end;
 			end;
@@ -409,8 +388,7 @@ function DrivingLine:update(dt)
 end;
 
 function DrivingLine:setRootVehGPS(lhX0, lhZ0, noEventSend)
-	print("---------------------------------")
-	print("DrivingLine:setRootVehGPS(lhX0="..tostring(lhX0)..", lhZ0="..tostring(lhZ0)..", noEventSend)")
+	-- print("DrivingLine:setRootVehGPS(lhX0="..tostring(lhX0)..", lhZ0="..tostring(lhZ0)..", noEventSend)")
 	RootVehGPS_Event.sendEvent(self, lhX0, lhZ0, noEventSend);
 	local rootAttacherVehicle = self:getRootAttacherVehicle();
 	if rootAttacherVehicle.GPSlaneNo ~= nil then
