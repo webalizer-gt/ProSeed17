@@ -32,7 +32,7 @@ Numpad 9 | - | halbseitige Abschaltung wechseln (rechts, links, aus), _toggle ha
 y, _z_ | - | Spurreisser links, _left ridgemarker_
 l_shift + y, *l_shift + z* | - |Spurreisser rechts, _right ridgemarker_
 
-![ProSeed HUD](../gh-pages/images/ProSeed_HUD.png)
+![ProSeed HUD](images/ProSeed_HUD.png)
 
 Schaltfläche(n), _Button(s)_ | Funktionen / _functions_
 ---------- | ---------------
@@ -64,8 +64,8 @@ _The working width in GPS has to be adjusted to the given working width of ProSe
 Bei gerader Anzahl von Fahrten (HUD 5, z.B. "x / 4") muss immer mit einer halben Bahn begonnen werden, ansonsten stimmt später der Abstand zum Feldrand nicht. Nutze dazu die halbseitige Abschaltung (Numpad 9). Bei Verwendung von GPS ist dabei die erste Spur am Feldrand auszurichten und mit Numpad 8 auf 0 (GPS) bzw. 1 (ProSeed) zu setzen. Für die zweite Bahn wird die GPS-Spur in dessen HUD um die halbe Arbeitsbreite in Richtung Feldrand verschoben.  
 _If the number of drives (HUD 5, e.g. "x / 4") is even, always start with a half track, otherwise the distance to the edge of the field will not be correct. Use halfside shutoff for the first track. When using GPS, the first track must be aligned at the edge of the field and set to 0 (GPS) or 1 (ProSeed) using Numpad 8. For the second track shift the GPS track in its HUD by half the working width towards the field edge._  
 
-Eine Darstellung möglicher Arbeitbreiten und Abstände sind in dieser PDF-Datei beschrieben: [Download](../gh-pages/images/ProSeed.pdf)  
-_A description of possible working widths and distances is given in this PDF file: [Download](../gh-pages/images/ProSeed.pdf)_  
+Eine Darstellung möglicher Arbeitbreiten und Abstände sind in dieser PDF-Datei beschrieben: [Download](images/ProSeed.pdf)  
+_A description of possible working widths and distances is given in this PDF file: [Download](images/ProSeed.pdf)_  
 
 Die Zustände der Fahrgassen, der halbseitigen Abschaltung sowie Spurreisser werden im HUD entsprechend dargestellt.  
 _The states of tramlines, the half-side shutoff, as well as the ridgemarkers are displayed in the HUD._
