@@ -27,7 +27,7 @@ Numpad 7 | - | HUD öffnen/schließen, _open/close HUD_
 Numpad 8 | manuell, _manual_ | Fahrgassen an/aus, _tramlines on/off_
 Numpad 8 | semi | Spurzähler +1, _track counter +1_
 Numpad 8 | auto | Spurzähler pausieren, _pause track counter_
-Numpad 8 | GPS* | GPS Spurzähler zurücksetzen, _reset GPS track counter_
+Numpad 8 | GPS° | GPS Spurzähler zurücksetzen, _reset GPS track counter_
 Numpad 9 | - | halbseitige Abschaltung wechseln (rechts, links, aus), _toggle halfside shutoff (right, left, off)_
 y, _z_ | - | Spurreisser links, _left ridgemarker_
 l_shift + y, *l_shift + z* | - |Spurreisser rechts, _right ridgemarker_
@@ -54,9 +54,10 @@ Modus, _mode_ | Bedienung, _operation_
 manuell, _manual_ | Fahrgassen werden vom Fahrer durch drücken von Numpad 8 aktiviert/deaktiviert, _tramlines are activated/deactivated by the driver by pressing Numpad 8_
 semi | benötigten Fahrgassen-Abstand einstellen (HUD 4), Spuren werden vom Fahrer durch drücken von Numpad 8 gezählt (Korrektur über HUD 5 möglich), Fahrgassen werden automatisch aktiviert/deaktiviert, _set the required tramline distance (HUD 4), driver counts tracks by pressing Numpad 8 (use HUD 5 for correction), tramlines are activated/deactivated automatically_
 auto | benötigten Fahrgassen-Abstand einstellen (HUD 4), Spuren werden automatisch gezählt (Korrektur über HUD 5 möglich), Fahrgassen werden automatisch aktiviert/deaktiviert, _set the required tramline distance (HUD 4), tracks are counted automatically (use HUD 5 for correction), tramlines are activated/deactivated automatically_
-GPS* | benötigten Fahrgassen-Abstand einstellen (HUD 4), Arbeitsbreite an GPS-Mod senden (HUD 8), Spuren werden automatisch von GPS gezählt, Fahrgassen werden automatisch aktiviert/deaktiviert, es können Spuren ausgelassen werden, _set the required tramline distance (HUD 4), send work width to GPS-Mod (HUD 8), tracks are counted automatically by GPS, tramlines are activated/deactivated, tracks can be skipped_
-*GPS-Mod 5.xx von upsidedown wird benötigt und muss aktiviert sein  
-_GPS-Mod 5.xx from upsidedown is required and must be activated_
+GPS° | benötigten Fahrgassen-Abstand einstellen (HUD 4), Arbeitsbreite an GPS-Mod senden (HUD 8), Spuren werden automatisch von GPS gezählt, Fahrgassen werden automatisch aktiviert/deaktiviert, es können Spuren ausgelassen werden, _set the required tramline distance (HUD 4), send work width to GPS-Mod (HUD 8), tracks are counted automatically by GPS, tramlines are activated/deactivated, tracks can be skipped_
+
+°GPS-Mod 5.xx von upsidedown wird benötigt und muss aktiviert sein  
+_°GPS-Mod 5.xx from upsidedown is required and must be activated_
 
 Die Arbeitsbreite muss im GPS an die vorgegebene Arbeitsbreite von ProSeed angeglichen werden (HUD 8 oder im GPS-Mod)!  
 _The working width in GPS has to be adjusted to the given working width of ProSeed (HUD 8 or within GPS-Mod)!_
