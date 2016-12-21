@@ -1242,10 +1242,12 @@ function DrivingLine:updateDriLiGUI()
 				self.hud1.grids.main.elements.driLiMode.value = SowingMachine.DRIVINGLINE_MANUAL;
 				self.hud1.grids.main.elements.driLiMode.buttonSet.button1IsActive = false;
 				self.hud1.grids.main.elements.driLiMode.buttonSet.button2IsActive = true;
+				self.hud1.grids.main.elements.gpsWidth.isVisible = false;
 			elseif self.dlMode == 1 then
 				self.hud1.grids.main.elements.driLiMode.value = SowingMachine.DRIVINGLINE_SEMIAUTO;
 				self.hud1.grids.main.elements.driLiMode.buttonSet.button1IsActive = true;
 				self.hud1.grids.main.elements.driLiMode.buttonSet.button2IsActive = true;
+				self.hud1.grids.main.elements.gpsWidth.isVisible = false;
 			elseif self.dlMode == 2 then
 				local rootAttacherVehicle = self:getRootAttacherVehicle();
 				if rootAttacherVehicle.GPSlaneNo ~= nil then
@@ -1258,10 +1260,12 @@ function DrivingLine:updateDriLiGUI()
 					self.hud1.grids.main.elements.driLiMode.buttonSet.button1IsActive = true;
 					self.hud1.grids.main.elements.driLiMode.buttonSet.button2IsActive = false;
 				end;
+				self.hud1.grids.main.elements.gpsWidth.isVisible = false;
 			elseif self.dlMode == 3 then
 				self.hud1.grids.main.elements.driLiMode.value = SowingMachine.DRIVINGLINE_GPS;
 				self.hud1.grids.main.elements.driLiMode.buttonSet.button1IsActive = true;
 				self.hud1.grids.main.elements.driLiMode.buttonSet.button2IsActive = false;
+				self.hud1.grids.main.elements.gpsWidth.isVisible = true;
 			end;
 			
 			self.hud1.grids.main.elements.driLiPeMarker.isVisible = true;
