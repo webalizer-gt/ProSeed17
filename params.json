@@ -1,6 +1,0 @@
-{
-  "name": "ProSeed for FS17",
-  "tagline": "FS17 specialization for sowing machines. Create driving lines & more...",
-  "body": "# Was ist ProSeed?\r\nProSeed 17 ist eine Sammlung von Funktionen zur Erweiterung von Sämaschinen im Landwirtschafts Simulator 17:\r\n* Fahrgassen erstellen (optional mit Vorauflaufmarkierung)\r\n* Halbseitige Abschaltung für korrekte Fahrgassen\r\n* Akkustische Zustandshinweise\r\n* Düngefunktion abschalten\r\n* Spuranzeiger rechts einzeln schalten\r\n\r\n# What is ProSeed?\r\nProSeed 17 is a bundle of functions to enhance sowing machines in Farming Simulator 17:\r\n* Create tramlines (with optional pre-emergence marking)\r\n* Halfside shutoff for correct tramlines\r\n* Accoustic status signals\r\n* Shutoff fertilizing\r\n* Control ridge markers separately\r\n\r\n\r\n### Authors and Contributors\r\ngotchTOM (@gotchTOM), webalizer (@webalizer-gt)\r\n\r\n### Support or Contact\r\nOn github or planet-ls.de\r\n",
-  "note": "Don't delete this file! It's used internally to help with page regeneration."
-}

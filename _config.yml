@@ -1,0 +1,8 @@
+title: ProSeed for FS17
+description: FS17 specialization for sowing machines. Create driving lines & more...
+google_analytics: 
+show_downloads: true
+theme: jekyll-theme-midnight
+
+gems:
+  - jekyll-mentions
