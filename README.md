@@ -71,7 +71,8 @@ Die Zustände der Fahrgassen, der halbseitigen Abschaltung sowie Spurreisser wer
 _The states of tramlines, the half-side shutoff, as well as the ridgemarkers are displayed in the HUD._
 
 ### Authors and Contributors
-gotchTOM (@gotchTOM), webalizer (@webalizer-gt)
+gotchTOM (@gotchTOM), webalizer (@webalizer-gt)  
+GreenEye, Manuel Leithner
 
 ### Support or Contact
 On github or planet-ls.de
