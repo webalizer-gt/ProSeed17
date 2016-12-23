@@ -31,6 +31,7 @@ Numpad 8 | GPS* | GPS Spurzähler zurücksetzen, _reset GPS track counter_
 Numpad 9 | - | halbseitige Abschaltung wechseln (rechts, links, aus), _toggle halfside shutoff (right, left, off)_
 y, _z_ | - | Spurreisser links, _left ridgemarker_
 l_shift + y, *l_shift + z* | - |Spurreisser rechts, _right ridgemarker_
+l_strg, *l_ctrl* | - |gedrückt halten f. Maussteuerung, _hold down for mouse control_
 
 ![ProSeed HUD](../gh-pages/images/ProSeed_HUD.png)
 
