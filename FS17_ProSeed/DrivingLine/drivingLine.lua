@@ -1165,7 +1165,7 @@ function DrivingLine:workAreaMinMaxHeight(areas)
 			self.xMin = math.min(self.xMin, lx1, lx2, lx3)
 			self.xMax = math.max(self.xMax, lx1, lx2, lx3)
 			self.yStart = ly1;
-			self.zHeight = math.min(self.zHeight, lz1, lz2, lz3);
+			self.zHeight = math.min(lz1, lz2, lz3);
 		end;
 	end;
 end;
