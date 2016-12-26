@@ -174,7 +174,8 @@ function SowingSupp.guiElement:NewInteraction ( gridPos, offsetX, offsetY, textC
 	end;
 	obj.renderMe = function (grid, container)
 		if obj.isVisible and grid.table[obj.gridPos] ~= nil then
-			setTextColor(1,1,1,1);
+			local r,g,b,a = obj.color[1],obj.color[2],obj.color[3],obj.color[4];
+			setTextColor(r,g,b,a);
 			setTextBold(false);
 			local baseHeight = SowingSupp.baseHeight;
 			local baseWidth = SowingSupp.baseHeight;
