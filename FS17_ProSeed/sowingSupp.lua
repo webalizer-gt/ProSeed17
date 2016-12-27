@@ -88,14 +88,14 @@ function SowingSupp:load(xmlFile)
 	self.hud1.grids.main.elements.titleBar = SowingSupp.guiElement:NewTitlebar( 25, "titleBar", "configHud", "close", "ProSeed", true, 5);
 
 	--NewImage ( gridPos [int], offsetX [number], offsetY [number], width [number], height [number], color [{r,g,b,a}], isVisible [bool], graphic, uvs  [{u0,v0,u1,v1,u2,v2,u3,v3})
-	self.hud1.grids.main.elements.ridgeMarkerLeft = SowingSupp.guiElement:NewImage( 4, -.017,.0165, .066, .0915, {.35,.35,.35,1}, false, "sowing_machine", {0,0.332, 0,0.4, 0.051,0.332, 0.051,0.4});
-	self.hud1.grids.main.elements.ridgeMarkerLeftActive = SowingSupp.guiElement:NewImage( 4, -.017,.0005, .066, .0915, {0,.4,0,1}, false, "sowing_machine", {0,0.4, 0,0.332, 0.051,0.4, 0.051,0.332});
-	self.hud1.grids.main.elements.ridgeMarkerRight = SowingSupp.guiElement:NewImage( 6, .017,.0165, .066, .0915, {.35,.35,.35,1}, false, "sowing_machine", {0.051,0.332, 0.051,0.4, 0,0.332, 0,0.4});
-	self.hud1.grids.main.elements.ridgeMarkerRightActive = SowingSupp.guiElement:NewImage( 6, .017,.0005, .066, .0915, {0,.4,0,1}, false, "sowing_machine", {0.051,0.4, 0.051,0.332, 0,0.4, 0,0.332});
+	self.hud1.grids.main.elements.ridgeMarkerLeft = SowingSupp.guiElement:NewImage( 4, .034,.06, .066, .0916, {.35,.35,.35,1}, false, "sowing_machine", {0,0.332, 0,0.4, 0.051,0.332, 0.051,0.4});
+	self.hud1.grids.main.elements.ridgeMarkerLeftActive = SowingSupp.guiElement:NewImage( 4, .034,0, .066, .0916, {0,.4,0,1}, false, "sowing_machine", {0,0.4, 0,0.332, 0.051,0.4, 0.051,0.332});
+	self.hud1.grids.main.elements.ridgeMarkerRight = SowingSupp.guiElement:NewImage( 6, .234,.06, .066, .0916, {.35,.35,.35,1}, false, "sowing_machine", {0.051,0.332, 0.051,0.4, 0,0.332, 0,0.4});
+	self.hud1.grids.main.elements.ridgeMarkerRightActive = SowingSupp.guiElement:NewImage( 6, .234,0, .066, .0916, {0,.4,0,1}, false, "sowing_machine", {0.051,0.4, 0.051,0.332, 0,0.4, 0,0.332});
 
-	self.hud1.grids.main.elements.sowImage = SowingSupp.guiElement:NewImage( 5, 0,.0085, .8, .47, {1,1,1,1}, true, "sowing_machine", {0,0, 0,0.3, 1,0, 1,0.3});
-	self.hud1.grids.main.elements.barImage = SowingSupp.guiElement:NewImage( 5, 0,.0085, .8, .021, {1,1,1,1}, true, "sowing_machine", {0,0.521, 0,0.54, 1,0.521, 1,0.54});
-	self.hud1.grids.main.elements.proSeedImage = SowingSupp.guiElement:NewImage( 5, 0,0.0285, .2, .31, {.1,.1,.1,.5}, true, "sowing_machine", {0,0.586, 0,0.828, 0.168,0.586, 0.168,0.828});
+	self.hud1.grids.main.elements.sowImage = SowingSupp.guiElement:NewImage( 4, 0.1,.03, .8, .47, {1,1,1,1}, true, "sowing_machine", {0,0, 0,0.3, 1,0, 1,0.3});
+	self.hud1.grids.main.elements.barImage = SowingSupp.guiElement:NewImage( 4, 0.1,.03, .8, .021, {1,1,1,1}, true, "sowing_machine", {0,0.521, 0,0.54, 1,0.521, 1,0.54});
+	--self.hud1.grids.main.elements.proSeedImage = SowingSupp.guiElement:NewImage( 5, 0,0.0285, .2, .31, {.1,.1,.1,.5}, true, "sowing_machine", {0,0.586, 0,0.828, 0.168,0.586, 0.168,0.828});
 
 	--NewSeparator ( gridPos [int], offsetX [number], offsetY [number], color [{r,g,b,a}], style ["h" or "v"], isVisible [bool])
 	self.hud1.grids.main.elements.separator1 = SowingSupp.guiElement:NewSeparator( 19, 0,0, {1,1,1,1}, "h", true);
@@ -111,7 +111,7 @@ function SowingSupp:load(xmlFile)
 
 	self.hud1.grids.main.elements.sowingSound = SowingSupp.guiElement:NewInteraction( 9, 0,0, {1,1,1,1}, "toggleSound", nil, nil, "toggle", nil, true, self.activeModules.sowingSounds, "button_Sound", 1, _, false );
 
-	self.hud1.grids.main.elements.gpsWidth = SowingSupp.guiElement:NewInteraction( 15, 0,0, {1,1,1,1}, "setGPSWidth", nil, nil, "push", nil, true, true, "button_GPS", 1, _, false );
+	self.hud1.grids.main.elements.gpsWidth = SowingSupp.guiElement:NewInteraction( 15, 0,0, {1,1,1,1}, "setGPSWidth", nil, nil, "push", nil, true, false, "button_GPS", 1, _, false );
 	-- if self.activeModules.fertilization ~= nil then
 		self.hud1.grids.main.elements.fertilizer = SowingSupp.guiElement:NewInteraction( 13, 0,0, {1,1,1,1}, "setFertilization", nil, nil, "toggle", nil, self.allowsSpraying, true, "button_Fertilizer", 1, _, false);
 	-- end;
