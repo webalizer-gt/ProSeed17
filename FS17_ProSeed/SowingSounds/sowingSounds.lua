@@ -3,8 +3,8 @@
 --	Sounds for Sowing Machines (acoustic signals)
 --
 -- @author:  	GreenEye and gotchTOM
--- @date:			10-Nov-2016
--- @version:	v1.01
+-- @date:			21-Dec-2016
+-- @version:	v1.02
 --
 -- free for noncommerical-usage
 --
@@ -133,14 +133,14 @@ function SowingSounds:updateTick(dt)
 				if not self.sowingSounds.isLineActive then					--> falls drivingLine.lua vorhanden
 					if self.drivingLineActiv then
 						playSample(self.SeSoSoundId3, 0, 1, 0);
-						--print("playSample(self.line, 0, 1, 0);")
+						-- print("playSample(self.line, 0, 1, 0);")
 						self.sowingSounds.isLineActive = true;
 					end;
 				else
 					if not self.drivingLineActiv then
 						self.sowingSounds.isLineActive = false;
 						stopSample(self.SeSoSoundId3);
-						--print("stopSample(self.line);")
+						-- print("stopSample(self.line);")
 					end;
 				end;
 				
@@ -154,7 +154,7 @@ function SowingSounds:updateTick(dt)
 							-- local x = FillUtil.FILLTYPE_SEEDS;
 							-- print("fillLevelInformation.fillType"..tostring(fillLevelInformation.fillType))
 							if fillLevelInformation.fillLevel <= 0.05 * fillLevelInformation.capacity then
-								if fillLevelInformation.fillType == FillUtil.FILLTYPE_FERTILIZER then
+								if fillLevelInformation.fillType == FillUtil.FILLTYPE_FERTILIZER or fillLevelInformation.fillType == FillUtil.FILLTYPE_LIQUIDFERTILIZER then
 									if not self.sowingSounds.isFertiLow5Percent then
 										playSample(self.SeSoSoundId4, 1, 1, 0);
 										-- print("playSample(Ferti 5%, 1, 1, 0);")
@@ -178,7 +178,7 @@ function SowingSounds:updateTick(dt)
 							end;
 							
 							if fillLevelInformation.fillLevel <= 0.01 * fillLevelInformation.capacity then
-								if fillLevelInformation.fillType == FillUtil.FILLTYPE_FERTILIZER then
+								if fillLevelInformation.fillType == FillUtil.FILLTYPE_FERTILIZER or fillLevelInformation.fillType == FillUtil.FILLTYPE_LIQUIDFERTILIZER then
 									if not self.sowingSounds.isFertiLow1Percent then
 										playSample(self.SeSoSoundId4, 1, 1, 0);
 										-- print("playSample(Ferti 1%, 1, 1, 0);")
@@ -202,7 +202,7 @@ function SowingSounds:updateTick(dt)
 							end;
 							
 							if fillLevelInformation.fillLevel <= 10 then
-								if fillLevelInformation.fillType == FillUtil.FILLTYPE_FERTILIZER then
+								if fillLevelInformation.fillType == FillUtil.FILLTYPE_FERTILIZER or fillLevelInformation.fillType == FillUtil.FILLTYPE_LIQUIDFERTILIZER then
 									if not self.sowingSounds.isFertiEmpty then
 										playSample(self.SeSoSoundId4, 1, 1, 0);
 										-- print("playSample(Ferti <= 10, 1, 1, 0);")
@@ -216,17 +216,17 @@ function SowingSounds:updateTick(dt)
 									end;
 								end;
 							elseif fillLevelInformation.fillLevel > 0 then
-								if fillLevelInformation.fillType == FillUtil.FILLTYPE_FERTILIZER then
+								if fillLevelInformation.fillType == FillUtil.FILLTYPE_FERTILIZER or fillLevelInformation.fillType == FillUtil.FILLTYPE_LIQUIDFERTILIZER then
 									if self.sowingSounds.isFertiEmpty then
 										self.sowingSounds.isFertiEmpty = false;
 										stopSample(self.SeSoSoundId4);
-										-- print("!!!stopSample(self.SeSoSoundId4);")
+										-- print("!!!stopSample(Ferti > 0);")
 									end;
 								else
 									if self.sowingSounds.isSeedEmpty then
 										self.sowingSounds.isSeedEmpty = false;
 										stopSample(self.SeSoSoundId4);
-										-- print("!!!stopSample(self.SeSoSoundId4);")
+										-- print("!!!stopSample(Seed > 0);")
 									end;
 								end;
 							end;
@@ -236,36 +236,36 @@ function SowingSounds:updateTick(dt)
 				if self.sowingSounds.isRaised then
 					self.sowingSounds.isRaised = false;
 					stopSample(self.SeSoSoundId2);
-					-- print("stopSample(self.SeSoSoundId2);")
+					-- print("stopSample(raised);")
 				end;
 				if self.sowingSounds.isLineActive then
 					self.sowingSounds.isLineActive = false;
 					stopSample(self.SeSoSoundId3);
-					-- print("stopSample(self.SeSoSoundId3);")
+					-- print("stopSample(line);")
 				end;
 				if self.sowingSounds.isSeedEmpty or self.sowingSounds.isFertiEmpty then
 					self.sowingSounds.isSeedEmpty = false;
 					self.sowingSounds.isFertiEmpty = false;
 					stopSample(self.SeSoSoundId4);
-					-- print("stopSample(self.SeSoSoundId4);")
+					-- print("stopSample(empty);")
 				end;
 			end;
 		else										--> Deaktivieren beim Verbieten des Sounds
 			if self.sowingSounds.isRaised then
 				self.sowingSounds.isRaised = false;
 				stopSample(self.SeSoSoundId2);
-					-- print("stopSample(self.SeSoSoundId2);")
+					-- print("stopSample(raised);")
 			end;
 			if self.sowingSounds.isLineActive then
 				self.sowingSounds.isLineActive = false;
 				stopSample(self.SeSoSoundId3);
-					-- print("stopSample(self.SeSoSoundId3);")
+					-- print("stopSample(line);")
 			end;
 			if self.sowingSounds.isSeedEmpty or self.sowingSounds.isFertiEmpty then
 				self.sowingSounds.isSeedEmpty = false;
 				self.sowingSounds.isFertiEmpty = false;
 				stopSample(self.SeSoSoundId4);
-					-- print("stopSample(self.SeSoSoundId4);")
+					-- print("stopSample(empty);")
 			end;
 		end;
 	else 											--> Deaktivieren beim Aussteigen
@@ -273,18 +273,18 @@ function SowingSounds:updateTick(dt)
 			if self.sowingSounds.isRaised then
 				self.sowingSounds.isRaised = false;
 				stopSample(self.SeSoSoundId2);
-					-- print("stopSample(self.SeSoSoundId2);")
+					-- print("stopSample(raised);")
 			end;
 			if self.sowingSounds.isLineActive then
 				self.sowingSounds.isLineActive = false;
 				stopSample(self.SeSoSoundId3);
-					-- print("stopSample(self.SeSoSoundId3);")
+					-- print("stopSample(line);")
 			end;
 			if self.sowingSounds.isSeedEmpty or self.sowingSounds.isFertiEmpty then
 				self.sowingSounds.isSeedEmpty = false;
 				self.sowingSounds.isFertiEmpty = false;
 				stopSample(self.SeSoSoundId4);
-					-- print("stopSample(self.SeSoSoundId4);")
+					-- print("stopSample(empty);")
 			end;
 			self.sowingSounds.checkOnLeave = false;
 		end;

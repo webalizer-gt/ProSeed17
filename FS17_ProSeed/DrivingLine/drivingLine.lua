@@ -286,6 +286,7 @@ function DrivingLine:update(dt)
 					self:updateDriLiGUI();
 				elseif self.dlMode == 2 then
 					self.isPaused = not self.isPaused;
+					self:updateDriLiGUI();					
 				elseif self.dlMode == 3 then
 					local rootAttacherVehicle = self:getRootAttacherVehicle();
 					if rootAttacherVehicle.GPSlaneNo ~= nil and rootAttacherVehicle.GPSlaneNo ~= 0 then
@@ -329,28 +330,7 @@ function DrivingLine:update(dt)
 						
 						-- print("lr: "..tostring(lr))
 						-- print("GPSlaneNo: "..tostring(rootAttacherVehicle.GPSlaneNo))
-						-- if rootAttacherVehicle.GPSlaneNo < 0 then	
-							-- if lr < 0 then
-								-- local lhX0 = rootAttacherVehicle.lhX0 - lr*rootAttacherVehicle.GPSlaneNo*rootAttacherVehicle.GPSWidth*lhdZ0;
-								-- local lhZ0 = rootAttacherVehicle.lhZ0 - lr*rootAttacherVehicle.GPSlaneNo*rootAttacherVehicle.GPSWidth*lhdX0;
-								-- self:setRootVehGPS(lhX0, lhZ0);
-							-- elseif lr > 0 then
-								-- local lhX0 = rootAttacherVehicle.lhX0 + lr*rootAttacherVehicle.GPSlaneNo*rootAttacherVehicle.GPSWidth*lhdZ0;
-								-- local lhZ0 = rootAttacherVehicle.lhZ0 + lr*rootAttacherVehicle.GPSlaneNo*rootAttacherVehicle.GPSWidth*lhdX0;
-								-- self:setRootVehGPS(lhX0, lhZ0);
-							-- end;
-						-- elseif rootAttacherVehicle.GPSlaneNo > 0 then	
-							-- if lr < 0 then
-								-- local lhX0 = rootAttacherVehicle.lhX0 - lr*rootAttacherVehicle.GPSlaneNo*rootAttacherVehicle.GPSWidth*lhdZ0;
-								-- local lhZ0 = rootAttacherVehicle.lhZ0 - lr*rootAttacherVehicle.GPSlaneNo*rootAttacherVehicle.GPSWidth*lhdX0;
-								-- self:setRootVehGPS(lhX0, lhZ0);
-							-- elseif lr > 0 then
-								-- local lhX0 = rootAttacherVehicle.lhX0 + lr*rootAttacherVehicle.GPSlaneNo*rootAttacherVehicle.GPSWidth*lhdZ0;
-								-- local lhZ0 = rootAttacherVehicle.lhZ0 + lr*rootAttacherVehicle.GPSlaneNo*rootAttacherVehicle.GPSWidth*lhdX0;
-								-- self:setRootVehGPS(lhX0, lhZ0);
-							-- end;
-						-- end;
-						
+						-- print("-----------------------------------------------")
 					end;
 				end;
 			end;
@@ -409,8 +389,7 @@ function DrivingLine:update(dt)
 end;
 
 function DrivingLine:setRootVehGPS(lhX0, lhZ0, noEventSend)
-	print("---------------------------------")
-	print("DrivingLine:setRootVehGPS(lhX0="..tostring(lhX0)..", lhZ0="..tostring(lhZ0)..", noEventSend)")
+	-- print("DrivingLine:setRootVehGPS(lhX0="..tostring(lhX0)..", lhZ0="..tostring(lhZ0)..", noEventSend)")
 	RootVehGPS_Event.sendEvent(self, lhX0, lhZ0, noEventSend);
 	local rootAttacherVehicle = self:getRootAttacherVehicle();
 	if rootAttacherVehicle.GPSlaneNo ~= nil then
@@ -1187,7 +1166,7 @@ function DrivingLine:workAreaMinMaxHeight(areas)
 			self.xMin = math.min(self.xMin, lx1, lx2, lx3)
 			self.xMax = math.max(self.xMax, lx1, lx2, lx3)
 			self.yStart = ly1;
-			self.zHeight = lz3;
+			self.zHeight = math.min(lz1, lz2, lz3);
 		end;
 	end;
 end;
@@ -1264,10 +1243,12 @@ function DrivingLine:updateDriLiGUI()
 				self.hud1.grids.main.elements.driLiMode.value = SowingMachine.DRIVINGLINE_MANUAL;
 				self.hud1.grids.main.elements.driLiMode.buttonSet.button1IsActive = false;
 				self.hud1.grids.main.elements.driLiMode.buttonSet.button2IsActive = true;
+				self.hud1.grids.main.elements.gpsWidth.isVisible = false;
 			elseif self.dlMode == 1 then
 				self.hud1.grids.main.elements.driLiMode.value = SowingMachine.DRIVINGLINE_SEMIAUTO;
 				self.hud1.grids.main.elements.driLiMode.buttonSet.button1IsActive = true;
 				self.hud1.grids.main.elements.driLiMode.buttonSet.button2IsActive = true;
+				self.hud1.grids.main.elements.gpsWidth.isVisible = false;
 			elseif self.dlMode == 2 then
 				local rootAttacherVehicle = self:getRootAttacherVehicle();
 				if rootAttacherVehicle.GPSlaneNo ~= nil then
@@ -1280,10 +1261,12 @@ function DrivingLine:updateDriLiGUI()
 					self.hud1.grids.main.elements.driLiMode.buttonSet.button1IsActive = true;
 					self.hud1.grids.main.elements.driLiMode.buttonSet.button2IsActive = false;
 				end;
+				self.hud1.grids.main.elements.gpsWidth.isVisible = false;
 			elseif self.dlMode == 3 then
 				self.hud1.grids.main.elements.driLiMode.value = SowingMachine.DRIVINGLINE_GPS;
 				self.hud1.grids.main.elements.driLiMode.buttonSet.button1IsActive = true;
 				self.hud1.grids.main.elements.driLiMode.buttonSet.button2IsActive = false;
+				self.hud1.grids.main.elements.gpsWidth.isVisible = true;
 			end;
 			
 			self.hud1.grids.main.elements.driLiPeMarker.isVisible = true;
@@ -1353,6 +1336,11 @@ function DrivingLine:updateDriLiGUI()
 				self.hud1.grids.main.elements.driLiSpWorkWidth.isVisible = false;
 				self.hud1.grids.main.elements.driLiCurDrive.isVisible = false;
 				self.hud1.grids.main.elements.info_numDrivingLine.isVisible = false;
+			end;
+			if self.isPaused then
+				self.hud1.grids.main.elements.driLiCurDrive.color = {1,.1,0,1};
+			else
+				self.hud1.grids.main.elements.driLiCurDrive.color = {1,1,1,1};
 			end;
 			self.hasChanged = true;
 		else -- = not self.activeModules.drivingLine
