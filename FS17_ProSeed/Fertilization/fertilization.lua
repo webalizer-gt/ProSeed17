@@ -3,14 +3,13 @@
 --	fertilizer switch
 --
 -- @author:  	gotchTOM
--- @date:			09-Dec-2016
--- @version:	v1.04
+-- @date:			27-Dec-2016
+-- @version:	v1.05
 --
 -- free for noncommerical-usage
 --
 
 Fertilization = {};
--- local mod_directory = g_currentModDirectory;
 
 function Fertilization.prerequisitesPresent(specializations)
     return SpecializationUtil.hasSpecialization(SowingMachine, specializations);
@@ -22,14 +21,14 @@ end;
 function Fertilization:load(savegame)
 	
 	self.updateFertiGUI = SpecializationUtil.callSpecializationsFunction("updateFertiGUI");
-	-- self:updateFertiGUI();
+	self:updateFertiGUI();
 end;
 
 function Fertilization:postLoad(savegame)  
 	if savegame ~= nil and not savegame.resetVehicles and self.activeModules ~= nil and self.activeModules.fertilization then
 		self.activeModules.fertilization = Utils.getNoNil(getXMLBool(savegame.xmlFile, savegame.key .. "#fertilizationSwitchIsActiv"), self.activeModules.fertilization);
+		self.allowsSpraying = Utils.getNoNil(getXMLBool(savegame.xmlFile, savegame.key .. "#fertilization"), self.allowsSpraying);
 		self:updateFertiGUI();
-		-- print("!!!!!!!!!!!!!!Fertilization:postLoad_fertilizationSwitchIsActiv = "..tostring(self.activeModules.fertilization))
 	end;
 end;
 
@@ -43,8 +42,9 @@ function Fertilization:keyEvent(unicode, sym, modifier, isDown)
 end;
 
 function Fertilization:getSaveAttributesAndNodes(nodeIdent)
+	local attributes;
 	if self.activeModules ~= nil and self.activeModules.fertilization ~= nil then
-		local attributes = 'fertilizationSwitchIsActiv="' .. tostring(self.activeModules.fertilization) ..'"';
+		attributes = 'fertilizationSwitchIsActiv="' .. tostring(self.activeModules.fertilization) ..'" fertilization="'..tostring(self.allowsSpraying)..'"';
 		-- print("!!!!!!!!!!!!!!Fertilization:getSaveAttributesAndNodes_attributes = "..tostring(attributes))
 	end;	
 	return attributes, nil;

@@ -3,8 +3,8 @@
 -- a collection of several seeder modifications
 --
 --	@author:		gotchTOM & webalizer
---	@date: 			15-Dec-2016
---	@version: 	v0.01.09
+--	@date: 			27-Dec-2016
+--	@version: 	v0.01.10
 --
 -- included modules: sowingCounter, sowingSounds, drivingLine, fertilization
 --
@@ -112,9 +112,9 @@ function SowingSupp:load(xmlFile)
 	self.hud1.grids.main.elements.sowingSound = SowingSupp.guiElement:NewInteraction( 9, 0,0, {1,1,1,1}, "toggleSound", nil, nil, "toggle", nil, true, self.activeModules.sowingSounds, "button_Sound", 1, _, false );
 
 	self.hud1.grids.main.elements.gpsWidth = SowingSupp.guiElement:NewInteraction( 15, 0,0, {1,1,1,1}, "setGPSWidth", nil, nil, "push", nil, true, false, "button_GPS", 1, _, false );
-	-- if self.activeModules.fertilization ~= nil then
-		self.hud1.grids.main.elements.fertilizer = SowingSupp.guiElement:NewInteraction( 13, 0,0, {1,1,1,1}, "setFertilization", nil, nil, "toggle", nil, self.allowsSpraying, true, "button_Fertilizer", 1, _, false);
-	-- end;
+	
+	self.hud1.grids.main.elements.fertilizer = SowingSupp.guiElement:NewInteraction( 13, 0,0, {1,1,1,1}, "setFertilization", nil, nil, "toggle", nil, self.allowsSpraying, true, "button_Fertilizer", 1, _, false);
+		
 
 	--NewIconText ( gridPos [int], offsetX [number], offsetY [number], color [{r,g,b,a}], value [string], valueTextSize [int], textBold [bool], isVisible [bool], graphic, uvs [{u0,v0,u1,v1,u2,v2,u3,v3}]
 	self.hud1.grids.main.elements.scSession = SowingSupp.guiElement:NewIconText( 2, 0,0, {1,1,1,1}, "0.00ha   (0.0ha/h)", 4, false, self.activeModules.sowingCounter, "SowingCounter_sessionHUD", nil);
@@ -293,6 +293,9 @@ function SowingSupp:modules(grid, container, vehicle, guiElement, parameter)
 	if guiElement.functionToCall == "toggleDriLiModul" and vehicle.drivingLinePresent then
 		guiElement.value = not guiElement.value;
 		vehicle.activeModules.drivingLine = guiElement.value;
+		if not vehicle.activeModules.drivingLine then
+			vehicle:setShutoff(0);
+		end;
 		vehicle:updateDriLiGUI();
 	end;
 	if guiElement.functionToCall == "togglePeMarker" then
@@ -314,9 +317,11 @@ function SowingSupp:modules(grid, container, vehicle, guiElement, parameter)
 		vehicle:updateDriLiGUI();
 	end;
 	if guiElement.functionToCall == "toggleFertiModul" then
-		guiElement.value = not guiElement.value;
-		vehicle.activeModules.fertilization = guiElement.value;
-		vehicle:updateFertiGUI();
+		if vehicle.activeModules.fertilization ~= nil then
+			guiElement.value = not guiElement.value;
+			vehicle.activeModules.fertilization = guiElement.value;
+			vehicle:updateFertiGUI();
+		end;	
 	end;
 	 if guiElement.functionToCall == "setGPSWidth" then
 		local rootAttacherVehicle = vehicle:getRootAttacherVehicle();
@@ -404,12 +409,14 @@ function SowingSupp:loadConfigFile(self)
 		local res = getXMLBool(Xml, "sowingSupplement.Modules."..XmlField);
 
 		if res ~= nil then
-			self.activeModules[field] = res;
-			if res then
-				--print("sowingSupplement module "..field.." started")
-			else
-				--print("sowingSupplement module "..field.." not started");
-			end;
+			if self.activeModules[field] ~= nil then
+				self.activeModules[field] = res;
+				if res then
+					-- print("sowingSupplement module "..field.." started")
+				else
+					-- print("sowingSupplement module "..field.." not started");
+				end;
+			end;	
 		else
 			setXMLBool(Xml, "sowingSupplement.Modules."..XmlField, true);
 			--print("sowingSupplement module "..field.." inserted into xml and started");
