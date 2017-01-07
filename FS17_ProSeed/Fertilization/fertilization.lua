@@ -19,12 +19,12 @@ function Fertilization:preLoad(savegame)
 end;
 
 function Fertilization:load(savegame)
-	
+
 	self.updateFertiGUI = SpecializationUtil.callSpecializationsFunction("updateFertiGUI");
 	self:updateFertiGUI();
 end;
 
-function Fertilization:postLoad(savegame)  
+function Fertilization:postLoad(savegame)
 	if savegame ~= nil and not savegame.resetVehicles and self.activeModules ~= nil and self.activeModules.fertilization then
 		self.activeModules.fertilization = Utils.getNoNil(getXMLBool(savegame.xmlFile, savegame.key .. "#fertilizationSwitchIsActiv"), self.activeModules.fertilization);
 		self.allowsSpraying = Utils.getNoNil(getXMLBool(savegame.xmlFile, savegame.key .. "#fertilization"), self.allowsSpraying);
@@ -45,8 +45,7 @@ function Fertilization:getSaveAttributesAndNodes(nodeIdent)
 	local attributes;
 	if self.activeModules ~= nil and self.activeModules.fertilization ~= nil then
 		attributes = 'fertilizationSwitchIsActiv="' .. tostring(self.activeModules.fertilization) ..'" fertilization="'..tostring(self.allowsSpraying)..'"';
-		-- print("!!!!!!!!!!!!!!Fertilization:getSaveAttributesAndNodes_attributes = "..tostring(attributes))
-	end;	
+	end;
 	return attributes, nil;
 end;
 
@@ -57,7 +56,6 @@ function Fertilization:updateTick(dt)
 end;
 
 function Fertilization:draw()
--- renderText(0.1,0.1,0.02,"self.allowsSpraying "..tostring(self.allowsSpraying))
 end;
 
 function Fertilization:getIsTurnedOnAllowed(superFunc, isTurnedOn)
@@ -72,7 +70,6 @@ function Fertilization:getIsTurnedOnAllowed(superFunc, isTurnedOn)
 end;
 
 function Fertilization:updateFertiGUI()
--- print("Fertilization:updateFertiGUI()")
 	if self.activeModules ~= nil then
 		if self.activeModules.fertilization then
 			self.hud1.grids.main.elements.fertilizer.value = self.allowsSpraying;

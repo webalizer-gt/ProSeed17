@@ -53,11 +53,6 @@ function SowingSupp:load(savegame)
 		if not SowingSupp.isDedi then
 			SowingSupp:loadConfigFile(self);
 		end;
-
-		--print("SowingSupp: load - check:")
-		-- for name,value in pairs(self.activeModules) do
-			--print(name," ",tostring(value))
-		-- end;
 	end;
 	self.sosuHUDisActive = false;
 	self.lastNumActiveHUDs = -1;
@@ -112,9 +107,9 @@ function SowingSupp:load(savegame)
 	self.hud1.grids.main.elements.sowingSound = SowingSupp.guiElement:NewInteraction( 9, 0,0, {1,1,1,1}, "toggleSound", nil, nil, "toggle", nil, true, self.activeModules.sowingSounds, "button_Sound", 1, _, false );
 
 	self.hud1.grids.main.elements.gpsWidth = SowingSupp.guiElement:NewInteraction( 15, 0,0, {1,1,1,1}, "setGPSWidth", nil, nil, "push", nil, true, false, "button_GPS", 1, _, false );
-	
+
 	self.hud1.grids.main.elements.fertilizer = SowingSupp.guiElement:NewInteraction( 13, 0,0, {1,1,1,1}, "setFertilization", nil, nil, "toggle", nil, self.allowsSpraying, true, "button_Fertilizer", 1, _, false);
-		
+
 
 	--NewIconText ( gridPos [int], offsetX [number], offsetY [number], color [{r,g,b,a}], value [string], valueTextSize [int], textBold [bool], isVisible [bool], graphic, uvs [{u0,v0,u1,v1,u2,v2,u3,v3}]
 	self.hud1.grids.main.elements.scSession = SowingSupp.guiElement:NewIconText( 2, 0,0, {1,1,1,1}, "0.00ha   (0.0ha/h)", 4, false, self.activeModules.sowingCounter, "SowingCounter_sessionHUD", nil);
@@ -125,7 +120,6 @@ function SowingSupp:load(savegame)
 	self.hud1.grids.main.elements.driLiPeMarker = SowingSupp.guiElement:NewInteraction( 7, 0,0, {1,1,1,1}, "togglePeMarker", nil, nil, "toggle", nil, true, true, "button_peMarker",1, _, false);
 
 	-- self.hud1.grids.main.elements.separator1 = SowingSupp.guiElement:New( 19, nil, nil, nil, "separator", nil, nil, true, "row_bg", nil);
-
 	-- self.hud1.grids.main.elements.changeSomething = SowingSupp.guiElement:New( 20, "changeSomething", -3, 1, "plusminus", "Verschieben", 21, true, nil);
 
 	-- config
@@ -144,8 +138,6 @@ end;
 
 function SowingSupp:checkIsDedi()
 	return g_dedicatedServerInfo ~= nil;
-	-- local pixelX, pixelY = getScreenModeInfo(getScreenMode());
-	-- return pixelX*pixelY < 1;
 end;
 
 function SowingSupp:delete()
@@ -153,7 +145,6 @@ end;
 
 function SowingSupp:mouseEvent(posX, posY, isDown, isUp, button)
 	self.hud1.mouseEvent(self, posX, posY, isDown, isUp, button);
-	--self.hud1.grids.config:mouseEvent(self, posX, posY, isDown, isUp, button);
 end;
 
 function SowingSupp:keyEvent(unicode, sym, modifier, isDown)
@@ -166,7 +157,6 @@ function SowingSupp:modules(grid, container, vehicle, guiElement, parameter)
 	-- if guiElement.functionToCall == "changeMode" then
 		-- if parameter == 1 then
 			-- guiElement.value = "erhöht";
-
 		-- elseif parameter == -1 then
 			-- guiElement.value = "vermindert";
 		-- end;
@@ -198,9 +188,6 @@ function SowingSupp:modules(grid, container, vehicle, guiElement, parameter)
 				end;
 			end;
 		elseif parameter == -1 then
-			-- if vehicle.dlMode == 0 then
-				-- vehicle.dlMode = 2;
-				-- guiElement.value = SowingMachine.DRIVINGLINE_AUTO;
 			if vehicle.dlMode == 1 then
 				vehicle.dlMode = 0;
 				guiElement.value = SowingMachine.DRIVINGLINE_MANUAL;
@@ -217,7 +204,6 @@ function SowingSupp:modules(grid, container, vehicle, guiElement, parameter)
 		end;
 		vehicle.lastGPSlaneNo = -1;
 		vehicle:updateDriLiGUI();
-		-- vehicle.hasChanged = true;
 	end;
 	if guiElement.functionToCall == "changeSpWorkWidth" then
 		if parameter == 1 then
@@ -304,16 +290,6 @@ function SowingSupp:modules(grid, container, vehicle, guiElement, parameter)
 		if not vehicle.allowPeMarker and vehicle.peMarkerActiv then
 			vehicle.peMarkerActiv = vehicle.allowPeMarker;
 		end;
-		-- vehicle:setDrivingLine(vehicle.drivingLineActiv, vehicle.dlMode, vehicle.currentLane, vehicle.isPaused, vehicle.nSMdrives, vehicle.smWorkwith, vehicle.allowPeMarker);
-		-- if vehicle.allowPeMarker then
-			-- if vehicle.drivingLineActiv then
-				-- vehicle:setPeMarker(true);
-			-- end;
-		-- else
-			-- if vehicle.drivingLineActiv then
-				-- vehicle:setPeMarker(false);
-			-- end;
-		-- end;
 		vehicle:updateDriLiGUI();
 	end;
 	if guiElement.functionToCall == "toggleFertiModul" then
@@ -321,13 +297,13 @@ function SowingSupp:modules(grid, container, vehicle, guiElement, parameter)
 			guiElement.value = not guiElement.value;
 			vehicle.activeModules.fertilization = guiElement.value;
 			vehicle:updateFertiGUI();
-		end;	
+		end;
 	end;
 	 if guiElement.functionToCall == "setGPSWidth" then
 		local rootAttacherVehicle = vehicle:getRootAttacherVehicle();
 		if rootAttacherVehicle.GPSWidth ~= nil then
 			rootAttacherVehicle.GPSWidth = vehicle.smWorkwith;
-		end;	
+		end;
 	 end;
 end;
 
@@ -358,10 +334,6 @@ function SowingSupp:update(dt)
 	end;
 end;
 
--- function SowingSupp:onAttach(attacherVehicle)
-	-- self.AttacherVehicleBackup = attacherVehicle;
--- end;
-
 function SowingSupp:updateTick(dt)
 	-- update y-position if HUD is on initial position (exact x-position) and there are other HUDs (like OperatingHours of AGes Sonnenschein)
 	if self:getIsActive() then
@@ -370,8 +342,6 @@ function SowingSupp:updateTick(dt)
 				local attacherVehicle = self:getRootAttacherVehicle();
 				self.AttacherVehicleBackup = attacherVehicle;
 			end;
-			-- renderText(0.1,0.1,0.02,"self.AttacherVehicleBackup.GPSlaneNo: "..tostring(self.AttacherVehicleBackup.GPSlaneNo))
-			-- renderText(0.1,0.12,0.02,"self.AttacherVehicleBackup.GPSlaneNoOffset: "..tostring(self.AttacherVehicleBackup.GPSlaneNoOffset))
 			if self.AttacherVehicleBackup.ActiveHUDs == nil then
 				self.AttacherVehicleBackup.ActiveHUDs = {};
 				self.AttacherVehicleBackup.ActiveHUDs.numActiveHUDs = 0;
@@ -389,20 +359,14 @@ function SowingSupp:updateTick(dt)
 end;
 
 function SowingSupp:loadConfigFile(self)
-	-- local path = getUserProfileAppPath();
 	local Xml;
 	local file = g_modsDirectory.."/sowingSupplement_config.xml";
-
 	if fileExists(file) then
-		--print("loading "..file.." for sowingSupplement-Mod configuration");
 		Xml = loadXMLFile("sowingSupplement_XML", file, "sowingSupplement");
 	else
-		--print("creating "..file.." for sowingSupplement-Mod configuration");
 		Xml = createXMLFile("sowingSupplement_XML", file, "sowingSupplement");
 	end;
-
 	local moduleList = {"sowingCounter","sowingSounds","drivingLine","fertilization"};
-
 	for _,field in pairs(moduleList) do
 		local XmlField = string.upper(string.sub(field,1,1))..string.sub(field,2);
 
@@ -412,16 +376,12 @@ function SowingSupp:loadConfigFile(self)
 			if self.activeModules[field] ~= nil then
 				self.activeModules[field] = res;
 				if res then
-					-- print("sowingSupplement module "..field.." started")
 				else
-					-- print("sowingSupplement module "..field.." not started");
 				end;
-			end;	
+			end;
 		else
 			setXMLBool(Xml, "sowingSupplement.Modules."..XmlField, true);
-			--print("sowingSupplement module "..field.." inserted into xml and started");
 		end;
 	end;
-
 	saveXMLFile(Xml);
 end;

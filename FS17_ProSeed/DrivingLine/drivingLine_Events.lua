@@ -1,6 +1,6 @@
 -- Events for DrivingLine Specialization
 --
---	@author:		gotchTOM 
+--	@author:		gotchTOM
 --	@date: 			15-Dec-2016
 --	@version: 	v1.25
 
@@ -10,7 +10,7 @@ SetDrivingLineEvent_mt = Class(SetDrivingLineEvent, Event);
 InitEventClass(SetDrivingLineEvent, "SetDrivingLineEvent");
 
 function SetDrivingLineEvent:emptyNew()
-  
+
   local self = Event:new(SetDrivingLineEvent_mt);
   return self;
 end;
@@ -29,64 +29,47 @@ function SetDrivingLineEvent:new(vehicle, drivingLineActiv, dlMode, currentDrive
   return self;
 end;
 
-function SetDrivingLineEvent:readStream(streamId, connection) 
+function SetDrivingLineEvent:readStream(streamId, connection)
 
   self.vehicle = readNetworkNodeObject(streamId);
-	self.drivingLineActiv = streamReadBool(streamId);   
-	self.dlMode = streamReadInt8(streamId);   
-	self.currentDrive = streamReadInt8(streamId);   
-	self.isPaused = streamReadBool(streamId);   
-	self.nSMdrives = streamReadInt8(streamId);  
-	self.smWorkwith = streamReadInt8(streamId);   
+	self.drivingLineActiv = streamReadBool(streamId);
+	self.dlMode = streamReadInt8(streamId);
+	self.currentDrive = streamReadInt8(streamId);
+	self.isPaused = streamReadBool(streamId);
+	self.nSMdrives = streamReadInt8(streamId);
+	self.smWorkwith = streamReadInt8(streamId);
 	self.allowPeMarker = streamReadBool(streamId);
   self:run(connection);
-	-- print("!!!!readStream! self.vehicle: "..tostring(self.vehicle).." streamId: "..tostring(streamId).." connection: "..tostring(connection)) --!!!
-	-- print("readStream! self.drivingLineActiv: "..tostring(self.drivingLineActiv).." self.dlMode: "..tostring(self.dlMode).." self.currentDrive: "..tostring(self.currentDrive).." self.isPaused: "..tostring(self.isPaused).." self.nSMdrives: "..tostring(self.nSMdrives).." self.smWorkwith: "..tostring(self.smWorkwith).." self.allowPeMarker: "..tostring(self.allowPeMarker)) --!!!
-
 end;
 
-function SetDrivingLineEvent:writeStream(streamId, connection) 
-  
+function SetDrivingLineEvent:writeStream(streamId, connection)
+
   writeNetworkNodeObject(streamId, self.vehicle);
-	streamWriteBool(streamId, self.drivingLineActiv);	
-	streamWriteInt8(streamId, self.dlMode);	
-	streamWriteInt8(streamId, self.currentDrive);	
+	streamWriteBool(streamId, self.drivingLineActiv);
+	streamWriteInt8(streamId, self.dlMode);
+	streamWriteInt8(streamId, self.currentDrive);
 	streamWriteBool(streamId, self.isPaused);
-	streamWriteInt8(streamId, self.nSMdrives);	
-	streamWriteInt8(streamId, self.smWorkwith);	
+	streamWriteInt8(streamId, self.nSMdrives);
+	streamWriteInt8(streamId, self.smWorkwith);
 	streamWriteBool(streamId, self.allowPeMarker);
-	-- print("!!!!writeStream! self.vehicle: "..tostring(self.vehicle).." streamId: "..tostring(streamId).." connection: "..tostring(connection)) --!!!
-	-- print("writeStream!self.drivingLineActiv: "..tostring(self.drivingLineActiv).." self.dlMode: "..tostring(self.dlMode).." self.currentDrive: "..tostring(self.currentDrive).." self.isPaused: "..tostring(self.isPaused).." self.nSMdrives: "..tostring(self.nSMdrives).." self.smWorkwith: "..tostring(self.smWorkwith)) --!!!
-
 end;
 
-function SetDrivingLineEvent:run(connection) 
-  
+function SetDrivingLineEvent:run(connection)
+
 	if not connection:getIsServer() then
 		g_server:broadcastEvent(self, false, connection, self.vehicle);
-		-- for k, v in pairs(g_server.clientConnections) do
-			-- if v ~= connection and not v:getIsLocal() then
-				-- v:sendEvent(SetDrivingLineEvent:new(self.vehicle, self.drivingLineActiv, self.dlMode, self.currentDrive, self.isPaused, self.nSMdrives, self.smWorkwith, self.allowPeMarker));
-			-- end;
-		-- end;
 	end;
 	if self.vehicle ~= nil then
-		self.vehicle:setDrivingLine(self.drivingLineActiv, self.dlMode, self.currentDrive, self.isPaused, self.nSMdrives, self.smWorkwith, self.allowPeMarker, true); 
-	end;	
-	-- print("SetDrivingLineEvent:run(connection)") --!!!
+		self.vehicle:setDrivingLine(self.drivingLineActiv, self.dlMode, self.currentDrive, self.isPaused, self.nSMdrives, self.smWorkwith, self.allowPeMarker, true);
+	end;
 end;
 
-function SetDrivingLineEvent.sendEvent(vehicle, drivingLineActiv, dlMode, currentDrive, isPaused, nSMdrives, smWorkwith, allowPeMarker, noEventSend)  
-		
-	if g_server ~= nil then  
+function SetDrivingLineEvent.sendEvent(vehicle, drivingLineActiv, dlMode, currentDrive, isPaused, nSMdrives, smWorkwith, allowPeMarker, noEventSend)
+
+	if g_server ~= nil then
 		g_server:broadcastEvent(SetDrivingLineEvent:new(vehicle, drivingLineActiv, dlMode, currentDrive, isPaused, nSMdrives, smWorkwith, allowPeMarker), nil, nil, vehicle);
-		-- print("!!!!sendEvent: g_server:broadcast Event! vehicle: "..tostring(vehicle).." noEventSend: "..tostring(noEventSend)) --!!!
-		--print("sendEvent: g_server:broadcast Event! drivingLineActiv: "..tostring(drivingLineActiv).." dlMode: "..tostring(dlMode).." currentDrive: "..tostring(currentDrive).." isPaused: "..tostring(isPaused).." nSMdrives: "..tostring(nSMdrives).." smWorkwith: "..tostring(smWorkwith).." allowPeMarker: "..tostring(allowPeMarker)) --!!!
-		
-	else  
+	else
 		g_client:getServerConnection():sendEvent(SetDrivingLineEvent:new(vehicle, drivingLineActiv, dlMode, currentDrive, isPaused, nSMdrives, smWorkwith, allowPeMarker));
-		-- print("!!!!sendEvent: g_client:send Event! vehicle: "..tostring(vehicle).." noEventSend: "..tostring(noEventSend)) --!!!
-		--print("sendEvent: g_client:send Event! drivingLineActiv: "..tostring(drivingLineActiv).." dlMode: "..tostring(dlMode).." currentDrive: "..tostring(currentDrive).." isPaused: "..tostring(isPaused).." nSMdrives: "..tostring(nSMdrives).." smWorkwith: "..tostring(smWorkwith).." allowPeMarker: "..tostring(allowPeMarker)) --!!!
 	end;
 end;
 
@@ -96,7 +79,7 @@ SetPeMarkerEvent_mt = Class(SetPeMarkerEvent, Event);
 InitEventClass(SetPeMarkerEvent, "SetPeMarkerEvent");
 
 function SetPeMarkerEvent:emptyNew()
-  
+
     local self = Event:new(SetPeMarkerEvent_mt);
     return self;
 end;
@@ -109,53 +92,46 @@ function SetPeMarkerEvent:new(vehicle, peMarkerActiv)
   return self;
 end;
 
-function SetPeMarkerEvent:readStream(streamId, connection) 
+function SetPeMarkerEvent:readStream(streamId, connection)
 
   self.vehicle = readNetworkNodeObject(streamId);
-	self.peMarkerActiv = streamReadBool(streamId); 
+	self.peMarkerActiv = streamReadBool(streamId);
   self:run(connection);
-	-- print("readStream! self.peMarkerActiv: "..tostring(self.peMarkerActiv).." self.vehicle: "..tostring(self.vehicle).." streamId: "..tostring(streamId).." connection: "..tostring(connection)) --!!!
-
 end;
 
-function SetPeMarkerEvent:writeStream(streamId, connection) 
+function SetPeMarkerEvent:writeStream(streamId, connection)
   writeNetworkNodeObject(streamId, self.vehicle);
 	streamWriteBool(streamId, self.peMarkerActiv);
-	-- print("writeStream! self.peMarkerActiv: "..tostring(self.peMarkerActiv).." self.vehicle: "..tostring(self.vehicle).." streamId: "..tostring(streamId).." connection: "..tostring(connection)) --!!!
-
 end;
 
-function SetPeMarkerEvent:run(connection) 
-  
-	if not connection:getIsServer() then	
+function SetPeMarkerEvent:run(connection)
+
+	if not connection:getIsServer() then
 		g_server:broadcastEvent(self, false, connection, self.vehicle);
 	end;
 	if self.vehicle ~= nil then
-		self.vehicle:setPeMarker(self.peMarkerActiv, true); 
-	end;	
-	-- print("SetPeMarkerEvent:run(connection)") --!!!
+		self.vehicle:setPeMarker(self.peMarkerActiv, true);
+	end;
 end;
 
-function SetPeMarkerEvent.sendEvent(vehicle, peMarkerActiv, noEventSend)  
-	if peMarkerActiv ~= vehicle.peMarkerActiv then	
+function SetPeMarkerEvent.sendEvent(vehicle, peMarkerActiv, noEventSend)
+	if peMarkerActiv ~= vehicle.peMarkerActiv then
 		if noEventSend == nil or noEventSend == false then
-			if g_server ~= nil then  
+			if g_server ~= nil then
 				g_server:broadcastEvent(SetPeMarkerEvent:new(vehicle, peMarkerActiv), nil, nil, vehicle);
-				-- print("sendEvent: g_server:broadcast Event! peMarkerActiv: "..tostring(peMarkerActiv).." vehicle: "..tostring(vehicle).." noEventSend: "..tostring(noEventSend)) --!!!
-			else  
+			else
 				g_client:getServerConnection():sendEvent(SetPeMarkerEvent:new(vehicle, peMarkerActiv));
-				-- print("sendEvent: g_client:send Event! peMarkerActiv: "..tostring(peMarkerActiv).." vehicle: "..tostring(vehicle).." noEventSend: "..tostring(noEventSend)) --!!!
 			end;
 		end;
-	end;	
+	end;
 end;
 
 
 DrivingLineAreaEvent = {};
 DrivingLineAreaEvent_mt = Class(DrivingLineAreaEvent, Event);
- 
+
 InitEventClass(DrivingLineAreaEvent, "DrivingLineAreaEvent");
- 
+
 function DrivingLineAreaEvent:emptyNew()
      local self = Event:new(DrivingLineAreaEvent_mt);
      self.className="DrivingLineAreaEvent";
@@ -173,7 +149,7 @@ end;
 function DrivingLineAreaEvent:readStream(streamId, connection)
     local limitToField = streamReadBool(streamId);
     local numAreas = streamReadUIntN(streamId, 4);
-    
+
     local refX = streamReadFloat32(streamId);
     local refY = streamReadFloat32(streamId);
     local values = Utils.readCompressed2DVectors(streamId, refX, refY, numAreas*3-1, 0.01, true);
@@ -194,7 +170,7 @@ function DrivingLineAreaEvent:writeStream(streamId, connection)
     local numAreas = table.getn(self.cuttingAreas);
     streamWriteBool(streamId, self.limitToField);
     streamWriteUIntN(streamId, numAreas, 4);
-    
+
     local refX, refY;
     local values = {};
     for i=1, numAreas do
@@ -219,7 +195,7 @@ function DrivingLineAreaEvent:run(connection)
 end;
 
 function DrivingLineAreaEvent.runLocally(cuttingAreas, limitToField)
-    
+
     local numAreas = table.getn(cuttingAreas);
 
     local refX, refY;
@@ -275,29 +251,21 @@ function RootVehGPS_Event:readStream(streamId, connection)
   self.lhX0 = streamReadFloat32(streamId);
   self.lhZ0 = streamReadFloat32(streamId);
   self:run(connection);
-	-- print("!!!!readStream! self.object: "..tostring(self.object).." streamId: "..tostring(streamId).." connection: "..tostring(connection))
-	-- print("self.lhX0: "..tostring(self.lhX0))
-	-- print("self.lhZ0: "..tostring(self.lhZ0))
-	-- print("---------------------------------") 
 end;
 
 function RootVehGPS_Event:writeStream(streamId, connection)
 	writeNetworkNodeObject(streamId, self.object);
 	streamWriteFloat32(streamId, self.lhX0);
 	streamWriteFloat32(streamId, self.lhZ0);
-	-- print("!!!!writeStream! self.object: "..tostring(self.object).." streamId: "..tostring(streamId).." connection: "..tostring(connection)) --!!!
-	-- print("self.lhX0: "..tostring(self.lhX0))
-	-- print("self.lhZ0: "..tostring(self.lhZ0))
-	-- print("---------------------------------")
 end;
 
 function RootVehGPS_Event:run(connection)
-  
+
   if not connection:getIsServer() then
 		g_server:broadcastEvent(RootVehGPS_Event:new(self.object, self.lhX0, self.lhZ0), nil, connection, self.object);
 	end;
 	if self.object ~= nil then
-		self.object:setRootVehGPS(self.lhX0, self.lhZ0, true); 
+		self.object:setRootVehGPS(self.lhX0, self.lhZ0, true);
 	end;
 end;
 
@@ -305,81 +273,8 @@ function RootVehGPS_Event.sendEvent(object, lhX0, lhZ0, noEventSend)
 	if noEventSend == nil or noEventSend == false then
 		if g_server ~= nil then
 			g_server:broadcastEvent(RootVehGPS_Event:new(object, lhX0, lhZ0), nil, nil, object);
-			-- print("!!!!sendEvent: g_server:broadcast Event! lhX0: "..tostring(lhX0).. " lhZ0: "..tostring(lhZ0).. " object: "..tostring(object).." noEventSend: "..tostring(noEventSend)) --!!!
-			-- print("---------------------------------")
 		else
 			g_client:getServerConnection():sendEvent(RootVehGPS_Event:new(object, lhX0, lhZ0));
-			-- print("!!!!sendEvent: g_client:send Event! lhX0: "..tostring(lhX0).." lhZ0: "..tostring(lhZ0).. " object: "..tostring(object).." noEventSend: "..tostring(noEventSend)) --!!!
-			-- print("---------------------------------")
 		end;
 	end;
 end;
-
-
---[[SetSPworkwidthEvent = {};
-SetSPworkwidthEvent_mt = Class(SetSPworkwidthEvent, Event);
-
-InitEventClass(SetSPworkwidthEvent, "SetSPworkwidthEvent");
-
-function SetSPworkwidthEvent:emptyNew()
-  
-    local self = Event:new(SetSPworkwidthEvent_mt);
-    self.className="SetSPworkwidthEvent";
-    return self;
-end;
-
-function SetSPworkwidthEvent:new(vehicle, raise)
-
-    local self = SetSPworkwidthEvent:emptyNew()
-    self.vehicle = vehicle;
-	self.raise = raise;
-    return self;
-end;
-
-function SetSPworkwidthEvent:readStream(streamId, connection) 
-
-    local id = streamReadInt32(streamId); 
-	self.raise = streamReadBool(streamId);   
-    self.vehicle = networkGetObject(id); 
-    self:run(connection);
-	print("!!!!readStream! self.vehicle: "..tostring(self.vehicle).." streamId: "..tostring(streamId).." connection: "..tostring(connection)) --!!!
-	print("readStream! self.raise: "..tostring(self.raise)) --!!!
-
-end;
-
-function SetSPworkwidthEvent:writeStream(streamId, connection) 
-  
-    streamWriteInt32(streamId, networkGetObjectId(self.vehicle));	
-	streamWriteBool(streamId, self.raise);
-	print("!!!!writeStream! self.vehicle: "..tostring(self.vehicle).." streamId: "..tostring(streamId).." connection: "..tostring(connection)) --!!!
-	print("writeStream! self.raise: "..tostring(self.raise)) --!!!
-
-end;
-
-function SetSPworkwidthEvent:run(connection) 
-  
-	if not connection:getIsServer() then	
-		for k, v in pairs(g_server.clientConnections) do
-			if v ~= connection and not v:getIsLocal() then
-				v:sendEvent(SetSPworkwidthEvent:new(self.vehicle, self.raise));
-			end;
-		end;
-	end;	
-	self.vehicle:setSPworkwidth(self.raise, true); 
-	print("SetSPworkwidthEvent:run(connection)") --!!!
-end;
-
-function SetSPworkwidthEvent.sendEvent(vehicle, raise, noEventSend)  
-		
-	if g_server ~= nil then  
-		g_server:broadcastEvent(SetSPworkwidthEvent:new(vehicle, raise), nil, nil, vehicle);
-		print("!!!!sendEvent: g_server:broadcast Event! vehicle: "..tostring(vehicle).." noEventSend: "..tostring(noEventSend)) --!!!
-		print("sendEvent: g_server:broadcast Event! raise: "..tostring(raise)) --!!!
-		
-	else  
-		g_client:getServerConnection():sendEvent(SetSPworkwidthEvent:new(vehicle, raise));
-		print("!!!!sendEvent: g_client:send Event! vehicle: "..tostring(vehicle).." noEventSend: "..tostring(noEventSend)) --!!!
-		print("sendEvent: g_client:send Event! raise: "..tostring(raise)) --!!!
-		
-	end;
-end;]]

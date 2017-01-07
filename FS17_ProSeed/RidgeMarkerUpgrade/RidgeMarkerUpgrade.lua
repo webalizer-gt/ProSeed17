@@ -77,7 +77,7 @@ function RidgeMarkerUpgrade:update(dt)
 				end;
 				if self:newCanFoldRidgeMarker(rmState) then
 					self:setRidgeMarkerState(rmState);
-				end;	
+				end;
 			end;
 		end;
 	end;
@@ -91,17 +91,15 @@ function RidgeMarkerUpgrade:updateTick(dt)
 			if #inputBinding1 == #inputBinding2 then
 				i = 1;
 				while i <= #inputBinding1 do
-					-- print("i: "..tostring(i).." inputBinding1[i]: "..tostring(inputBinding1[i]))
-					-- print("i: "..tostring(i).." inputBinding2[i]: "..tostring(inputBinding2[i]))
 					if inputBinding1[i] ~= inputBinding2[i] then
 						self.rmHasSameInputbinding = false;
 					end;
 					i = i + 1
-				end
+				end;
 			else
 				self.rmHasSameInputbinding = false;
 			end;
-			self.rmCheckInputbindings = nil;		
+			self.rmCheckInputbindings = nil;
 		end;
 	end;
 end;
@@ -118,20 +116,19 @@ function RidgeMarkerUpgrade:draw()
 			self.hud1.grids.main.elements.ridgeMarkerLeft.isVisible = false;
 			self.hud1.grids.main.elements.ridgeMarkerLeftActive.isVisible = true;
 			self.hud1.grids.main.elements.ridgeMarkerRight.isVisible = true;
-			self.hud1.grids.main.elements.ridgeMarkerRightActive.isVisible = false;	
+			self.hud1.grids.main.elements.ridgeMarkerRightActive.isVisible = false;
 		elseif self.ridgeMarkerState == 2 then
 			self.hud1.grids.main.elements.ridgeMarkerLeft.isVisible = true;
 			self.hud1.grids.main.elements.ridgeMarkerLeftActive.isVisible = false;
 			self.hud1.grids.main.elements.ridgeMarkerRight.isVisible = false;
-			self.hud1.grids.main.elements.ridgeMarkerRightActive.isVisible = true;			
+			self.hud1.grids.main.elements.ridgeMarkerRightActive.isVisible = true;
 		else
 			self.hud1.grids.main.elements.ridgeMarkerLeft.isVisible = true;
 			self.hud1.grids.main.elements.ridgeMarkerLeftActive.isVisible = false;
 			self.hud1.grids.main.elements.ridgeMarkerRight.isVisible = true;
-			self.hud1.grids.main.elements.ridgeMarkerRightActive.isVisible = false;			
+			self.hud1.grids.main.elements.ridgeMarkerRightActive.isVisible = false;
 		end;
 	end;
-	-- renderText(0.1,0.12,0.02,"self.rmHasSameInputbinding: "..tostring(self.rmHasSameInputbinding))	
 end;
 
 function RidgeMarkerUpgrade:newCanFoldRidgeMarker(state)
