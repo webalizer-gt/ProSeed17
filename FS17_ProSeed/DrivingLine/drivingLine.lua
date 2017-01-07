@@ -707,7 +707,12 @@ function DrivingLine:updateDriLiGUI()
 	if self.activeModules ~= nil then
 		if self.activeModules.drivingLine then
 			self.hud1.grids.main.elements.driLiMode.isVisible = true;
-			self.hud1.grids.main.elements.gpsWidth.isVisible = true;
+			local rootAttacherVehicle = self:getRootAttacherVehicle();
+			if rootAttacherVehicle.GPSlaneNo ~= nil then
+				self.hud1.grids.main.elements.gpsWidth.isVisible = true;
+			else
+				self.hud1.grids.main.elements.gpsWidth.isVisible = false;
+			end;
 			if self.dlMode == 0 then
 				self.hud1.grids.main.elements.driLiMode.value = SowingMachine.DRIVINGLINE_MANUAL;
 				self.hud1.grids.main.elements.driLiMode.buttonSet.button1IsActive = false;
@@ -718,7 +723,6 @@ function DrivingLine:updateDriLiGUI()
 				self.hud1.grids.main.elements.driLiMode.buttonSet.button2IsActive = true;
 				self.hud1.grids.main.elements.driLiCurDrive.color = {1,1,1,1};
 			elseif self.dlMode == 2 then
-				local rootAttacherVehicle = self:getRootAttacherVehicle();
 				if rootAttacherVehicle.GPSlaneNo ~= nil then
 					self.hud1.grids.main.elements.driLiMode.value = SowingMachine.DRIVINGLINE_AUTO;
 					self.hud1.grids.main.elements.driLiMode.buttonSet.button1IsActive = true;
@@ -791,7 +795,6 @@ function DrivingLine:updateDriLiGUI()
 				if self.dlMode == 3 then
 					self.hud1.grids.main.elements.driLiCurDrive.buttonSet.button1IsActive = false;
 					self.hud1.grids.main.elements.driLiCurDrive.buttonSet.button2IsActive = false;
-					local rootAttacherVehicle = self:getRootAttacherVehicle();
 					if rootAttacherVehicle.GPSActive then
 						self.hud1.grids.main.elements.driLiCurDrive.color = {1,1,1,1};
 					elseif not rootAttacherVehicle.GPSActive then

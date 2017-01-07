@@ -39,7 +39,7 @@ function logInfo(mode,message)
 	end;
 end;
 
-function SowingSupp:load(xmlFile)
+function SowingSupp:load(savegame)
 
 	if self.activeModules == nil then
 		self.activeModules = {};
