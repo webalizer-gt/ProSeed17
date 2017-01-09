@@ -59,6 +59,7 @@ Modus, _mode_ | Bedienung, _operation_
 manuell, _manual_ | Fahrgassen werden vom Fahrer durch drücken von Numpad 8 aktiviert/deaktiviert, _tramlines are activated/deactivated by the driver by pressing Numpad 8_
 semi | benötigten Fahrgassen-Abstand einstellen (HUD 4), Spuren werden vom Fahrer durch drücken von Numpad 8 gezählt (Korrektur über HUD 5 möglich), Fahrgassen werden automatisch aktiviert/deaktiviert, _set the required tramline distance (HUD 4), driver counts tracks by pressing Numpad 8 (use HUD 5 for correction), tramlines are activated/deactivated automatically_
 auto | benötigten Fahrgassen-Abstand einstellen (HUD 4), Spuren werden automatisch gezählt (Korrektur über HUD 5 möglich), Fahrgassen werden automatisch aktiviert/deaktiviert, _set the required tramline distance (HUD 4), tracks are counted automatically (use HUD 5 for correction), tramlines are activated/deactivated automatically_
+ | Der Auto-Modus kann mit dem Helfer genutzt werden, _auto-mode can be used with helper_
 GPS° | benötigten Fahrgassen-Abstand einstellen (HUD 4), Arbeitsbreite an GPS-Mod senden (HUD 8), Spuren werden automatisch von GPS gezählt, Fahrgassen werden automatisch aktiviert/deaktiviert, es können Spuren ausgelassen werden, _set the required tramline distance (HUD 4), send work width to GPS-Mod (HUD 8), tracks are counted automatically by GPS, tramlines are activated/deactivated, tracks can be skipped_
 
 °GPS-Mod 5.xx von upsidedown wird benötigt und muss aktiviert sein  
