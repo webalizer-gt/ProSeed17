@@ -1,22 +1,22 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="no" ?>
 <modDesc descVersion="32">
-   <author>gotchTOM/webalizer</author>
-    <title>
+	<author>gotchTOM/webalizer</author>
+	<title>
 		<en>ProSeed</en>
-        <de>ProSeed</de>
+		<de>ProSeed</de>
 		<fr>ProSeed</fr>
-    </title>
-    <description>
-        <en>Additional functionality for sowing machines.</en>
+	</title>
+	<description>
+		<en>Additional functionality for sowing machines.</en>
 		<de>Erweiterte Funktionalität für Sämaschinen.</de>
 		<fr>Fonctionnalité supplémentaire pour les machines à coudre.</fr>
- 	</description>
-    <multiplayer supported="true"/>
+	</description>
+	<multiplayer supported="true"/>
 	<iconFilename>store.png</iconFilename>
-	<version>0.10.13</version>
+	<version>1.0.0.0</version>
 	<extraSourceFiles>
-        <sourceFile filename="register.lua" />
-    </extraSourceFiles>
+		<sourceFile filename="register.lua" />
+	</extraSourceFiles>
 	<inputBindings>
 		<input name="SOWINGSUPP_HUD"       			category="VEHICLE" key1="KEY_KP_7"   			key2="" button="" device="0" mouse="" visible="true" />
 		<input name="SOWINGSUPP_MOUSE"       		category="VEHICLE" key1="KEY_lctrl"   			key2="" button="" device="0" mouse="" visible="true" />
@@ -24,18 +24,18 @@
 		<input name="RM_UPGRADE_RMright"			category="VEHICLE" key1="KEY_lshift KEY_z" 		key2="" button="" device="0" mouse="" visible="true" />	
 		<input name="RM_UPGRADE_RMleft"				category="VEHICLE" key1="KEY_z" 				key2="" button="" device="0" mouse="" visible="true" />	
 		<input name="DRIVINGLINE_TOGGLESHUTOFF"		category="VEHICLE" key1="KEY_KP_9" 				key2="" button="" device="0" mouse="" visible="true" />	
-    </inputBindings>
+	</inputBindings>
 	<l10n>
 		<!-- Buttons -->
 		<text name="input_SOWINGSUPP_HUD">      		<en>ProSeed   HUD activate</en>					<de>ProSeed   HUD aktivieren</de>      			</text>
-		<text name="input_SOWINGSUPP_MOUSE">    		<en>ProSeed   MOUSE activate</en>				<de>ProSeed   MOUSE aktivieren</de>    			</text>
+		<text name="input_SOWINGSUPP_MOUSE">    		<en>ProSeed   MOUSE activate</en>				<de>ProSeed   Maus aktivieren</de>    			</text>
 		<text name="input_DRIVINGLINE">        			<en>ProSeed   driving line control</en>			<de>ProSeed   Fahrgassen-Schaltung</de>     	</text>
 		<text name="input_RM_UPGRADE_RMright">        	<en>ProSeed   Ridgemarker right</en>           	<de>ProSeed   Spurreisser rechts</de>           </text>
 		<text name="input_RM_UPGRADE_RMleft">        	<en>ProSeed   Ridgemarker left</en>           	<de>ProSeed   Spurreisser links</de>           	</text>
 		<text name="input_DRIVINGLINE_TOGGLESHUTOFF">   <en>ProSeed   Toggle halfside shutoff</en>      <de>ProSeed   Halbseitige Abschaltung</de>      </text>
 		<!-- Text -->
-		<text name="SOWINGSUPP_CONFIGLABEL">    <en>Preferences</en>			        <de>Einstellungen</de>             		</text>
-		<text name="SOWINGSUPP_HUDon">          <en>activate ProSeed HUD</en>			<de>ProSeed HUD einschalten</de>        </text>
+		<text name="SOWINGSUPP_CONFIGLABEL">		<en>Preferences</en>			        <de>Einstellungen</de>             		</text>
+		<text name="SOWINGSUPP_HUDon">					<en>activate ProSeed HUD</en>			<de>ProSeed HUD einschalten</de>        </text>
 		<text name="SOWINGSUPP_HUDoff">         <en>deactivate ProSeed HUD</en>			<de>ProSeed HUD ausschalten</de>        </text>
 		<text name="SOWINGCOUNTER">             <en>hectare counter</en>			    <de>Hektarzähler</de>            		</text>
 		<text name="SOWINGSOUNDS">              <en>acoustic signals</en>			    <de>Akustische Signale</de>            	</text>

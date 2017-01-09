@@ -29,13 +29,13 @@ end;
 local debugmode = 10;
 local modItem = ModsUtil.findModItemByModName(g_currentModName);
 local version = (modItem and modItem.version) and modItem.version or "?.?.?";
-local versionText = '*** ProSeed v'..version;
+local versionText = 'ProSeed v'..version;
 
 function logInfo(mode,message)
 	if (mode >= debugmode and mode < 5) then
-		print(('%s DEBUG | %s'):format(versionText, message));
+		print(('*** %s DEBUG | %s'):format(versionText, message));
 	elseif mode == 5 then
-		print(('%s | %s'):format(versionText, message));
+		print(('*** %s | %s'):format(versionText, message));
 	end;
 end;
 
@@ -80,7 +80,7 @@ function SowingSupp:load(savegame)
 	-- create gui elements ( grid position [int], function to call [string], parameter1, parameter2, style [string], label [string], value [], is visible [bool], [Grafik], textSize [int], textAlignment []) ]
 	-- main elements
 	--NewTitlebar ( gridPos [int], functionToCall [string], parameter1 [], parameter2 [], label [string], isVisible [bool], textSize [int]]
-	self.hud1.grids.main.elements.titleBar = SowingSupp.guiElement:NewTitlebar( 25, "titleBar", "configHud", "close", "ProSeed", true, 5);
+	self.hud1.grids.main.elements.titleBar = SowingSupp.guiElement:NewTitlebar( 25, "titleBar", "configHud", "close", versionText, true, 5);
 
 	--NewImage ( gridPos [int], offsetX [number], offsetY [number], width [number], height [number], color [{r,g,b,a}], isVisible [bool], graphic, uvs  [{u0,v0,u1,v1,u2,v2,u3,v3})
 	self.hud1.grids.main.elements.ridgeMarkerLeft = SowingSupp.guiElement:NewImage( 4, .034,.06, .066, .0916, {.35,.35,.35,1}, false, "sowing_machine", {0,0.332, 0,0.4, 0.051,0.332, 0.051,0.4});
