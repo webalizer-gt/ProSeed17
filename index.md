@@ -30,7 +30,8 @@ Numpad 8 | auto | Spurzähler pausieren, _pause track counter_
 Numpad 8 | GPS° | GPS Spurzähler zurücksetzen, _reset GPS track counter_
 Numpad 9 | - | halbseitige Abschaltung wechseln (rechts, links, aus), _toggle halfside shutoff (right, left, off)_
 y, _z_ | - | Spurreisser links, _left ridgemarker_
-l_shift + y, *l_shift + z* | - |Spurreisser rechts, _right ridgemarker_
+l_shift + y, *l_shift + z* | - | Spurreisser rechts, _right ridgemarker_
+ | | Man kann die gleiche Taste für beide Spurreisser verwenden: es wird zuerst der linke an- und wieder ausgeschaltet, dann der rechte, _you can use one key for both ridgemarkers: first the left one is activated then deactivated, then the right one._
 l_strg, *l_ctrl* | - |gedrückt halten f. Maussteuerung, _hold down for mouse control_
 
 ![ProSeed HUD](images/ProSeed_HUD.png)
@@ -49,6 +50,9 @@ HUD 9 | Akkustische Signale an/aus, _accoustic signals on/off_
 
 Manche Funktionen/Schaltflächen stehen nur zur Verfügung, wenn das entsprechende Modul im Einstellungsfenster aktiviert ist.  
 _Some functions / buttons are only available if the corresponding module is activated in the settings window._
+
+Im Fenster "Einstellungen" können Funktionen dauerhaft aktiviert oder deaktiviert werden.
+_In the "Settings" window you can enable or disable functions permanently._
 
 Modus, _mode_ | Bedienung, _operation_
 ------------- | ----------------------
@@ -76,5 +80,5 @@ _The states of tramlines, the half-side shutoff, as well as the ridgemarkers are
 gotchTOM (@gotchTOM), webalizer (@webalizer-gt)  
 GreenEye, Manuel Leithner
 
-### Support or Contact
-On github or planet-ls.de
+### Support or feedback
+[Official Farming Simulator Forum](https://forum.giants-software.com/viewtopic.php?f=884&t=106100)
