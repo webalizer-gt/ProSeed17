@@ -3,8 +3,8 @@
 -- Specialization for driving lines of sowing machines
 --
 --	@author:		gotchTOM & webalizer
---	@date: 			07-Jan-2017
---	@version: 	v1.6.14
+--	@date: 			12-Jan-2017
+--	@version: 	v1.6.15
 --	@history:		v1.0 	- initial implementation (17-Jun-2012)
 --							v1.5  - SowingSupplement implementation
 --							v1.6  -
@@ -371,10 +371,13 @@ function DrivingLine:updateTick(dt)
 						end;
 						self:updateDriLiGUI();
 					end;
+					self.IsLoweredBackUp = self.soMaIsLowered;
 				else
 					self.dlCultivatorDelay = g_currentMission.time + 1000;
+					if self.sowingMachineHasGroundContact then
+						self.IsLoweredBackUp = self.soMaIsLowered;
+					end;
 				end;
-				self.IsLoweredBackUp = self.soMaIsLowered;
 			end;
 
 			if self.isServer then
