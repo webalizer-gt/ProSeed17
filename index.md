@@ -41,7 +41,7 @@ Schaltfläche(n), _Button(s)_ | Funktionen / _functions_
 HUD 1 | Einstellungen öffnen/schließen, _open/close settings_
 HUD 2 | HUD schließen, _close HUD_
 HUD 3 | Modus der Fahrgassenschaltung ändern, _change tramline mode_
-HUD 4 | Fahrgassen-Abstand ändern, _change tramline distance_
+HUD 4 | Fahrgassen-Abstand ändern (=Arbeitsbreite des Düngerstreuers, Spritze...), _change tramline distance (=working width of spreader, sprayer...)_
 HUD 5 | Spurzähler ändern, _change track counter_
 HUD 6 | Düngefunktion an/aus, _fertilizing on/off_
 HUD 7 | Vorauflaufmarkierung an/aus, _pre-emergence marking on/off_
@@ -57,10 +57,10 @@ _In the "Settings" window you can enable or disable functions permanently._
 Modus, _mode_ | Bedienung, _operation_
 ------------- | ----------------------
 manuell, _manual_ | Fahrgassen werden vom Fahrer durch drücken von Numpad 8 aktiviert/deaktiviert, _tramlines are activated/deactivated by the driver by pressing Numpad 8_
-semi | benötigten Fahrgassen-Abstand einstellen (HUD 4), Spuren werden vom Fahrer durch drücken von Numpad 8 gezählt (Korrektur über HUD 5 möglich), Fahrgassen werden automatisch aktiviert/deaktiviert, _set the required tramline distance (HUD 4), driver counts tracks by pressing Numpad 8 (use HUD 5 for correction), tramlines are activated/deactivated automatically_
-auto | benötigten Fahrgassen-Abstand einstellen (HUD 4), Spuren werden automatisch beim Anheben der Maschine hochgezählt (Korrektur über HUD 5 möglich), Fahrgassen werden automatisch aktiviert/deaktiviert, _set the required tramline distance (HUD 4), tracks are counted automatically when machine is lifted (use HUD 5 for correction), tramlines are activated/deactivated automatically_
+semi | benötigten Fahrgassen-Abstand einstellen (HUD 4, =Arbeitsbreite des Düngerstreuers, Spritze...), Spuren werden vom Fahrer durch drücken von Numpad 8 gezählt (Korrektur über HUD 5 möglich), Fahrgassen werden automatisch aktiviert/deaktiviert, _set the required tramline distance (HUD 4, =working width of spreader, sprayer...), driver counts tracks by pressing Numpad 8 (use HUD 5 for correction), tramlines are activated/deactivated automatically_
+auto | benötigten Fahrgassen-Abstand einstellen (HUD 4, =Arbeitsbreite des Düngerstreuers, Spritze...), Spuren werden automatisch beim Anheben der Maschine hochgezählt (Korrektur über HUD 5 möglich), Fahrgassen werden automatisch aktiviert/deaktiviert, _set the required tramline distance (HUD 4, =working width of spreader, sprayer...), tracks are counted automatically when machine is lifted (use HUD 5 for correction), tramlines are activated/deactivated automatically_
  | Der Auto-Modus kann mit dem Helfer genutzt werden, _auto-mode can be used with helper_
-GPS° | benötigten Fahrgassen-Abstand einstellen (HUD 4), Arbeitsbreite an GPS-Mod senden (HUD 8), Spuren werden automatisch von GPS gezählt, Fahrgassen werden automatisch aktiviert/deaktiviert, es können Spuren ausgelassen werden, _set the required tramline distance (HUD 4), send work width to GPS-Mod (HUD 8), tracks are counted automatically by GPS, tramlines are activated/deactivated, tracks can be skipped_
+GPS° | benötigten Fahrgassen-Abstand einstellen (HUD 4, =Arbeitsbreite des Düngerstreuers, Spritze...), Arbeitsbreite an GPS-Mod senden (HUD 8), Spuren werden automatisch von GPS gezählt, Fahrgassen werden automatisch aktiviert/deaktiviert, es können Spuren ausgelassen werden, _set the required tramline distance (HUD 4, =working width of spreader, sprayer...), send work width to GPS-Mod (HUD 8), tracks are counted automatically by GPS, tramlines are activated/deactivated, tracks can be skipped_
 
 °GPS-Mod 5.xx von upsidedown wird benötigt und muss aktiviert sein  
 _°GPS-Mod 5.xx from upsidedown is required and must be activated_
