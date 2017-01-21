@@ -1,22 +1,24 @@
-﻿<?xml version="1.0" encoding="utf-8" standalone="no" ?>
+<?xml version="1.0" encoding="utf-8" standalone="no" ?>
 <modDesc descVersion="32">
-	<author>gotchTOM/webalizer</author>
-	<title>
+   <author>gotchTOM/webalizer</author>
+    <title>
 		<en>ProSeed</en>
-		<de>ProSeed</de>
+        <de>ProSeed</de>
 		<fr>ProSeed</fr>
-	</title>
-	<description>
-		<en>Additional functionality for sowing machines.</en>
+		<ru>ProSeed</ru>
+    </title>
+    <description>
+        <en>Additional functionality for sowing machines.</en>
 		<de>Erweiterte Funktionalität für Sämaschinen.</de>
 		<fr>Fonctionnalité supplémentaire pour les machines à coudre.</fr>
-	</description>
-	<multiplayer supported="true"/>
+		<ru>Дополнительные функциональные возможности для посевных машин.</ru>
+ 	</description>
+    <multiplayer supported="true"/>
 	<iconFilename>store.png</iconFilename>
 	<version>1.0.0.0</version>
 	<extraSourceFiles>
-		<sourceFile filename="register.lua" />
-	</extraSourceFiles>
+        <sourceFile filename="register.lua" />
+    </extraSourceFiles>
 	<inputBindings>
 		<input name="SOWINGSUPP_HUD"       			category="VEHICLE" key1="KEY_KP_7"   			key2="" button="" device="0" mouse="" visible="true" />
 		<input name="SOWINGSUPP_MOUSE"       		category="VEHICLE" key1="KEY_lctrl"   			key2="" button="" device="0" mouse="" visible="true" />
@@ -24,41 +26,41 @@
 		<input name="RM_UPGRADE_RMright"			category="VEHICLE" key1="KEY_lshift KEY_z" 		key2="" button="" device="0" mouse="" visible="true" />	
 		<input name="RM_UPGRADE_RMleft"				category="VEHICLE" key1="KEY_z" 				key2="" button="" device="0" mouse="" visible="true" />	
 		<input name="DRIVINGLINE_TOGGLESHUTOFF"		category="VEHICLE" key1="KEY_KP_9" 				key2="" button="" device="0" mouse="" visible="true" />	
-	</inputBindings>
+    </inputBindings>
 	<l10n>
 		<!-- Buttons -->
-		<text name="input_SOWINGSUPP_HUD">      		<en>ProSeed   HUD activate</en>					<de>ProSeed   HUD aktivieren</de>      			</text>
-		<text name="input_SOWINGSUPP_MOUSE">    		<en>ProSeed   MOUSE activate</en>				<de>ProSeed   Maus aktivieren</de>    			</text>
-		<text name="input_DRIVINGLINE">        			<en>ProSeed   driving line control</en>			<de>ProSeed   Fahrgassen-Schaltung</de>     	</text>
-		<text name="input_RM_UPGRADE_RMright">        	<en>ProSeed   Ridgemarker right</en>           	<de>ProSeed   Spurreisser rechts</de>           </text>
-		<text name="input_RM_UPGRADE_RMleft">        	<en>ProSeed   Ridgemarker left</en>           	<de>ProSeed   Spurreisser links</de>           	</text>
-		<text name="input_DRIVINGLINE_TOGGLESHUTOFF">   <en>ProSeed   Toggle halfside shutoff</en>      <de>ProSeed   Halbseitige Abschaltung</de>      </text>
+		<text name="input_SOWINGSUPP_HUD">      		<en>ProSeed   HUD activate</en>					<de>ProSeed   HUD aktivieren</de>			<ru>ProSeed Активировать HUD</ru></text>
+		<text name="input_SOWINGSUPP_MOUSE">    		<en>ProSeed   MOUSE activate</en>				<de>ProSeed   MOUSE aktivieren</de>			<ru>ProSeed Активировать MOUSE</ru></text>
+		<text name="input_DRIVINGLINE">        			<en>ProSeed   driving line control</en>			<de>ProSeed   Fahrgassen-Schaltung</de>		<ru>ProSeed Управление колиями</ru></text>
+		<text name="input_RM_UPGRADE_RMright">        	<en>ProSeed   Ridgemarker right</en>           	<de>ProSeed   Spurreisser rechts</de>		<ru>ProSeed Правый маркер</ru></text>
+		<text name="input_RM_UPGRADE_RMleft">        	<en>ProSeed   Ridgemarker left</en>           	<de>ProSeed   Spurreisser links</de>		<ru>ProSeed Левый маркер</ru></text>
+		<text name="input_DRIVINGLINE_TOGGLESHUTOFF">   <en>ProSeed   Toggle halfside shutoff</en>      <de>ProSeed   Halbseitige Abschaltung</de>	<ru>ProSeed Сторона отключения половины</ru></text>
 		<!-- Text -->
-		<text name="SOWINGSUPP_CONFIGLABEL">		<en>Preferences</en>			        <de>Einstellungen</de>             		</text>
-		<text name="SOWINGSUPP_HUDon">					<en>activate ProSeed HUD</en>			<de>ProSeed HUD einschalten</de>        </text>
-		<text name="SOWINGSUPP_HUDoff">         <en>deactivate ProSeed HUD</en>			<de>ProSeed HUD ausschalten</de>        </text>
-		<text name="SOWINGCOUNTER">             <en>hectare counter</en>			    <de>Hektarzähler</de>            		</text>
-		<text name="SOWINGSOUNDS">              <en>acoustic signals</en>			    <de>Akustische Signale</de>            	</text>
-		<text name="SOWINGSOUNDS_SIGNAL">       <en>Signals</en>			    		<de>Signale</de>            			</text>
-		<text name="DRIVINGLINE">				<en>Driving lines</en>					<de>Fahrgassen</de>						</text>
-		<text name="DRIVINGLINE_OFF">           <en>switch off driving line</en>        <de>Fahrgasse ausschalten</de>        	</text>
-		<text name="DRIVINGLINE_ON">            <en>switch on driving line</en>         <de>Fahrgasse einschalten</de>         	</text>
-		<text name="DRIVINGLINE_SHIFT">         <en>upshift track counter</en>          <de>Spurzähler hochschalten</de>        </text>
-		<text name="DRIVINGLINE_PAUSE">         <en>pause track counter</en>            <de>Spurzähler pausieren</de>         	</text>
-		<text name="DRIVINGLINE_ENABLE">        <en>enable track counter</en>           <de>Spurzähler aktivieren</de>         	</text>
-		<text name="DRIVINGLINE_GPSRESET">      <en>reset GPS track counter</en>        <de>GPS Spurzähler zurücksetzen</de>    </text>
-		<text name="DRIVINGLINE_MANUAL">        <en>manual</en>           				<de>manuell</de>         				</text>
-		<text name="DRIVINGLINE_SEMIAUTO">      <en>semi</en>           				<de>semi</de>         					</text>
-		<text name="DRIVINGLINE_AUTO">       	<en>auto</en>           				<de>auto</de>         					</text>
-		<text name="DRIVINGLINE_GPS">       	<en>GPS</en>           					<de>GPS</de>         					</text>
-		<text name="DRIVINGLINE_MODE">      	<en>Mode</en>           				<de>Modus</de>         					</text>
-		<text name="DRIVINGLINE_SPWORKWIDTH">   <en>Distance</en>           			<de>Abstand</de>         				</text>
-		<text name="DRIVINGLINE_CURRENTLANE">   <en>Track nr.</en>           			<de>Fahrt Nr.</de>         				</text>
-		<text name="DRIVINGLINE_WORKWIDTH">     <en>Work width:</en>           			<de>Arbeitsbreite:</de>         		</text>
-		<text name="DRIVINGLINE_NUMDRILINE">    <en>Tramline in: </en>           		<de>Fahrgasse in: </de>         		</text>	
-		<text name="DRIVINGLINE_TOGGLESHUTOFF"> <en>Toggle halfside shutoff</en>        <de>Halbseitige Abschaltung</de>        </text>	
-		<text name="FERTILIZATION">    			<en>fertilization </en>           		<de>Düngung </de>         				</text>
-		<text name="RM_UPGRADE_RMright">    	<en>Ridgemarker right</en>           	<de>Spurreisser rechts</de>         	</text>	
-		<text name="RM_UPGRADE_RMleft">    		<en>Ridgemarker left</en>           	<de>Spurreisser links</de>         		</text>	
+		<text name="SOWINGSUPP_CONFIGLABEL">    <en>Preferences</en>			        <de>Einstellungen</de>             		<ru>Настройки</ru></text>
+		<text name="SOWINGSUPP_HUDon">          <en>activate ProSeed HUD</en>			<de>ProSeed HUD einschalten</de>        <ru>Активировать ProSeed HUD</ru></text>
+		<text name="SOWINGSUPP_HUDoff">         <en>deactivate ProSeed HUD</en>			<de>ProSeed HUD ausschalten</de>        <ru>Деактивировать ProSeed HUD</ru></text>
+		<text name="SOWINGCOUNTER">             <en>hectare counter</en>			    <de>Hektarzähler</de>            		<ru>Подсчет площади</ru></text>
+		<text name="SOWINGSOUNDS">              <en>acoustic signals</en>			    <de>Akustische Signale</de>            	<ru>Звуковые сигналы</ru></text>
+		<text name="SOWINGSOUNDS_SIGNAL">       <en>Signals</en>			    		<de>Signale</de>            			<ru>Сигналы</ru></text>
+		<text name="DRIVINGLINE">				<en>Driving lines</en>					<de>Fahrgassen</de>						<ru>Колии</ru></text>
+		<text name="DRIVINGLINE_OFF">           <en>switch off driving line</en>        <de>Fahrgasse ausschalten</de>        	<ru>Выключить колии</ru></text>
+		<text name="DRIVINGLINE_ON">            <en>switch on driving line</en>         <de>Fahrgasse einschalten</de>         	<ru>Включить колии</ru></text>
+		<text name="DRIVINGLINE_SHIFT">         <en>upshift track counter</en>          <de>Spurzähler hochschalten</de>        <ru>Увеличить счетчик проходов</ru></text>
+		<text name="DRIVINGLINE_PAUSE">         <en>pause track counter</en>            <de>Spurzähler pausieren</de>         	<ru>Приостановить счетчик проходов</ru></text>
+		<text name="DRIVINGLINE_ENABLE">        <en>enable track counter</en>           <de>Spurzähler aktivieren</de>         	<ru>Включить счетчик проходов</ru></text>
+		<text name="DRIVINGLINE_GPSRESET">      <en>reset GPS track counter</en>        <de>GPS Spurzähler zurücksetzen</de>    <ru>Сбросить GPS счетчик проходов</ru></text>
+		<text name="DRIVINGLINE_MANUAL">        <en>manual</en>           				<de>manuell</de>         				<ru>ручной</ru></text>
+		<text name="DRIVINGLINE_SEMIAUTO">      <en>semi</en>           				<de>semi</de>         					<ru>половина</ru></text>
+		<text name="DRIVINGLINE_AUTO">       	<en>auto</en>           				<de>auto</de>         					<ru>auto</ru></text>
+		<text name="DRIVINGLINE_GPS">       	<en>GPS</en>           					<de>GPS</de>         					<ru>GPS</ru></text>
+		<text name="DRIVINGLINE_MODE">      	<en>Mode</en>           				<de>Modus</de>         					<ru>Режим</ru></text>
+		<text name="DRIVINGLINE_SPWORKWIDTH">   <en>Distance</en>           			<de>Abstand</de>         				<ru>Расстояние</ru></text>
+		<text name="DRIVINGLINE_CURRENTLANE">   <en>Track nr.</en>           			<de>Fahrt Nr.</de>         				<ru>Проход №</ru></text>
+		<text name="DRIVINGLINE_WORKWIDTH">     <en>Work width:</en>           			<de>Arbeitsbreite:</de>         		<ru>Рабочая ширина:</ru></text>
+		<text name="DRIVINGLINE_NUMDRILINE">    <en>Tramline in: </en>           		<de>Fahrgasse in: </de>         		<ru>Колии на: </ru></text>	
+		<text name="DRIVINGLINE_TOGGLESHUTOFF"> <en>Toggle halfside shutoff</en>        <de>Halbseitige Abschaltung</de>        <ru>Изменение стороны отсечения</ru></text>	
+		<text name="FERTILIZATION">    			<en>fertilization </en>           		<de>Düngung </de>         				<ru>Удобрение </ru></text>
+		<text name="RM_UPGRADE_RMright">    	<en>Ridgemarker right</en>           	<de>Spurreisser rechts</de>         	<ru>Правый маркер</ru></text>	
+		<text name="RM_UPGRADE_RMleft">    		<en>Ridgemarker left</en>           	<de>Spurreisser links</de>         		<ru>Левый маркер</ru></text>	
 	</l10n>
 </modDesc>
