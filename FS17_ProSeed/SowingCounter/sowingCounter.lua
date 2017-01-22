@@ -4,8 +4,8 @@
 --
 -- source: 		threshing counter v2.3 by Manuel Leithner (edit by gotchTOM)
 -- @author:  	Manuel Leithner/gotchTOM
--- @date:			9-Dec-2016
--- @version:	v1.05
+-- @date:			17-Jan-2017
+-- @version:	v1.06
 -- @history:	v1.0 - initial implementation
 --						v1.01 - part of SowingSupplement
 --						v1.01 - FS 17
@@ -62,6 +62,7 @@ function SowingCounter:resetSessionHectars(sessionHectars, noEventSend)
 		SoCoResetSessionHectarsEvent.sendEvent(self, sessionHectars, noEventSend);
 	end;
 	self.sowingCounter.sessionHectars = sessionHectars;
+	self:updateSoCoGUI();
 end;
 
 function SowingCounter:readStream(streamId, connection)
@@ -87,23 +88,23 @@ function SowingCounter:writeStream(streamId, connection)
 end;
 
 function SowingCounter:readUpdateStream(streamId, timestamp, connection)
-    if connection:getIsServer() then
-      if streamReadBool(streamId) then
-				self.sowingCounter.sessionHectars = streamReadFloat32(streamId);
-				self.sowingCounter.totalHectars = streamReadFloat32(streamId);
-				self.sowingCounter.hectarTimer = streamReadFloat32(streamId);
-      end;
+  if connection:getIsServer() then
+    if streamReadBool(streamId) then
+			self.sowingCounter.sessionHectars = streamReadFloat32(streamId);
+			self.sowingCounter.totalHectars = streamReadFloat32(streamId);
+			self.sowingCounter.hectarTimer = streamReadFloat32(streamId);
     end;
+  end;
 end;
 
 function SowingCounter:writeUpdateStream(streamId, connection, dirtyMask)
-    if not connection:getIsServer() then
-      if streamWriteBool(streamId, bitAND(dirtyMask, self.sowingCounter.sowingCounterDirtyFlag) ~= 0) then
-				streamWriteFloat32(streamId, self.sowingCounter.sessionHectarsSent);
-				streamWriteFloat32(streamId, self.sowingCounter.totalHectarsSent);
-				streamWriteFloat32(streamId, self.sowingCounter.hectarTimer);
-      end;
+  if not connection:getIsServer() then
+    if streamWriteBool(streamId, bitAND(dirtyMask, self.sowingCounter.sowingCounterDirtyFlag) ~= 0) then
+			streamWriteFloat32(streamId, self.sowingCounter.sessionHectarsSent);
+			streamWriteFloat32(streamId, self.sowingCounter.totalHectarsSent);
+			streamWriteFloat32(streamId, self.sowingCounter.hectarTimer);
     end;
+  end;
 end;
 
 function SowingCounter:mouseEvent(posX, posY, isDown, isUp, button)
@@ -113,11 +114,10 @@ function SowingCounter:keyEvent(unicode, sym, modifier, isDown)
 end;
 
 function SowingCounter:update(dt)
-
 	if self:getIsActive() then
 		if self:getIsActiveForInput(false) then
 			if self.activeModules ~= nil and self.activeModules.sowingCounter then
-				if InputBinding.hasEvent(InputBinding.RESET_SESSION_HA) then
+				if InputBinding.hasEvent(InputBinding.SOWINGCOUNTER_RESETSESSIONHA) then
 					local sessionHectars = 0;
 					self:resetSessionHectars(sessionHectars);
 				end;
@@ -127,7 +127,6 @@ function SowingCounter:update(dt)
 end;
 
 function SowingCounter:updateTick(dt)
-
 	if self.activeModules ~= nil and self.activeModules.sowingCounter then
 		if self:getIsTurnedOn() then
 			local ha =  self.lastSowingArea;
@@ -195,7 +194,6 @@ InitEventClass(SoCoResetSessionHectarsEvent, "SoCoResetSessionHectarsEvent");
 
 function SoCoResetSessionHectarsEvent:emptyNew()
   local self = Event:new(SoCoResetSessionHectarsEvent_mt);
-  self.className="SoCoResetSessionHectarsEvent";
   return self;
 end;
 
@@ -207,26 +205,23 @@ function SoCoResetSessionHectarsEvent:new(vehicle, sessionHectars)
 end;
 
 function SoCoResetSessionHectarsEvent:readStream(streamId, connection)
-  local id = streamReadInt32(streamId);
+  self.vehicle = readNetworkNodeObject(streamId);
 	self.sessionHectars = streamReadInt8(streamId);
-  self.vehicle = networkGetObject(id);
   self:run(connection);
 end;
 
 function SoCoResetSessionHectarsEvent:writeStream(streamId, connection)
-  streamWriteInt32(streamId, networkGetObjectId(self.vehicle));
+  writeNetworkNodeObject(streamId, self.vehicle);
 	streamWriteInt8(streamId, self.sessionHectars);
 end;
 
 function SoCoResetSessionHectarsEvent:run(connection)
 	if not connection:getIsServer() then
-		for k, v in pairs(g_server.clientConnections) do
-			if v ~= connection and not v:getIsLocal() then
-				v:sendEvent(SoCoResetSessionHectarsEvent:new(self.vehicle, self.sessionHectars));
-			end;
-		end;
+		g_server:broadcastEvent(SoCoResetSessionHectarsEvent:new(self.vehicle, self.sessionHectars), nil, connection, self.vehicle);
 	end;
-	self.vehicle:resetSessionHectars(self.sessionHectars, true);
+	if self.vehicle ~= nil then
+		self.vehicle:resetSessionHectars(self.sessionHectars, true);
+	end;
 end;
 
 function SoCoResetSessionHectarsEvent.sendEvent(vehicle, sessionHectars, noEventSend)

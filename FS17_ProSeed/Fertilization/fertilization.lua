@@ -3,8 +3,8 @@
 --	fertilizer switch
 --
 -- @author:  	gotchTOM
--- @date:			27-Dec-2016
--- @version:	v1.05
+-- @date:			20-Jan-2017
+-- @version:	v1.06
 --
 -- free for noncommerical-usage
 --
@@ -20,6 +20,7 @@ end;
 
 function Fertilization:load(savegame)
 
+	self.setFertilization = SpecializationUtil.callSpecializationsFunction("setFertilization");
 	self.updateFertiGUI = SpecializationUtil.callSpecializationsFunction("updateFertiGUI");
 	self:updateFertiGUI();
 end;
@@ -29,6 +30,19 @@ function Fertilization:postLoad(savegame)
 		self.activeModules.fertilization = Utils.getNoNil(getXMLBool(savegame.xmlFile, savegame.key .. "#fertilizationSwitchIsActiv"), self.activeModules.fertilization);
 		self.allowsSpraying = Utils.getNoNil(getXMLBool(savegame.xmlFile, savegame.key .. "#fertilization"), self.allowsSpraying);
 		self:updateFertiGUI();
+	end;
+end;
+
+function Fertilization:readStream(streamId, connection)
+	if self.allowsSpraying ~= nil then
+		local allowsSpraying = streamReadBool(streamId);
+		self:setFertilization(allowsSpraying, true)
+	end;
+end;
+
+function Fertilization:writeStream(streamId, connection)
+  if self.allowsSpraying ~= nil then
+		streamWriteBool(streamId, self.allowsSpraying);
 	end;
 end;
 
@@ -69,6 +83,15 @@ function Fertilization:getIsTurnedOnAllowed(superFunc, isTurnedOn)
     return true;
 end;
 
+function Fertilization:setFertilization(allowsSpraying, noEventSend)
+
+	if noEventSend == nil or noEventSend == false then
+		ProSeedFertilizationEvent.sendEvent(self, allowsSpraying, noEventSend);
+	end;
+	self.allowsSpraying = allowsSpraying;
+	self:updateFertiGUI();
+end;
+
 function Fertilization:updateFertiGUI()
 	if self.activeModules ~= nil then
 		if self.activeModules.fertilization then
@@ -78,5 +101,55 @@ function Fertilization:updateFertiGUI()
 			self.hud1.grids.main.elements.fertilizer.isVisible = false;
 			self.hud1.grids.config.elements.fertiModul.value = false;
 		end;
+	end;
+end;
+
+
+--
+--
+--
+--
+ProSeedFertilizationEvent = {};
+ProSeedFertilizationEvent_mt = Class(ProSeedFertilizationEvent, Event);
+
+InitEventClass(ProSeedFertilizationEvent, "ProSeedFertilizationEvent");
+
+function ProSeedFertilizationEvent:emptyNew()
+  local self = Event:new(ProSeedFertilizationEvent_mt);
+  return self;
+end;
+
+function ProSeedFertilizationEvent:new(vehicle, allowsSpraying)
+  local self = ProSeedFertilizationEvent:emptyNew()
+  self.vehicle = vehicle;
+	self.allowsSpraying = allowsSpraying;
+  return self;
+end;
+
+function ProSeedFertilizationEvent:readStream(streamId, connection)
+  self.vehicle = readNetworkNodeObject(streamId);
+	self.allowsSpraying = streamReadBool(streamId);
+  self:run(connection);
+end;
+
+function ProSeedFertilizationEvent:writeStream(streamId, connection)
+  writeNetworkNodeObject(streamId, self.vehicle);
+	streamWriteBool(streamId, self.allowsSpraying);
+end;
+
+function ProSeedFertilizationEvent:run(connection)
+	if not connection:getIsServer() then
+		g_server:broadcastEvent(ProSeedFertilizationEvent:new(self.vehicle, self.allowsSpraying), nil, connection, self.vehicle);
+	end;
+	if self.vehicle ~= nil then
+		self.vehicle:setFertilization(self.allowsSpraying, true);
+	end;
+end;
+
+function ProSeedFertilizationEvent.sendEvent(vehicle, allowsSpraying, noEventSend)
+	if g_server ~= nil then
+		g_server:broadcastEvent(ProSeedFertilizationEvent:new(vehicle, allowsSpraying), nil, nil, vehicle);
+	else
+		g_client:getServerConnection():sendEvent(ProSeedFertilizationEvent:new(vehicle, allowsSpraying));
 	end;
 end;
