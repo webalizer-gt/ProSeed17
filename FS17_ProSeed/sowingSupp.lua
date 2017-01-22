@@ -3,8 +3,8 @@
 -- a collection of several seeder modifications
 --
 --	@author:		gotchTOM & webalizer
---	@date: 			27-Dec-2016
---	@version: 	v0.01.10
+--	@date: 			20-Jan-2017
+--	@version: 	v0.01.11
 --
 -- included modules: sowingCounter, sowingSounds, drivingLine, fertilization
 --
@@ -264,7 +264,7 @@ function SowingSupp:modules(grid, container, vehicle, guiElement, parameter)
 	end;
 	if guiElement.functionToCall == "setFertilization" then
 		guiElement.value = not guiElement.value;
-		vehicle.allowsSpraying = guiElement.value;
+		vehicle:setFertilization(guiElement.value);
 	end;
 	if guiElement.functionToCall == "toggleSoCoModul" then
 		guiElement.value = not guiElement.value;
