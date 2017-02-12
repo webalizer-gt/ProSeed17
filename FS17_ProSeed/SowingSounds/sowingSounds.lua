@@ -3,8 +3,8 @@
 --	Sounds for Sowing Machines (acoustic signals)
 --
 -- @authors:  	GreenEye and gotchTOM
--- @date:				21-Dec-2016
--- @version:		v1.02
+-- @date:				30-Jan-2017
+-- @version:		v1.03
 --
 -- free for noncommerical-usage
 --
@@ -17,7 +17,9 @@ end;
 
 function SowingSounds:load(xmlFile)
 	self.updateSoSoGUI = SpecializationUtil.callSpecializationsFunction("updateSoSoGUI");
-	self.sowingSounds = {};
+	if self.sowingSounds == nil then
+		self.sowingSounds = {};
+	end;
 	self.sowingSounds.isLowered = false;
 	self.sowingSounds.isRaised = false;
 	self.sowingSounds.isLineActive = false;
@@ -29,6 +31,9 @@ function SowingSounds:load(xmlFile)
 	self.sowingSounds.isFertiEmpty = false;
 	self.sowingSounds.isAllowed = true;
 	self.sowingSounds.checkOnLeave = false;
+	if self.sowingSounds.soundVolume == nil then
+		self.sowingSounds.soundVolume = {lower = 1.0, raised = 1.0, tramline = 1.0, empty = 1.0};
+	end;
 	local SeSoSoundFile1 = Utils.getFilename("lower.wav", SowingSupp.path.."SowingSounds/");
 		self.SeSoSoundId1 = createSample("SeSoSound1");
 		loadSample(self.SeSoSoundId1, SeSoSoundFile1, false);
@@ -89,7 +94,7 @@ function SowingSounds:updateTick(dt)
 			if self:getIsTurnedOn() then
 				if not self.sowingSounds.isLowered then
 					if self.soMaIsLowered then
-						playSample(self.SeSoSoundId1, 1, 1, 0);
+						playSample(self.SeSoSoundId1, 1, self.sowingSounds.soundVolume["lower"], 0);
 						self.sowingSounds.isLowered = true;
 					end;
 				else
@@ -99,7 +104,7 @@ function SowingSounds:updateTick(dt)
 				end;
 				if not self.sowingSounds.isRaised then
 					if not self.soMaIsLowered then
-						playSample(self.SeSoSoundId2, 0, 1, 0);
+						playSample(self.SeSoSoundId2, 0, self.sowingSounds.soundVolume["raised"], 0);
 						self.sowingSounds.isRaised = true;
 					end;
 				else
@@ -110,7 +115,7 @@ function SowingSounds:updateTick(dt)
 				end;
 				if not self.sowingSounds.isLineActive then					--> falls drivingLine.lua vorhanden
 					if self.drivingLineActiv then
-						playSample(self.SeSoSoundId3, 0, 1, 0);
+						playSample(self.SeSoSoundId3, 0, self.sowingSounds.soundVolume["tramline"], 0);
 						self.sowingSounds.isLineActive = true;
 					end;
 				else
@@ -127,7 +132,7 @@ function SowingSounds:updateTick(dt)
 							if fillLevelInformation.fillLevel <= 0.05 * fillLevelInformation.capacity then
 								if fillLevelInformation.fillType == FillUtil.FILLTYPE_FERTILIZER or fillLevelInformation.fillType == FillUtil.FILLTYPE_LIQUIDFERTILIZER then
 									if not self.sowingSounds.isFertiLow5Percent then
-										playSample(self.SeSoSoundId4, 1, 1, 0);
+										playSample(self.SeSoSoundId4, 1, self.sowingSounds.soundVolume["empty"], 0);
 										self.sowingSounds.isFertiLow5Percent = true;
 									else
 										if fillLevelInformation.fillLevel > 0.05 * fillLevelInformation.capacity then
@@ -136,7 +141,7 @@ function SowingSounds:updateTick(dt)
 									end;
 								else
 									if not self.sowingSounds.isSeedLow5Percent then
-										playSample(self.SeSoSoundId4, 1, 1, 0);
+										playSample(self.SeSoSoundId4, 1, self.sowingSounds.soundVolume["empty"], 0);
 										self.sowingSounds.isSeedLow5Percent = true;
 									else
 										if fillLevelInformation.fillLevel > 0.05 * fillLevelInformation.capacity then
@@ -148,7 +153,7 @@ function SowingSounds:updateTick(dt)
 							if fillLevelInformation.fillLevel <= 0.01 * fillLevelInformation.capacity then
 								if fillLevelInformation.fillType == FillUtil.FILLTYPE_FERTILIZER or fillLevelInformation.fillType == FillUtil.FILLTYPE_LIQUIDFERTILIZER then
 									if not self.sowingSounds.isFertiLow1Percent then
-										playSample(self.SeSoSoundId4, 1, 1, 0);
+										playSample(self.SeSoSoundId4, 1, self.sowingSounds.soundVolume["empty"], 0);
 										self.sowingSounds.isFertiLow1Percent = true;
 									else
 										if fillLevelInformation.fillLevel > 0.01 * fillLevelInformation.capacity then
@@ -157,7 +162,7 @@ function SowingSounds:updateTick(dt)
 									end;
 								else
 									if not self.sowingSounds.isSeedLow1Percent then
-										playSample(self.SeSoSoundId4, 1, 1, 0);
+										playSample(self.SeSoSoundId4, 1, self.sowingSounds.soundVolume["empty"], 0);
 										self.sowingSounds.isSeedLow1Percent = true;
 									else
 										if fillLevelInformation.fillLevel > 0.01 * fillLevelInformation.capacity then
@@ -169,12 +174,12 @@ function SowingSounds:updateTick(dt)
 							if fillLevelInformation.fillLevel <= 10 then
 								if fillLevelInformation.fillType == FillUtil.FILLTYPE_FERTILIZER or fillLevelInformation.fillType == FillUtil.FILLTYPE_LIQUIDFERTILIZER then
 									if not self.sowingSounds.isFertiEmpty then
-										playSample(self.SeSoSoundId4, 1, 1, 0);
+										playSample(self.SeSoSoundId4, 1, self.sowingSounds.soundVolume["empty"], 0);
 										self.sowingSounds.isFertiEmpty = true;
 									end;
 								else
 									if not self.sowingSounds.isSeedEmpty then
-										playSample(self.SeSoSoundId4, 0, 1, 0);
+										playSample(self.SeSoSoundId4, 0, self.sowingSounds.soundVolume["empty"], 0);
 										self.sowingSounds.isSeedEmpty = true;
 									end;
 								end;
