@@ -3,8 +3,8 @@
 -- a collection of several seeder modifications
 --
 --	@author:		gotchTOM & webalizer
---	@date: 			20-Jan-2017
---	@version: 	v0.01.11
+--	@date: 			12-Feb-2017
+--	@version: 	v0.02.01
 --
 -- included modules: sowingCounter, sowingSounds, drivingLine, fertilization
 --
@@ -381,6 +381,21 @@ function SowingSupp:loadConfigFile(self)
 			end;
 		else
 			setXMLBool(Xml, "sowingSupplement.Modules."..XmlField, true);
+		end;
+	end;
+	local soundVolume = {"lower","raised","tramline","empty"}
+	if self.sowingSounds == nil then
+		self.sowingSounds = {};
+		self.sowingSounds.soundVolume = {};
+	end;
+	for _,sound in pairs(soundVolume) do
+		local XmlField = string.upper(string.sub(sound,1,1))..string.sub(sound,2);
+		local res = getXMLFloat(Xml, "sowingSupplement.Volume."..XmlField);
+		if res ~= nil then
+			self.sowingSounds.soundVolume[sound] = math.floor(res*10+0.5)/10;
+		else
+			self.sowingSounds.soundVolume[sound] = 1;
+			setXMLFloat(Xml, "sowingSupplement.Volume."..XmlField, 1);
 		end;
 	end;
 	saveXMLFile(Xml);
