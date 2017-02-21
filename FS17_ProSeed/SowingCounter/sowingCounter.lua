@@ -4,8 +4,8 @@
 --
 -- source: 		threshing counter v2.3 by Manuel Leithner (edit by gotchTOM)
 -- @author:  	Manuel Leithner/gotchTOM
--- @date:			17-Jan-2017
--- @version:	v1.06
+-- @date:			15-Feb-2017
+-- @version:	v1.07
 -- @history:	v1.0 - initial implementation
 --						v1.01 - part of SowingSupplement
 --						v1.01 - FS 17
@@ -21,29 +21,41 @@ function SowingCounter.prerequisitesPresent(specializations)
     return SpecializationUtil.hasSpecialization(SowingMachine, specializations);
 end;
 
-function SowingCounter:load(xmlFile)
-
-	if self.activeModules ~= nil and self.activeModules.sowingCounter then
-		self.resetSessionHectars = SpecializationUtil.callSpecializationsFunction("resetSessionHectars");
-		self.updateSoCoGUI = SpecializationUtil.callSpecializationsFunction("updateSoCoGUI");
-		self.sowingCounter = {};
-		self.sowingCounter.sessionHectars = 0;
-		self.sowingCounter.sessionHectarsSent = 0;
-		self.sowingCounter.totalHectars = 0;
-		self.sowingCounter.totalHectarsSent = 0;
-		self.sowingCounter.hectarTimer = 0;
-		self.sowingCounter.hectarPerHour = 0;
-		self.sowingCounter.hectarPerHourSent = 0;
-		self.sowingCounter.sowingCounterDirtyFlag = self:getNextDirtyFlag();
-		self:updateSoCoGUI();
+function SowingCounter:load(savegame)
+	if self.hasSowingMachineWorkArea == nil then
+		for _,workArea in pairs(self.workAreaByType) do
+			for _,a in pairs(workArea) do
+				local areaTypeStr = WorkArea.areaTypeIntToName[a.type];
+				if areaTypeStr == "sowingMachine" then
+					self.hasSowingMachineWorkArea = true;
+				end;
+			end;
+		end;
 	end;
+	if not self.hasSowingMachineWorkArea then
+		return
+	end;
+	self.resetSessionHectars = SpecializationUtil.callSpecializationsFunction("resetSessionHectars");
+	self.updateSoCoGUI = SpecializationUtil.callSpecializationsFunction("updateSoCoGUI");
+	self.sowingCounter = {};
+	self.sowingCounter.sessionHectars = 0;
+	self.sowingCounter.sessionHectarsSent = 0;
+	self.sowingCounter.totalHectars = 0;
+	self.sowingCounter.totalHectarsSent = 0;
+	self.sowingCounter.hectarTimer = 0;
+	self.sowingCounter.hectarPerHour = 0;
+	self.sowingCounter.hectarPerHourSent = 0;
+	self.sowingCounter.sowingCounterDirtyFlag = self:getNextDirtyFlag();
+	self:updateSoCoGUI();
 end;
 
 function SowingCounter:postLoad(savegame)
-	if savegame ~= nil and not savegame.resetVehicles and self.activeModules ~= nil and self.activeModules.sowingCounter then
-		self.activeModules.sowingCounter = Utils.getNoNil(getXMLBool(savegame.xmlFile, savegame.key .. "#sowingCounterIsActiv"), self.activeModules.sowingCounter);
-		self.sowingCounter.totalHectars =  Utils.getNoNil(getXMLFloat(savegame.xmlFile, savegame.key .. "#totalHectars"), 0);
-		self:updateSoCoGUI();
+	if self.hasSowingMachineWorkArea then
+		if savegame ~= nil and not savegame.resetVehicles and self.activeModules ~= nil and self.activeModules.sowingCounter ~= nil and self.sowingCounter ~= nil then
+			self.activeModules.sowingCounter = Utils.getNoNil(getXMLBool(savegame.xmlFile, savegame.key .. "#sowingCounterIsActiv"), self.activeModules.sowingCounter);
+			self.sowingCounter.totalHectars =  Utils.getNoNil(getXMLFloat(savegame.xmlFile, savegame.key .. "#totalHectars"), 0);
+			self:updateSoCoGUI();
+		end;
 	end;
 end;
 
@@ -51,8 +63,11 @@ function SowingCounter:delete()
 end;
 
 function SowingCounter:getSaveAttributesAndNodes(nodeIdent)
-	local attributes = 'sowingCounterIsActiv="' .. tostring(self.activeModules.sowingCounter) ..'"';
-	attributes = attributes.. ' totalHectars="' .. tostring(self.sowingCounter.totalHectars) ..'"';
+	local attributes = "";
+	if self.hasSowingMachineWorkArea and self.activeModules ~= nil and self.activeModules.sowingCounter ~= nil and self.sowingCounter ~= nil then
+		attributes = 'sowingCounterIsActiv="' .. tostring(self.activeModules.sowingCounter) ..'"';
+		attributes = attributes.. ' totalHectars="' .. tostring(self.sowingCounter.totalHectars) ..'"';
+	end;
 	return attributes, nil;
 end;
 
@@ -66,11 +81,11 @@ function SowingCounter:resetSessionHectars(sessionHectars, noEventSend)
 end;
 
 function SowingCounter:readStream(streamId, connection)
-	if self.activeModules ~= nil and self.activeModules.sowingCounter then
-		local session = streamReadFloat32(streamId);
-		local total = streamReadFloat32(streamId);
-		local hectarTimer = streamReadFloat32(streamId);
+	if self.hasSowingMachineWorkArea then
 		if self.sowingCounter ~= nil then
+			local session = streamReadFloat32(streamId);
+			local total = streamReadFloat32(streamId);
+			local hectarTimer = streamReadFloat32(streamId);
 			self.sowingCounter.sessionHectars = session;
 			self.sowingCounter.totalHectars = total;
 			self.sowingCounter.sessionHectarsSent = self.sowingCounter.sessionHectars;
@@ -82,29 +97,37 @@ function SowingCounter:readStream(streamId, connection)
 end;
 
 function SowingCounter:writeStream(streamId, connection)
-	streamWriteFloat32(streamId, self.sowingCounter.sessionHectars);
-	streamWriteFloat32(streamId, self.sowingCounter.totalHectars);
-	streamWriteFloat32(streamId, self.sowingCounter.hectarTimer);
+	if self.hasSowingMachineWorkArea then
+		if self.sowingCounter ~= nil then
+			streamWriteFloat32(streamId, self.sowingCounter.sessionHectars);
+			streamWriteFloat32(streamId, self.sowingCounter.totalHectars);
+			streamWriteFloat32(streamId, self.sowingCounter.hectarTimer);
+		end;
+	end;
 end;
 
 function SowingCounter:readUpdateStream(streamId, timestamp, connection)
-  if connection:getIsServer() then
-    if streamReadBool(streamId) then
-			self.sowingCounter.sessionHectars = streamReadFloat32(streamId);
-			self.sowingCounter.totalHectars = streamReadFloat32(streamId);
-			self.sowingCounter.hectarTimer = streamReadFloat32(streamId);
-    end;
-  end;
+	if self.hasSowingMachineWorkArea then
+		if connection:getIsServer() then
+			if streamReadBool(streamId) then
+				self.sowingCounter.sessionHectars = streamReadFloat32(streamId);
+				self.sowingCounter.totalHectars = streamReadFloat32(streamId);
+				self.sowingCounter.hectarTimer = streamReadFloat32(streamId);
+			end;
+		end;
+	end;
 end;
 
 function SowingCounter:writeUpdateStream(streamId, connection, dirtyMask)
-  if not connection:getIsServer() then
-    if streamWriteBool(streamId, bitAND(dirtyMask, self.sowingCounter.sowingCounterDirtyFlag) ~= 0) then
-			streamWriteFloat32(streamId, self.sowingCounter.sessionHectarsSent);
-			streamWriteFloat32(streamId, self.sowingCounter.totalHectarsSent);
-			streamWriteFloat32(streamId, self.sowingCounter.hectarTimer);
-    end;
-  end;
+	if self.hasSowingMachineWorkArea then
+		if not connection:getIsServer() then
+			if streamWriteBool(streamId, bitAND(dirtyMask, self.sowingCounter.sowingCounterDirtyFlag) ~= 0) then
+				streamWriteFloat32(streamId, self.sowingCounter.sessionHectarsSent);
+				streamWriteFloat32(streamId, self.sowingCounter.totalHectarsSent);
+				streamWriteFloat32(streamId, self.sowingCounter.hectarTimer);
+			end;
+		end;
+	end;
 end;
 
 function SowingCounter:mouseEvent(posX, posY, isDown, isUp, button)
@@ -114,8 +137,8 @@ function SowingCounter:keyEvent(unicode, sym, modifier, isDown)
 end;
 
 function SowingCounter:update(dt)
-	if self:getIsActive() then
-		if self:getIsActiveForInput(false) then
+	if self:getIsActive() and self.hasSowingMachineWorkArea then
+		if self.isClient and self:getIsActiveForInput() then
 			if self.activeModules ~= nil and self.activeModules.sowingCounter then
 				if InputBinding.hasEvent(InputBinding.SOWINGCOUNTER_RESETSESSIONHA) then
 					local sessionHectars = 0;
@@ -127,27 +150,29 @@ function SowingCounter:update(dt)
 end;
 
 function SowingCounter:updateTick(dt)
-	if self.activeModules ~= nil and self.activeModules.sowingCounter then
-		if self:getIsTurnedOn() then
-			local ha =  self.lastSowingArea;
-			local session = self.sowingCounter.sessionHectars;
-			local total = self.sowingCounter.totalHectars;
-			self.sowingCounter.sessionHectars = session + ha;
-			self.sowingCounter.totalHectars = total + ha;
-			if math.abs(self.sowingCounter.sessionHectars - self.sowingCounter.sessionHectarsSent) > 0.01 or math.abs(self.sowingCounter.totalHectars - self.sowingCounter.totalHectarsSent) > 0.01 then
-				self:raiseDirtyFlags(self.sowingCounter.sowingCounterDirtyFlag);
-				self.sowingCounter.sessionHectarsSent = self.sowingCounter.sessionHectars;
-				self.sowingCounter.totalHectarsSent = self.sowingCounter.totalHectars;
-				if self.sosuHUDisActive then
+	if self.hasSowingMachineWorkArea then
+		if self.activeModules ~= nil and self.activeModules.sowingCounter then
+			if self:getIsTurnedOn() then
+				local ha =  self.lastSowingArea;
+				local session = self.sowingCounter.sessionHectars;
+				local total = self.sowingCounter.totalHectars;
+				self.sowingCounter.sessionHectars = session + ha;
+				self.sowingCounter.totalHectars = total + ha;
+				if math.abs(self.sowingCounter.sessionHectars - self.sowingCounter.sessionHectarsSent) > 0.01 or math.abs(self.sowingCounter.totalHectars - self.sowingCounter.totalHectarsSent) > 0.01 then
+					self:raiseDirtyFlags(self.sowingCounter.sowingCounterDirtyFlag);
+					self.sowingCounter.sessionHectarsSent = self.sowingCounter.sessionHectars;
+					self.sowingCounter.totalHectarsSent = self.sowingCounter.totalHectars;
+					if self.sosuHUDisActive then
+						self:updateSoCoGUI();
+					end;
+				end;
+				local timer = self.sowingCounter.hectarTimer;
+				self.sowingCounter.hectarTimer = timer + dt;
+				local hectarTimer = self.sowingCounter.hectarTimer/3600000
+				self.sowingCounter.hectarPerHour = self.sowingCounter.sessionHectars/hectarTimer;
+				if math.abs(self.sowingCounter.hectarPerHour - self.sowingCounter.hectarPerHourSent) > 0.1 then
 					self:updateSoCoGUI();
 				end;
-			end;
-			local timer = self.sowingCounter.hectarTimer;
-			self.sowingCounter.hectarTimer = timer + dt;
-			local hectarTimer = self.sowingCounter.hectarTimer/3600000
-			self.sowingCounter.hectarPerHour = self.sowingCounter.sessionHectars/hectarTimer;
-			if math.abs(self.sowingCounter.hectarPerHour - self.sowingCounter.hectarPerHourSent) > 0.1 then
-				self:updateSoCoGUI();
 			end;
 		end;
 	end;

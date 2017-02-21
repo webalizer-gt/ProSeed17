@@ -3,8 +3,8 @@
 -- a collection of several seeder modifications
 --
 --	@author:		gotchTOM & webalizer
---	@date: 			12-Feb-2017
---	@version: 	v0.02.01
+--	@date: 			15-Feb-2017
+--	@version: 	v0.02.02
 --
 -- included modules: sowingCounter, sowingSounds, drivingLine, fertilization
 --
@@ -40,7 +40,20 @@ function logInfo(mode,message)
 end;
 
 function SowingSupp:load(savegame)
-
+	if self.hasSowingMachineWorkArea == nil then
+		for _,workArea in pairs(self.workAreaByType) do
+			for _,a in pairs(workArea) do
+				local areaTypeStr = WorkArea.areaTypeIntToName[a.type];
+				if areaTypeStr == "sowingMachine" then
+					self.hasSowingMachineWorkArea = true;
+				end;
+			end;
+		end;
+	end;
+	if not self.hasSowingMachineWorkArea then
+		print(tostring(self.typeName).." has no workarea of type sowingMachine -> ProSeed can not be used!")
+		return
+	end;
 	if self.activeModules == nil then
 		self.activeModules = {};
 		self.activeModules.sowingCounter = true;
@@ -144,11 +157,12 @@ function SowingSupp:delete()
 end;
 
 function SowingSupp:mouseEvent(posX, posY, isDown, isUp, button)
-	self.hud1.mouseEvent(self, posX, posY, isDown, isUp, button);
+	if self.hasSowingMachineWorkArea then
+		self.hud1.mouseEvent(self, posX, posY, isDown, isUp, button);
+	end;
 end;
 
 function SowingSupp:keyEvent(unicode, sym, modifier, isDown)
-
 end;
 
 function SowingSupp:modules(grid, container, vehicle, guiElement, parameter)
@@ -308,27 +322,28 @@ function SowingSupp:modules(grid, container, vehicle, guiElement, parameter)
 end;
 
 function SowingSupp:update(dt)
-
-	if self:getIsActiveForInput() then
-		-- switch HUD
-		if InputBinding.hasEvent(InputBinding.SOWINGSUPP_HUD) then
-			self.sosuHUDisActive = not self.sosuHUDisActive;
-			if self.sosuHUDisActive then
-				self.hud1.isVisible = true;
-				if self.activeModules.drivingLine then
-					self:updateDriLiGUI();
+	if self:getIsActive() and self.hasSowingMachineWorkArea then
+		if self.isClient and self:getIsActiveForInput() then
+			-- switch HUD
+			if InputBinding.hasEvent(InputBinding.SOWINGSUPP_HUD) then
+				self.sosuHUDisActive = not self.sosuHUDisActive;
+				if self.sosuHUDisActive then
+					self.hud1.isVisible = true;
+					if self.activeModules.drivingLine then
+						self:updateDriLiGUI();
+					end;
 				end;
 			end;
-		end;
-		if InputBinding.isPressed(InputBinding.SOWINGSUPP_MOUSE) and self.sosuHUDisActive then
-			if not SowingSupp.stopMouse then
-				SowingSupp.stopMouse = true;
-				InputBinding.setShowMouseCursor(true);
-			end;
-		else
-			if SowingSupp.stopMouse then
-				SowingSupp.stopMouse = false;
-				InputBinding.setShowMouseCursor(false);
+			if InputBinding.isPressed(InputBinding.SOWINGSUPP_MOUSE) and self.sosuHUDisActive then
+				if not SowingSupp.stopMouse then
+					SowingSupp.stopMouse = true;
+					InputBinding.setShowMouseCursor(true);
+				end;
+			else
+				if SowingSupp.stopMouse then
+					SowingSupp.stopMouse = false;
+					InputBinding.setShowMouseCursor(false);
+				end;
 			end;
 		end;
 	end;
@@ -336,8 +351,8 @@ end;
 
 function SowingSupp:updateTick(dt)
 	-- update y-position if HUD is on initial position (exact x-position) and there are other HUDs (like OperatingHours of AGes Sonnenschein)
-	if self:getIsActive() then
-		if self.sosuHUDisActive then
+	if self:getIsActive() and self.hasSowingMachineWorkArea then
+		if self.isClient and self.sosuHUDisActive then
 			if self.AttacherVehicleBackup == nil then
 				local attacherVehicle = self:getRootAttacherVehicle();
 				self.AttacherVehicleBackup = attacherVehicle;
@@ -352,7 +367,7 @@ function SowingSupp:updateTick(dt)
 				self.lastNumActiveHUDs = self.AttacherVehicleBackup.ActiveHUDs.numActiveHUDs;
 			end;
 		end;
-		if self.activeModules.sowingSounds or self.activeModules.drivingLine then
+		if self.activeModules ~= nil and self.activeModules.sowingSounds or self.activeModules.drivingLine then
 			self.soMaIsLowered = self:isLowered();
 		end;
 	end;
