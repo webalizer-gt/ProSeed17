@@ -3,8 +3,8 @@
 -- Specialization for driving lines of sowing machines
 --
 --	@author:		gotchTOM & webalizer
---	@date: 			12-Jan-2017
---	@version: 	v1.6.15
+--	@date: 			15-Feb-2017
+--	@version: 	v1.6.16
 --	@history:		v1.0 	- initial implementation (17-Jun-2012)
 --							v1.5  - SowingSupplement implementation
 --							v1.6  -
@@ -24,7 +24,19 @@ function DrivingLine:preLoad(savegame)
 end
 
 function DrivingLine:load(savegame)
-
+	local workAreas;
+	for _,workArea in pairs(self.workAreaByType) do
+		for _,a in pairs(workArea) do
+			local areaTypeStr = WorkArea.areaTypeIntToName[a.type];
+			if areaTypeStr == "sowingMachine" then
+				workAreas = self.workAreaByType[a.type];
+				self.hasSowingMachineWorkArea = true;
+			end;
+		end;
+	end;
+	if not self.hasSowingMachineWorkArea then
+		return;
+	end;
 	self.setDrivingLine = SpecializationUtil.callSpecializationsFunction("setDrivingLine");
 	self.setSPworkwidth = SpecializationUtil.callSpecializationsFunction("setSPworkwidth");
 	self.setPeMarker = SpecializationUtil.callSpecializationsFunction("setPeMarker");
@@ -32,26 +44,13 @@ function DrivingLine:load(savegame)
 	self.workAreaMinMaxHeight = SpecializationUtil.callSpecializationsFunction("self.workAreaMinMaxHeight");
 	self.workAreaMinMaxHeight = DrivingLine.workAreaMinMaxHeight;
 	self.setRootVehGPS = SpecializationUtil.callSpecializationsFunction("setRootVehGPS");
-
-
 	local numDrivingLines = Utils.getNoNil(getXMLInt(self.xmlFile, "vehicle.drivingLines#count"),0);
 	local numPeMarkerLines = Utils.getNoNil(getXMLInt(self.xmlFile, "vehicle.peMarkerLines#count"),0);
 
 	if numDrivingLines == 0 or numPeMarkerLines == 0 then
-
     self.getIsSpeedRotatingPartActive = Utils.overwrittenFunction(self.getIsSpeedRotatingPartActive, DrivingLine.getIsSpeedRotatingPartActive);
-
 		local componentNr = string.sub(getXMLString(self.xmlFile, "vehicle.ai.areaMarkers#leftIndex"),1,1) +1;
 		self.dlRootNode = self.components[componentNr].node;
-		local workAreas;
-		for _,workArea in pairs(self.workAreaByType) do
-			for _,a in pairs(workArea) do
-				local areaTypeStr = WorkArea.areaTypeIntToName[a.type];
-				if areaTypeStr == "sowingMachine" then
-					workAreas = self.workAreaByType[a.type];
-				end;
-			end;
-		end;
 		if workAreas ~= nil then
 			self:workAreaMinMaxHeight(workAreas);
 			local workWidth = math.abs(self.xMax-self.xMin);
@@ -71,12 +70,12 @@ function DrivingLine:load(savegame)
 			self.wwCenterPoint = createTransformGroup("wwCenterPoint");
 			link(self.dlRootNode, self.wwCenterPoint);
 			setTranslation(self.wwCenterPoint,self.wwCenter,self.yStart,self.zHeight-.2);
-		else
-			self.drivingLinePresent = false;
-			self.activeModules.drivingLine = false;
-			self:updateDriLiGUI();
-			print(tostring(self.typeName).." has no workarea of type sowingMachine -> DrivingLine can not be used!")
-			return
+		-- else
+			-- self.drivingLinePresent = false;
+			-- self.activeModules.drivingLine = false;
+			-- self:updateDriLiGUI();
+			-- print(tostring(self.typeName).." has no workarea of type sowingMachine -> DrivingLine can not be used!")
+			-- return
 		end;
 	end;
 
@@ -157,15 +156,15 @@ function DrivingLine:load(savegame)
 	self.setShutoff = SpecializationUtil.callSpecializationsFunction("setShutoff");
 	local componentNr = string.sub(getXMLString(self.xmlFile, "vehicle.ai.areaMarkers#leftIndex"),1,1) +1;
 	self.areaRootNode = self.components[componentNr].node;
-	local workAreas;
-	for _,workArea in pairs(self.workAreaByType) do
-		for _,a in pairs(workArea) do
-			local areaTypeStr = WorkArea.areaTypeIntToName[a.type];
-			if areaTypeStr == "sowingMachine" then
-				workAreas = self.workAreaByType[a.type];
-			end;
-		end;
-	end;
+	-- local workAreas;
+	-- for _,workArea in pairs(self.workAreaByType) do
+		-- for _,a in pairs(workArea) do
+			-- local areaTypeStr = WorkArea.areaTypeIntToName[a.type];
+			-- if areaTypeStr == "sowingMachine" then
+				-- workAreas = self.workAreaByType[a.type];
+			-- end;
+		-- end;
+	-- end;
 	if workAreas ~= nil then
 		--for k,v in pairs(workAreas[1].refNode) do
 		--	logInfo(1,('workAreas.%s: %s'):format(k,v));
@@ -189,23 +188,25 @@ function DrivingLine:load(savegame)
 end;
 
 function DrivingLine:postLoad(savegame)
-  if savegame ~= nil and not savegame.resetVehicles and self.activeModules ~= nil and self.activeModules.drivingLine then
-		self.activeModules.drivingLine = Utils.getNoNil(getXMLBool(savegame.xmlFile, savegame.key .. "#drivingLineIsActiv"), self.activeModules.drivingLine);
-		self.nSMdrives = Utils.getNoNil(getXMLInt(savegame.xmlFile, savegame.key .. "#nSMdrives"), self.nSMdrives);
-		self.dlMode = Utils.getNoNil(getXMLInt(savegame.xmlFile, savegame.key .. "#dlMode"), self.dlMode);
-		self.allowPeMarker = Utils.getNoNil(getXMLBool(savegame.xmlFile, savegame.key .. "#allowPeMarker"), self.allowPeMarker);
-		self.currentLane = Utils.getNoNil(getXMLInt(savegame.xmlFile, savegame.key .. "#currentLane"), self.currentLane);
-		local shutoff = Utils.getNoNil(getXMLInt(savegame.xmlFile, savegame.key .. "#shutoff"), self.shutoff);
-		if shutoff ~= self.shutoff then
-			self:setShutoff(shutoff);
+	if self.hasSowingMachineWorkArea then
+		if savegame ~= nil and not savegame.resetVehicles and self.activeModules ~= nil and self.activeModules.drivingLine ~= nil then
+			self.activeModules.drivingLine = Utils.getNoNil(getXMLBool(savegame.xmlFile, savegame.key .. "#drivingLineIsActiv"), self.activeModules.drivingLine);
+			self.nSMdrives = Utils.getNoNil(getXMLInt(savegame.xmlFile, savegame.key .. "#nSMdrives"), self.nSMdrives);
+			self.dlMode = Utils.getNoNil(getXMLInt(savegame.xmlFile, savegame.key .. "#dlMode"), self.dlMode);
+			self.allowPeMarker = Utils.getNoNil(getXMLBool(savegame.xmlFile, savegame.key .. "#allowPeMarker"), self.allowPeMarker);
+			self.currentLane = Utils.getNoNil(getXMLInt(savegame.xmlFile, savegame.key .. "#currentLane"), self.currentLane);
+			local shutoff = Utils.getNoNil(getXMLInt(savegame.xmlFile, savegame.key .. "#shutoff"), self.shutoff);
+			if shutoff ~= self.shutoff then
+				self:setShutoff(shutoff);
+			end;
+			if (self.nSMdrives%2 == 0) then -- gerade Zahl
+				self.num_DrivingLine = (self.nSMdrives / 2) + 1;
+			elseif (self.nSMdrives%2 ~= 0) then -- ungerade Zahl
+				self.num_DrivingLine = (self.nSMdrives + 1) / 2;
+			end;
+			self:updateDriLiGUI();
 		end;
-		if (self.nSMdrives%2 == 0) then -- gerade Zahl
-			self.num_DrivingLine = (self.nSMdrives / 2) + 1;
-		elseif (self.nSMdrives%2 ~= 0) then -- ungerade Zahl
-			self.num_DrivingLine = (self.nSMdrives + 1) / 2;
-		end;
-		self:updateDriLiGUI();
-  end
+	end;
 end;
 
 function DrivingLine:delete()
@@ -242,7 +243,10 @@ function DrivingLine:writeStream(streamId, connection)
 end;
 
 function DrivingLine:getSaveAttributesAndNodes(nodeIdent)
-	local attributes = 'drivingLineIsActiv="'..tostring(self.activeModules.drivingLine)..'" nSMdrives="'..tostring(self.nSMdrives)..'" dlMode="'..tostring(self.dlMode)..'" allowPeMarker="'..tostring(self.allowPeMarker)..'" currentLane="'..tostring(self.currentLane)..'" shutoff="'..tostring(self.shutoff)..'"';
+	local attributes = "";
+	if self.hasSowingMachineWorkArea and self.activeModules ~= nil and self.activeModules.drivingLine ~= nil then
+		attributes = 'drivingLineIsActiv="'..tostring(self.activeModules.drivingLine)..'" nSMdrives="'..tostring(self.nSMdrives)..'" dlMode="'..tostring(self.dlMode)..'" allowPeMarker="'..tostring(self.allowPeMarker)..'" currentLane="'..tostring(self.currentLane)..'" shutoff="'..tostring(self.shutoff)..'"';
+	end;
 	return attributes, nil;
 end;
 
@@ -253,48 +257,49 @@ function DrivingLine:keyEvent(unicode, sym, modifier, isDown)
 end;
 
 function DrivingLine:update(dt)
-
-	if self:getIsActiveForInput() then
-		if self.drivingLinePresent and self.activeModules ~= nil and self.activeModules.drivingLine then
-			-- switch driving line / current drive / pause manually
-			if InputBinding.hasEvent(InputBinding.DRIVINGLINE) then
-				if self.dlMode == 0 then
-					if self.drivingLineActiv then
-						self:setDrivingLine(false, self.dlMode, self.currentLane, self.isPaused, self.nSMdrives, self.smWorkwith, self.allowPeMarker);
-					else
-						self:setDrivingLine(true, self.dlMode, self.currentLane, self.isPaused, self.nSMdrives, self.smWorkwith, self.allowPeMarker);
-						self.dlCultivatorDelay = g_currentMission.time + 1000;
-					end;
-				elseif self.dlMode == 1 then
-					if self.currentLane < self.nSMdrives then
-						self.currentLane = self.currentLane + 1;
-					else
-						self.currentLane = 1;
-					end;
-					self:updateDriLiGUI();
-				elseif self.dlMode == 2 then
-					self.isPaused = not self.isPaused;
-					self:updateDriLiGUI();
-				elseif self.dlMode == 3 then
-					local rootAttacherVehicle = self:getRootAttacherVehicle();
-					if rootAttacherVehicle.GPSlaneNo ~= nil and rootAttacherVehicle.GPSlaneNo ~= 0 then
-						local lhdX0 = rootAttacherVehicle.lhdX0
-						local lhdZ0 = rootAttacherVehicle.lhdZ0
-						local lhX0 = rootAttacherVehicle.lhX0 - rootAttacherVehicle.GPSlaneNo*rootAttacherVehicle.GPSWidth*lhdZ0;
-						local lhZ0 = rootAttacherVehicle.lhZ0 + rootAttacherVehicle.GPSlaneNo*rootAttacherVehicle.GPSWidth*lhdX0;
-						self:setRootVehGPS(lhX0, lhZ0);
+	if self:getIsActive() and self.hasSowingMachineWorkArea then
+		if self.isClient and self:getIsActiveForInput() then
+			if self.drivingLinePresent and self.activeModules ~= nil and self.activeModules.drivingLine then
+				-- switch driving line / current drive / pause manually
+				if InputBinding.hasEvent(InputBinding.DRIVINGLINE) then
+					if self.dlMode == 0 then
+						if self.drivingLineActiv then
+							self:setDrivingLine(false, self.dlMode, self.currentLane, self.isPaused, self.nSMdrives, self.smWorkwith, self.allowPeMarker);
+						else
+							self:setDrivingLine(true, self.dlMode, self.currentLane, self.isPaused, self.nSMdrives, self.smWorkwith, self.allowPeMarker);
+							self.dlCultivatorDelay = g_currentMission.time + 1000;
+						end;
+					elseif self.dlMode == 1 then
+						if self.currentLane < self.nSMdrives then
+							self.currentLane = self.currentLane + 1;
+						else
+							self.currentLane = 1;
+						end;
+						self:updateDriLiGUI();
+					elseif self.dlMode == 2 then
+						self.isPaused = not self.isPaused;
+						self:updateDriLiGUI();
+					elseif self.dlMode == 3 then
+						local rootAttacherVehicle = self:getRootAttacherVehicle();
+						if rootAttacherVehicle.GPSlaneNo ~= nil and rootAttacherVehicle.GPSlaneNo ~= 0 then
+							local lhdX0 = rootAttacherVehicle.lhdX0
+							local lhdZ0 = rootAttacherVehicle.lhdZ0
+							local lhX0 = rootAttacherVehicle.lhX0 - rootAttacherVehicle.GPSlaneNo*rootAttacherVehicle.GPSWidth*lhdZ0;
+							local lhZ0 = rootAttacherVehicle.lhZ0 + rootAttacherVehicle.GPSlaneNo*rootAttacherVehicle.GPSWidth*lhdX0;
+							self:setRootVehGPS(lhX0, lhZ0);
+						end;
 					end;
 				end;
-			end;
-			local rootAttacherVehicle = self:getRootAttacherVehicle();
-			if InputBinding.hasEvent(InputBinding.DRIVINGLINE_TOGGLESHUTOFF) then
-				if not self.drivingLineActiv then
-					local shutoff = self.shutoff + 1;
-					if shutoff > 2 then
-						shutoff = 0;
+				local rootAttacherVehicle = self:getRootAttacherVehicle();
+				if InputBinding.hasEvent(InputBinding.DRIVINGLINE_TOGGLESHUTOFF) then
+					if not self.drivingLineActiv then
+						local shutoff = self.shutoff + 1;
+						if shutoff > 2 then
+							shutoff = 0;
+						end;
+						-- logInfo(1,('shutoff: %s'):format(shutoff));
+						self:setShutoff(shutoff);
 					end;
-					-- logInfo(1,('shutoff: %s'):format(shutoff));
-					self:setShutoff(shutoff);
 				end;
 			end;
 		end;
@@ -519,30 +524,31 @@ function DrivingLine:updateTick(dt)
 end;
 
 function DrivingLine:draw()
-
-	if self.drivingLinePresent and self.activeModules ~= nil and self.activeModules.drivingLine then
-		if self.dlMode == 0 then
-			if self.drivingLineActiv then
-				g_currentMission:addHelpButtonText(SowingMachine.DRIVINGLINE_OFF, InputBinding.DRIVINGLINE, nil, GS_PRIO_VERY_HIGH);
-			else
-				g_currentMission:addHelpButtonText(SowingMachine.DRIVINGLINE_ON, InputBinding.DRIVINGLINE, nil, GS_PRIO_VERY_HIGH);
+	if self.isClient and self.drivingLinePresent then
+		if self.activeModules ~= nil and self.activeModules.drivingLine then
+			if self.dlMode == 0 then
+				if self.drivingLineActiv then
+					g_currentMission:addHelpButtonText(SowingMachine.DRIVINGLINE_OFF, InputBinding.DRIVINGLINE, nil, GS_PRIO_VERY_HIGH);
+				else
+					g_currentMission:addHelpButtonText(SowingMachine.DRIVINGLINE_ON, InputBinding.DRIVINGLINE, nil, GS_PRIO_VERY_HIGH);
+				end;
+			elseif self.dlMode == 1 then
+				g_currentMission:addHelpButtonText(SowingMachine.DRIVINGLINE_SHIFT, InputBinding.DRIVINGLINE, nil, GS_PRIO_VERY_HIGH);
+			elseif self.dlMode == 2 then
+				if self.isPaused then
+					g_currentMission:addHelpButtonText(SowingMachine.DRIVINGLINE_ENABLE, InputBinding.DRIVINGLINE, nil, GS_PRIO_VERY_HIGH);
+				else
+					g_currentMission:addHelpButtonText(SowingMachine.DRIVINGLINE_PAUSE, InputBinding.DRIVINGLINE, nil, GS_PRIO_VERY_HIGH);
+				end;
+			elseif self.dlMode == 3 then
+				local rootAttacherVehicle = self:getRootAttacherVehicle();
+				if rootAttacherVehicle ~= nil and rootAttacherVehicle.GPSActive then
+					g_currentMission:addHelpButtonText(SowingMachine.DRIVINGLINE_GPSRESET, InputBinding.DRIVINGLINE, nil, GS_PRIO_VERY_HIGH);
+				end;
 			end;
-		elseif self.dlMode == 1 then
-			g_currentMission:addHelpButtonText(SowingMachine.DRIVINGLINE_SHIFT, InputBinding.DRIVINGLINE, nil, GS_PRIO_VERY_HIGH);
-		elseif self.dlMode == 2 then
-			if self.isPaused then
-				g_currentMission:addHelpButtonText(SowingMachine.DRIVINGLINE_ENABLE, InputBinding.DRIVINGLINE, nil, GS_PRIO_VERY_HIGH);
-			else
-				g_currentMission:addHelpButtonText(SowingMachine.DRIVINGLINE_PAUSE, InputBinding.DRIVINGLINE, nil, GS_PRIO_VERY_HIGH);
+			if not self.drivingLineActiv then
+				g_currentMission:addHelpButtonText(SowingMachine.DRIVINGLINE_TOGGLESHUTOFF, InputBinding.DRIVINGLINE_TOGGLESHUTOFF, nil, GS_PRIO_VERY_HIGH);
 			end;
-		elseif self.dlMode == 3 then
-			local rootAttacherVehicle = self:getRootAttacherVehicle();
-			if rootAttacherVehicle ~= nil and rootAttacherVehicle.GPSActive then
-				g_currentMission:addHelpButtonText(SowingMachine.DRIVINGLINE_GPSRESET, InputBinding.DRIVINGLINE, nil, GS_PRIO_VERY_HIGH);
-			end;
-		end;
-		if not self.drivingLineActiv then
-			g_currentMission:addHelpButtonText(SowingMachine.DRIVINGLINE_TOGGLESHUTOFF, InputBinding.DRIVINGLINE_TOGGLESHUTOFF, nil, GS_PRIO_VERY_HIGH);
 		end;
 	end;
 end;

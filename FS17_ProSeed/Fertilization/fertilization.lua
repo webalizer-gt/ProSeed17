@@ -3,8 +3,8 @@
 --	fertilizer switch
 --
 -- @author:  	gotchTOM
--- @date:			20-Jan-2017
--- @version:	v1.06
+-- @date:			15-Feb-2017
+-- @version:	v1.07
 --
 -- free for noncommerical-usage
 --
@@ -19,30 +19,48 @@ function Fertilization:preLoad(savegame)
 end;
 
 function Fertilization:load(savegame)
-
+	if self.hasSowingMachineWorkArea == nil then
+		for _,workArea in pairs(self.workAreaByType) do
+			for _,a in pairs(workArea) do
+				local areaTypeStr = WorkArea.areaTypeIntToName[a.type];
+				if areaTypeStr == "sowingMachine" then
+					self.hasSowingMachineWorkArea = true;
+				end;
+			end;
+		end;
+	end;
+	if not self.hasSowingMachineWorkArea then
+		return
+	end;
 	self.setFertilization = SpecializationUtil.callSpecializationsFunction("setFertilization");
 	self.updateFertiGUI = SpecializationUtil.callSpecializationsFunction("updateFertiGUI");
 	self:updateFertiGUI();
 end;
 
 function Fertilization:postLoad(savegame)
-	if savegame ~= nil and not savegame.resetVehicles and self.activeModules ~= nil and self.activeModules.fertilization then
-		self.activeModules.fertilization = Utils.getNoNil(getXMLBool(savegame.xmlFile, savegame.key .. "#fertilizationSwitchIsActiv"), self.activeModules.fertilization);
-		self.allowsSpraying = Utils.getNoNil(getXMLBool(savegame.xmlFile, savegame.key .. "#fertilization"), self.allowsSpraying);
-		self:updateFertiGUI();
+	if self.hasSowingMachineWorkArea then
+		if savegame ~= nil and not savegame.resetVehicles and self.activeModules ~= nil and self.activeModules.fertilization ~= nil then
+			self.activeModules.fertilization = Utils.getNoNil(getXMLBool(savegame.xmlFile, savegame.key .. "#fertilizationSwitchIsActiv"), self.activeModules.fertilization);
+			self.allowsSpraying = Utils.getNoNil(getXMLBool(savegame.xmlFile, savegame.key .. "#fertilization"), self.allowsSpraying);
+			self:updateFertiGUI();
+		end;
 	end;
 end;
 
 function Fertilization:readStream(streamId, connection)
-	if self.allowsSpraying ~= nil then
-		local allowsSpraying = streamReadBool(streamId);
-		self:setFertilization(allowsSpraying, true)
+	if self.hasSowingMachineWorkArea then
+		if self.allowsSpraying ~= nil then
+			local allowsSpraying = streamReadBool(streamId);
+			self:setFertilization(allowsSpraying, true)
+		end;
 	end;
 end;
 
 function Fertilization:writeStream(streamId, connection)
-  if self.allowsSpraying ~= nil then
-		streamWriteBool(streamId, self.allowsSpraying);
+  if self.hasSowingMachineWorkArea then
+		if self.allowsSpraying ~= nil then
+			streamWriteBool(streamId, self.allowsSpraying);
+		end;
 	end;
 end;
 
@@ -56,8 +74,8 @@ function Fertilization:keyEvent(unicode, sym, modifier, isDown)
 end;
 
 function Fertilization:getSaveAttributesAndNodes(nodeIdent)
-	local attributes;
-	if self.activeModules ~= nil and self.activeModules.fertilization ~= nil then
+	local attributes = "";
+	if self.hasSowingMachineWorkArea and self.activeModules ~= nil and self.activeModules.fertilization ~= nil then
 		attributes = 'fertilizationSwitchIsActiv="' .. tostring(self.activeModules.fertilization) ..'" fertilization="'..tostring(self.allowsSpraying)..'"';
 	end;
 	return attributes, nil;
