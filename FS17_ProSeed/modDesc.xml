@@ -187,14 +187,14 @@
 			<de>semi</de>
 			<ru>половина</ru>
 			<nl>semi</nl>
-			<pl>Osobno</pl>
+			<pl>Półauto</pl>
 		</text>
 		<text name="DRIVINGLINE_AUTO">
 			<en>auto</en>
 			<de>auto</de>
 			<ru>auto</ru>
 			<nl>auto</nl>
-			<pl>Automatycznie</pl>
+			<pl>Auto</pl>
 		</text>
 		<text name="DRIVINGLINE_GPS">
 			<en>GPS</en>
