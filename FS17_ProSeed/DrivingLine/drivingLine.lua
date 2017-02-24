@@ -3,8 +3,8 @@
 -- Specialization for driving lines of sowing machines
 --
 --	@author:		gotchTOM & webalizer
---	@date: 			15-Feb-2017
---	@version: 	v1.6.16
+--	@date: 			21-Feb-2017
+--	@version: 	v1.6.17
 --	@history:		v1.0 	- initial implementation (17-Jun-2012)
 --							v1.5  - SowingSupplement implementation
 --							v1.6  -
@@ -94,7 +94,7 @@ function DrivingLine:load(savegame)
 		self.createDrivingLines = DrivingLine.createDrivingLines;
 		local worldToDensity = g_currentMission.terrainDetailMapSize / g_currentMission.terrainSize;
 		self.dlLaneWidth = .02--.25*worldToDensity--0.4;--0.8;
-		self.drivingLineWidth = 1--.75*worldToDensity;--+self.dlLaneWidth/2--1.2;--1.375;
+		self.drivingLineWidth = .5*worldToDensity;--1--.75*worldToDensity;--+self.dlLaneWidth/2--1.2;--1.375;
 		self.drivingLines = {}
 		self.drivingLines = self:createDrivingLines();
 	end;
@@ -690,7 +690,7 @@ end;
 function DrivingLine:createPeMarkerLines()
 	local peMarkerLines = {};
 	local worldToDensity = g_currentMission.terrainDetailMapSize / g_currentMission.terrainSize;
-	local x = self.wwCenter + .6*worldToDensity;
+	local x = self.wwCenter + self.drivingLineWidth;--.6*worldToDensity;
 	local y = self.yStart;
 	local z = self.zHeight - .2;
 	local hz = z;
@@ -704,7 +704,7 @@ function DrivingLine:createPeMarkerLines()
 		local widthId = createTransformGroup("width"..i);
 		link(self.dlRootNode, widthId);
 		setTranslation(widthId,x,y,z);
-		x = self.wwCenter - .5*worldToDensity;
+		x = self.wwCenter - self.drivingLineWidth;--.5*worldToDensity;
 
 		table.insert(peMarkerLines, {foldMinLimit=0,start=startId,height=heightId,foldMaxLimit=0.2,width=widthId});
 	end;
