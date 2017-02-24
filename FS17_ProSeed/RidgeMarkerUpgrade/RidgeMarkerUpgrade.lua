@@ -3,8 +3,8 @@
 --	upgrading the ridgeMarker operation of sowing machines
 --
 -- @author:  	webalizer & gotchTOM
--- @date:			15-Feb-2017
--- @version:	v1.07
+-- @date:			23-Feb-2017
+-- @version:	v1.08
 --
 -- free for noncommerical-usage
 --
@@ -34,6 +34,7 @@ function RidgeMarkerUpgrade:load(savegame)
 	self.lastRidgeMarkerState = 2;
 	self.rmCheckInputbindings = true;
 	self.rmHasSameInputbinding = true;
+	self.autoRidgeMarkerState = false;
 end;
 
 function RidgeMarkerUpgrade:delete()
@@ -57,8 +58,12 @@ function RidgeMarkerUpgrade:update(dt)
 						elseif self.lastRidgeMarkerState == 1 then
 							rmState = 2;
 						end;
+						if self.soMaIsLowered then
+							self.autoRidgeMarkerState = true;
+						end;
 					else
 						rmState = 0;
+						self.autoRidgeMarkerState = false;
 					end;
 					if self:newCanFoldRidgeMarker(rmState) then
 						if rmState > 0 then
@@ -70,20 +75,34 @@ function RidgeMarkerUpgrade:update(dt)
 					local rmState = self.ridgeMarkerState;
 					if rmState == 0 then
 						rmState = 1;
+						if self.soMaIsLowered then
+							self.autoRidgeMarkerState = true;
+						end;
 					else
 						rmState = 0;
+						self.autoRidgeMarkerState = false;
 					end;
 					if self:newCanFoldRidgeMarker(rmState) then
+						if rmState > 0 then
+							self.lastRidgeMarkerState = rmState;
+						end;
 						self:setRidgeMarkerState(rmState);
 					end;
 				elseif InputBinding.hasEvent(InputBinding.RM_UPGRADE_RMright) then
 					local rmState = self.ridgeMarkerState;
 					if rmState == 0 then
 						rmState = 2;
+						if self.soMaIsLowered then
+							self.autoRidgeMarkerState = true;
+						end;
 					else
 						rmState = 0;
+						self.autoRidgeMarkerState = false;
 					end;
 					if self:newCanFoldRidgeMarker(rmState) then
+						if rmState > 0 then
+							self.lastRidgeMarkerState = rmState;
+						end;
 						self:setRidgeMarkerState(rmState);
 					end;
 				end;
@@ -110,6 +129,30 @@ function RidgeMarkerUpgrade:updateTick(dt)
 					self.rmHasSameInputbinding = false;
 				end;
 				self.rmCheckInputbindings = nil;
+			end;
+		end;
+		if self.isServer then
+			if self.autoRidgeMarkerState then
+				if self:getIsTurnedOn() then
+					local rmState = self.ridgeMarkerState;
+					if self.soMaIsLowered and rmState == 0 then
+						if self.lastRidgeMarkerState == 1 then
+							if self:newCanFoldRidgeMarker(2) then
+								self.lastRidgeMarkerState = 2;
+								self:setRidgeMarkerState(2);
+							end;
+						elseif self.lastRidgeMarkerState == 2 then
+							if self:newCanFoldRidgeMarker(1) then
+								self.lastRidgeMarkerState = 1;
+								self:setRidgeMarkerState(1);
+							end;
+						end;
+					elseif not self.soMaIsLowered and (rmState == 1 or rmState == 2) then
+						self:setRidgeMarkerState(0);
+					end;
+				elseif not self:getIsTurnedOn() then
+					self.autoRidgeMarkerState = false;
+				end;
 			end;
 		end;
 	end;
