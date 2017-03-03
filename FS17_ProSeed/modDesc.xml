@@ -129,21 +129,21 @@
 		<text name="DRIVINGLINE">
 			<en>Driving lines</en>
 			<de>Fahrgassen</de>
-			<ru>Колеи</ru>
+			<ru>Тех.колеи</ru>
 			<nl>werkstroken</nl>
 			<pl>Tor jazdy</pl>
 		</text>
 		<text name="DRIVINGLINE_OFF">
 			<en>switch off driving line</en>
 			<de>Fahrgasse ausschalten</de>
-			<ru>Выключить колеи</ru>
+			<ru>Выключить тех.колеи</ru>
 			<nl>werkstroken aanzetten</nl>
 			<pl>Wyłącz tor jazdy</pl>
 		</text>
 		<text name="DRIVINGLINE_ON">
 			<en>switch on driving line</en>
 			<de>Fahrgasse einschalten</de>
-			<ru>Включить колеи</ru>
+			<ru>Включить тех.колеи</ru>
 			<nl>werkstroken uitzetten</nl>
 			<pl>Włącz tor jazdy</pl>
 		</text>
@@ -234,7 +234,7 @@
 		<text name="DRIVINGLINE_NUMDRILINE">
 			<en>Tramline in: </en>
 			<de>Fahrgasse in: </de>
-			<ru>Колеи на: </ru>
+			<ru>Тех.колея на: </ru>
 			<nl>werkstrook in:</nl>
 			<pl>Ścieżki tech. w:</pl>
 		</text>	
