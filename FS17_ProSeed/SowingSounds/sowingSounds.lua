@@ -3,8 +3,8 @@
 --	Sounds for Sowing Machines (acoustic signals)
 --
 -- @authors:  	GreenEye and gotchTOM
--- @date:				15-Feb-2017
--- @version:		v1.05
+-- @date:				3-Mar-2017
+-- @version:		v1.06
 --
 -- free for noncommerical-usage
 --
@@ -251,23 +251,23 @@ function SowingSounds:updateTick(dt)
 					stopSample(self.SeSoSoundId4);
 				end;
 			end;
-		end;
-	else 											--> Deaktivieren beim Aussteigen
-		if self.sowingSounds ~= nil and self.sowingSounds.checkOnLeave then
-			if self.sowingSounds.isRaised then
-				self.sowingSounds.isRaised = false;
-				stopSample(self.SeSoSoundId2);
+		else --> Deaktivieren beim Aussteigen
+			if self.sowingSounds ~= nil and self.sowingSounds.checkOnLeave then
+				if self.sowingSounds.isRaised then
+					self.sowingSounds.isRaised = false;
+					stopSample(self.SeSoSoundId2);
+				end;
+				if self.sowingSounds.isLineActive then
+					self.sowingSounds.isLineActive = false;
+					stopSample(self.SeSoSoundId3);
+				end;
+				if self.sowingSounds.isSeedEmpty or self.sowingSounds.isFertiEmpty then
+					self.sowingSounds.isSeedEmpty = false;
+					self.sowingSounds.isFertiEmpty = false;
+					stopSample(self.SeSoSoundId4);
+				end;
+				self.sowingSounds.checkOnLeave = false;
 			end;
-			if self.sowingSounds.isLineActive then
-				self.sowingSounds.isLineActive = false;
-				stopSample(self.SeSoSoundId3);
-			end;
-			if self.sowingSounds.isSeedEmpty or self.sowingSounds.isFertiEmpty then
-				self.sowingSounds.isSeedEmpty = false;
-				self.sowingSounds.isFertiEmpty = false;
-				stopSample(self.SeSoSoundId4);
-			end;
-			self.sowingSounds.checkOnLeave = false;
 		end;
 	end;
 end;
