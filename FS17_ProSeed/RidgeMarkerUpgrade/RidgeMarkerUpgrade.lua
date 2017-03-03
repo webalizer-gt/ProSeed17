@@ -3,8 +3,8 @@
 --	upgrading the ridgeMarker operation of sowing machines
 --
 -- @author:  	webalizer & gotchTOM
--- @date:			23-Feb-2017
--- @version:	v1.08
+-- @date:			3-Mar-2017
+-- @version:	v1.09
 --
 -- free for noncommerical-usage
 --
@@ -130,8 +130,6 @@ function RidgeMarkerUpgrade:updateTick(dt)
 				end;
 				self.rmCheckInputbindings = nil;
 			end;
-		end;
-		if self.isServer then
 			if self.autoRidgeMarkerState then
 				if self:getIsTurnedOn() then
 					local rmState = self.ridgeMarkerState;
