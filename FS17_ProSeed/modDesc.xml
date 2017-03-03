@@ -53,7 +53,7 @@
 			<de>ProSeed   Fahrgassen-Schaltung</de>
 			<ru>ProSeed   Управление колеями</ru>
 			<nl>ProSeed   Werkstroken schakeling</nl>
-			<pl>ProSeed: Kontrola toru jazdy</pl>
+			<pl>ProSeed   Ścieżki technologiczne</pl>
 		</text>
 		<text name="input_RM_UPGRADE_RMright">
 			<en>ProSeed   Ridgemarker right</en>
@@ -74,7 +74,7 @@
 			<de>ProSeed   Halbseitige Abschaltung</de>
 			<ru>ProSeed   Сторона отключения половины</ru>
 			<nl>ProSeed   Eenzijdige  uitschakeling</nl>
-			<pl>ProSeed: Przełączanie odcinania połowy strony</pl>
+			<pl>ProSeed   Wyłączanie siewu na połowie strony</pl>
 		</text>
 		<text name="input_SOWINGCOUNTER_RESETSESSIONHA">
 			<en>ProSeed   reset hectare counter</en>
@@ -131,49 +131,49 @@
 			<de>Fahrgassen</de>
 			<ru>Тех.колеи</ru>
 			<nl>Werkstroken</nl>
-			<pl>Tor jazdy</pl>
+			<pl>Ścieżki technologiczne</pl>
 		</text>
 		<text name="DRIVINGLINE_OFF">
 			<en>switch off driving line</en>
 			<de>Fahrgasse ausschalten</de>
 			<ru>Выключить тех.колеи</ru>
 			<nl>Werkstroken aanzetten</nl>
-			<pl>Wyłącz tor jazdy</pl>
+			<pl>Wyłącz ścieżki technologiczne</pl>
 		</text>
 		<text name="DRIVINGLINE_ON">
 			<en>switch on driving line</en>
 			<de>Fahrgasse einschalten</de>
 			<ru>Включить тех.колеи</ru>
 			<nl>Werkstroken uitzetten</nl>
-			<pl>Włącz tor jazdy</pl>
+			<pl>Włącz ścieżki technologiczne</pl>
 		</text>
 		<text name="DRIVINGLINE_SHIFT">
 			<en>upshift track counter</en>
 			<de>Spurzähler hochschalten</de>
 			<ru>Увеличить счетчик проходов</ru>
 			<nl>Spoorteller opschakelen</nl>
-			<pl>Zwiększ licznik ścieżek</pl>
+			<pl>Zwiększ licznik torów jazdy</pl>
 		</text>
 		<text name="DRIVINGLINE_PAUSE">
 			<en>pause track counter</en>
 			<de>Spurzähler pausieren</de>
 			<ru>Приостановить счетчик проходов</ru>
 			<nl>Spoorteller stilzetten</nl>
-			<pl>Spauzuj licznik ścieżek</pl>
+			<pl>Spauzuj licznik torów jazdy</pl>
 		</text>
 		<text name="DRIVINGLINE_ENABLE">
 			<en>enable track counter</en>
 			<de>Spurzähler aktivieren</de>
 			<ru>Включить счетчик проходов</ru>
 			<nl>Spoorteller activeren</nl>
-			<pl>Włącz licznik ścieżek</pl>
+			<pl>Włącz licznik torów jazdy</pl>
 		</text>
 		<text name="DRIVINGLINE_GPSRESET">
 			<en>reset GPS track counter</en>
 			<de>GPS Spurzähler zurücksetzen</de>
 			<ru>Сбросить GPS счетчик проходов</ru>
 			<nl>GPS spoorteller resetten</nl>
-			<pl>Resetuj licznik ścieżek GPSa</pl>
+			<pl>Resetuj licznik torów jazdy GPSa</pl>
 		</text>
 		<text name="DRIVINGLINE_MANUAL">
 			<en>manual</en>
@@ -187,14 +187,14 @@
 			<de>semi</de>
 			<ru>половина</ru>
 			<nl>semi</nl>
-			<pl>Półauto</pl>
+			<pl>Półautomat</pl>
 		</text>
 		<text name="DRIVINGLINE_AUTO">
 			<en>auto</en>
 			<de>auto</de>
 			<ru>auto</ru>
 			<nl>auto</nl>
-			<pl>auto</pl>
+			<pl>Automat</pl>
 		</text>
 		<text name="DRIVINGLINE_GPS">
 			<en>GPS</en>
@@ -222,14 +222,14 @@
 			<de>Fahrt Nr.</de>
 			<ru>Проход №</ru>
 			<nl>Rit nummer</nl>
-			<pl>Ścieżka nr</pl>
+			<pl>Tor jazdy</pl>
 		</text>
 		<text name="DRIVINGLINE_WORKWIDTH">
 			<en>Work width:</en>
 			<de>Arbeitsbreite:</de>
 			<ru>Рабочая ширина:</ru>
 			<nl>Werkbreedte:</nl>
-			<pl>Szer. robocza:</pl>
+			<pl>Szerokość robocza:</pl>
 		</text>
 		<text name="DRIVINGLINE_NUMDRILINE">
 			<en>Tramline in: </en>
@@ -243,8 +243,8 @@
 			<de>Halbseitige Abschaltung</de>
 			<ru>Изменение стороны отсечения</ru>
 			<nl>Eenzijdige uitschakeling</nl>
-			<pl>Przełączanie odcinania płowy strony</pl>
-		</text>	
+			<pl>Wyłączanie siewu na połowie strony</pl>
+		</text>
 		<text name="FERTILIZATION">
 			<en>fertilization </en>
 			<de>Düngung </de>
