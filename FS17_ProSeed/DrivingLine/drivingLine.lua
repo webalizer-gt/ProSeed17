@@ -3,8 +3,8 @@
 -- Specialization for driving lines of sowing machines
 --
 --	@author:		gotchTOM & webalizer
---	@date: 			21-Feb-2017
---	@version: 	v1.6.17
+--	@date: 			12-Mar-2017
+--	@version: 	v1.6.18
 --	@history:		v1.0 	- initial implementation (17-Jun-2012)
 --							v1.5  - SowingSupplement implementation
 --							v1.6  -
@@ -35,6 +35,7 @@ function DrivingLine:load(savegame)
 		end;
 	end;
 	if not self.hasSowingMachineWorkArea then
+		print(tostring(self.typeName).." has no workarea of type sowingMachine -> DrivingLine can not be used!")
 		return;
 	end;
 	self.setDrivingLine = SpecializationUtil.callSpecializationsFunction("setDrivingLine");
@@ -70,12 +71,6 @@ function DrivingLine:load(savegame)
 			self.wwCenterPoint = createTransformGroup("wwCenterPoint");
 			link(self.dlRootNode, self.wwCenterPoint);
 			setTranslation(self.wwCenterPoint,self.wwCenter,self.yStart,self.zHeight-.2);
-		-- else
-			-- self.drivingLinePresent = false;
-			-- self.activeModules.drivingLine = false;
-			-- self:updateDriLiGUI();
-			-- print(tostring(self.typeName).." has no workarea of type sowingMachine -> DrivingLine can not be used!")
-			-- return
 		end;
 	end;
 
@@ -93,8 +88,8 @@ function DrivingLine:load(savegame)
 		self.createDrivingLines = SpecializationUtil.callSpecializationsFunction("self.createDrivingLines");
 		self.createDrivingLines = DrivingLine.createDrivingLines;
 		local worldToDensity = g_currentMission.terrainDetailMapSize / g_currentMission.terrainSize;
-		self.dlLaneWidth = .05*worldToDensity--.02--.25*worldToDensity--0.4;--0.8;
-		self.dlLineWidth = .6*worldToDensity;--.5*worldToDensity;--1--.75*worldToDensity;--+self.dlLaneWidth/2--1.2;--1.375;
+		self.dlLaneWidth = .02;
+		self.dlLineWidth = 1;
 		self.drivingLines = {}
 		self.drivingLines = self:createDrivingLines();
 	end;
@@ -112,9 +107,6 @@ function DrivingLine:load(savegame)
 	else
 		self.createPeMarkerLines = SpecializationUtil.callSpecializationsFunction("self.createPeMarkerLines");
 		self.createPeMarkerLines = DrivingLine.createPeMarkerLines;
-		local worldToDensity = g_currentMission.terrainDetailMapSize / g_currentMission.terrainSize;
-		self.pemLaneWidth = .04*worldToDensity--.02--.25*worldToDensity--0.4;--0.8;
-		self.pemLineWidth = .6*worldToDensity;--1--.75*worldToDensity;--+self.dlLaneWidth/2--1.2;--1.375;
 		self.peMarkerLines = {}
 		self.peMarkerLines = self:createPeMarkerLines();
 	end;
@@ -159,15 +151,6 @@ function DrivingLine:load(savegame)
 	self.setShutoff = SpecializationUtil.callSpecializationsFunction("setShutoff");
 	local componentNr = string.sub(getXMLString(self.xmlFile, "vehicle.ai.areaMarkers#leftIndex"),1,1) +1;
 	self.areaRootNode = self.components[componentNr].node;
-	-- local workAreas;
-	-- for _,workArea in pairs(self.workAreaByType) do
-		-- for _,a in pairs(workArea) do
-			-- local areaTypeStr = WorkArea.areaTypeIntToName[a.type];
-			-- if areaTypeStr == "sowingMachine" then
-				-- workAreas = self.workAreaByType[a.type];
-			-- end;
-		-- end;
-	-- end;
 	if workAreas ~= nil then
 		--for k,v in pairs(workAreas[1].refNode) do
 		--	logInfo(1,('workAreas.%s: %s'):format(k,v));
@@ -381,7 +364,18 @@ function DrivingLine:updateTick(dt)
 					end;
 					self.IsLoweredBackUp = self.soMaIsLowered;
 				else
-					self.dlCultivatorDelay = g_currentMission.time + 1000;
+					local hasGroundContact = false;
+					for _, refNode in pairs(self.groundReferenceNodes) do
+						local x,y,z = getWorldTranslation(refNode.node);
+						local terrainHeight = getTerrainHeightAtWorldPos(g_currentMission.terrainRootNode, x, y, z);
+						if (terrainHeight + refNode.threshold) >= y then
+							hasGroundContact = true;
+							break;
+						end;
+					end;
+					if not hasGroundContact then
+						self.dlCultivatorDelay = g_currentMission.time + 500;
+					end;
 					if self.sowingMachineHasGroundContact then
 						self.IsLoweredBackUp = self.soMaIsLowered;
 					end;
@@ -671,7 +665,7 @@ function DrivingLine:createDrivingLines()
 	local y = self.yStart;
 	local z = self.zHeight - .2;
 	local worldToDensity = g_currentMission.terrainDetailMapSize / g_currentMission.terrainSize;
-	local hz = z - self.dlLaneWidth;--.02*worldToDensity;--- self.dlLaneWidth;
+	local hz = z - self.dlLaneWidth;
 	for i=1, 2 do
 		local startId = createTransformGroup("start"..i);
 		link(self.dlRootNode, startId);
@@ -692,11 +686,11 @@ end;
 
 function DrivingLine:createPeMarkerLines()
 	local peMarkerLines = {};
-	local x = self.wwCenter + self.pemLineWidth;--.6*worldToDensity;
+	local worldToDensity = g_currentMission.terrainDetailMapSize / g_currentMission.terrainSize;
+	local x = self.wwCenter + .6*worldToDensity;
 	local y = self.yStart;
 	local z = self.zHeight - .2;
-	local worldToDensity = g_currentMission.terrainDetailMapSize / g_currentMission.terrainSize;
-	local hz = z - self.pemLineWidth--.02*worldToDensity;
+	local hz = z;
 	for i=1, 2 do
 		local startId = createTransformGroup("start"..i);
 		link(self.dlRootNode, startId);
@@ -704,12 +698,10 @@ function DrivingLine:createPeMarkerLines()
 		local heightId = createTransformGroup("height"..i);
 		link(self.dlRootNode, heightId);
 		setTranslation(heightId,x,y,hz);
-		x = x - self.pemLaneWidth;
 		local widthId = createTransformGroup("width"..i);
 		link(self.dlRootNode, widthId);
 		setTranslation(widthId,x,y,z);
-		x = self.wwCenter - (self.pemLineWidth-self.pemLaneWidth);
-
+		x = self.wwCenter - .5*worldToDensity;
 		table.insert(peMarkerLines, {foldMinLimit=0,start=startId,height=heightId,foldMaxLimit=0.2,width=widthId});
 	end;
 	self.peMarkerPresent = true;
