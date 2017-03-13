@@ -32,6 +32,7 @@ Numpad 9 | - | halbseitige Abschaltung wechseln (rechts, links, aus), _toggle ha
 y, _z_ | - | Spurreisser links, _left ridgemarker_
 l_shift + y, *l_shift + z* | - | Spurreisser rechts, _right ridgemarker_
  | | Man kann die gleiche Taste für beide Spurreisser verwenden: es wird zuerst der linke an- und wieder ausgeschaltet, dann der rechte, _you can use one key for both ridgemarkers: first the left one is activated then deactivated, then the right one._
+ l_alt + entf, *l_alt + del* | - | Hektarzähler zurücksetzen, _reset hectare counter_
 l_strg, *l_ctrl* | - |gedrückt halten f. Maussteuerung, _hold down for mouse control_
 
 ![ProSeed HUD](images/ProSeed_HUD.png)
@@ -80,6 +81,8 @@ _The states of tramlines, the half-side shutoff, as well as the ridgemarkers are
 ### Authors and Contributors
 gotchTOM (@gotchTOM), webalizer (@webalizer-gt)  
 GreenEye, Manuel Leithner
+#### Translations
+Gonimy-Vetrom (russian), KITT3000 (polish), xxischxx (dutch)
 
 ### Support or feedback
 [Official Farming Simulator Forum](https://forum.giants-software.com/viewtopic.php?f=884&t=106100)
