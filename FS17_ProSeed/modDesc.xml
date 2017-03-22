@@ -8,6 +8,7 @@
 		<ru>ProSeed</ru>
 		<nl>ProSeed</nl>
 	    <pl>ProSeed</pl>
+	    <it>ProSeed</it>
     </title>
     <description>
         <en>Additional functionality for sowing machines.</en>
@@ -16,6 +17,7 @@
 		<ru>Дополнительные функциональные возможности для посевных машин.</ru>
 		<nl>Vermeerderde functionaliteit voor Zaaimachines.</nl>
 	    <pl>Dodatkowa funkcjonalność dla siewników.</pl>
+	    <it>Funzionalità aggiuntive per seminatrici.</it>
  	</description>
     <multiplayer supported="true"/>
 	<iconFilename>store.png</iconFilename>
@@ -40,6 +42,7 @@
 			<ru>ProSeed   Активировать HUD</ru>
 			<nl>ProSeed   HUD activeren</nl>
 			<pl>ProSeed   Pokaż/Ukryj HUD</pl>
+			<it>ProSeed   attivare HUD</it>
 		</text>
 		<text name="input_SOWINGSUPP_MOUSE">
 			<en>ProSeed   MOUSE activate</en>
@@ -47,6 +50,7 @@
 			<ru>ProSeed   Активировать MOUSE</ru>
 			<nl>ProSeed   MOUSE activeren</nl>
 			<pl>ProSeed   Pokaż/Ukryj kursor myszki</pl>
+			<it>ProSeed   attivare MOUSE</it>
 		</text>
 		<text name="input_DRIVINGLINE">
 			<en>ProSeed   driving line control</en>
@@ -54,6 +58,7 @@
 			<ru>ProSeed   Управление колеями</ru>
 			<nl>ProSeed   Werkstroken schakeling</nl>
 			<pl>ProSeed   Kontrola toru jazdy</pl>
+			<it>ProSeed   corsie di percorrenza</it>
 		</text>
 		<text name="input_RM_UPGRADE_RMright">
 			<en>ProSeed   Ridgemarker right</en>
@@ -61,6 +66,7 @@
 			<ru>ProSeed   Правый маркер</ru>
 			<nl>ProSeed   Spoorwijzer rechts</nl>
 			<pl>ProSeed   Prawy znacznik</pl>
+			<it>ProSeed   indicatore di porche destro</it>
 		</text>
 		<text name="input_RM_UPGRADE_RMleft">
 			<en>ProSeed   Ridgemarker left</en>
@@ -68,6 +74,7 @@
 			<ru>ProSeed   Левый маркер</ru>
 			<nl>ProSeed   Spoorwijzer links</nl>
 			<pl>ProSeed   Lewy znacznik</pl>
+			<it>ProSeed   indicatore di porche sinistro</it>
 		</text>
 		<text name="input_DRIVINGLINE_TOGGLESHUTOFF">
 			<en>ProSeed   Toggle halfside shutoff</en>
@@ -75,6 +82,7 @@
 			<ru>ProSeed   Сторона отключения половины</ru>
 			<nl>ProSeed   Eenzijdige  uitschakeling</nl>
 			<pl>ProSeed   Przełączanie odcinania połowy strony</pl>
+			<it>ProSeed   metà lato spento</it>
 		</text>
 		<text name="input_SOWINGCOUNTER_RESETSESSIONHA">
 			<en>ProSeed   reset hectare counter</en>
@@ -82,6 +90,7 @@
 			<ru>ProSeed   Обнулить счетчик площади</ru>
 			<nl>ProSeed   Hectareteller resetten</nl>
 			<pl>ProSeed   Reset licznika hektarów</pl>
+			<it>ProSeed   resettare contaettari</it>
 		</text>
 		<!-- Text -->
 		<text name="SOWINGSUPP_CONFIGLABEL">
@@ -90,6 +99,7 @@
 			<ru>Настройки</ru>
 			<nl>Instelling</nl>
 			<pl>Preferencje</pl>
+			<it>Preferenze</it>
 		</text>
 		<text name="SOWINGSUPP_HUDon">
 			<en>activate ProSeed HUD</en>
@@ -97,6 +107,7 @@
 			<ru>Активировать ProSeed HUD</ru>
 			<nl>ProSeed HUD activeren</nl>
 			<pl>Pokaż HUD ProSeed</pl>
+			<it>ProSeed attiva HUD</it>
 		</text>
 		<text name="SOWINGSUPP_HUDoff">
 			<en>deactivate ProSeed HUD</en>
@@ -104,6 +115,7 @@
 			<ru>Деактивировать ProSeed HUD</ru>
 			<nl>ProSeed HUD afzetten</nl>
 			<pl>Ukryj HUD ProSeed</pl>
+			<it>ProSeed disattiva HUD</it>
 		</text>
 		<text name="SOWINGCOUNTER">
 			<en>hectare counter</en>
@@ -111,6 +123,7 @@
 			<ru>Подсчет площади</ru>
 			<nl>Hectareteller</nl>
 			<pl>Licznik hektarów</pl>
+			<it>Contaettari</it>
 		</text>
 		<text name="SOWINGSOUNDS">
 			<en>Acoustic signals</en>
@@ -118,6 +131,7 @@
 			<ru>Звуковые сигналы</ru>
 			<nl>Akoestische signalen</nl>
 			<pl>Sygnały akustyczne</pl>
+			<it>Segnale acustico</it>
 		</text>
 		<text name="SOWINGSOUNDS_SIGNAL">
 			<en>Signals</en>
@@ -125,6 +139,7 @@
 			<ru>Сигналы</ru>
 			<nl>Signalen</nl>
 			<pl>Sygnały</pl>
+			<it>Segnale</it>
 		</text>
 		<text name="DRIVINGLINE">
 			<en>Tramlines</en>
@@ -132,6 +147,7 @@
 			<ru>Тех.колеи</ru>
 			<nl>Werkstroken</nl>
 			<pl>Ścieżek</pl>
+			<it>corsie di percorrenza</it>
 		</text>
 		<text name="DRIVINGLINE_OFF">
 			<en>switch off tramline</en>
@@ -139,6 +155,7 @@
 			<ru>Выключить тех.колеи</ru>
 			<nl>Werkstroken aanzetten</nl>
 			<pl>Wyłącz tor jazdy</pl>
+			<it>Disattiva corsie di percorrenza</it>
 		</text>
 		<text name="DRIVINGLINE_ON">
 			<en>switch on tramline</en>
@@ -146,6 +163,7 @@
 			<ru>Включить тех.колеи</ru>
 			<nl>Werkstroken uitzetten</nl>
 			<pl>Włącz tor ścieżek</pl>
+			<it>Attiva corsie di percorrenza</it>
 		</text>
 		<text name="DRIVINGLINE_SHIFT">
 			<en>upshift track counter</en>
@@ -153,6 +171,7 @@
 			<ru>Увеличить счетчик проходов</ru>
 			<nl>Spoorteller opschakelen</nl>
 			<pl>Zwiększ licznik ścieżek</pl>
+			<it>Aumenta contatore passaggi</it>
 		</text>
 		<text name="DRIVINGLINE_PAUSE">
 			<en>pause track counter</en>
@@ -160,6 +179,7 @@
 			<ru>Приостановить счетчик проходов</ru>
 			<nl>Spoorteller stilzetten</nl>
 			<pl>Spauzuj licznik ścieżek</pl>
+			<it>Ferma contatore passaggi</it>
 		</text>
 		<text name="DRIVINGLINE_ENABLE">
 			<en>enable track counter</en>
@@ -167,6 +187,7 @@
 			<ru>Включить счетчик проходов</ru>
 			<nl>Spoorteller activeren</nl>
 			<pl>Włącz licznik ścieżek</pl>
+			<it>Attiva contatore passaggi</it>
 		</text>
 		<text name="DRIVINGLINE_GPSRESET">
 			<en>reset GPS track counter</en>
@@ -174,6 +195,7 @@
 			<ru>Сбросить GPS счетчик проходов</ru>
 			<nl>GPS spoorteller resetten</nl>
 			<pl>Resetuj licznik ścieżek GPSa</pl>
+			<it>Resetta GPS contatore passaggi</it>
 		</text>
 		<text name="DRIVINGLINE_MANUAL">
 			<en>manual</en>
@@ -181,6 +203,7 @@
 			<ru>ручной</ru>
 			<nl>handmatig</nl>
 			<pl>Ręcznie</pl>
+			<it>Manuale</it>
 		</text>
 		<text name="DRIVINGLINE_SEMIAUTO">
 			<en>semi</en>
@@ -188,6 +211,7 @@
 			<ru>половина</ru>
 			<nl>semi</nl>
 			<pl>Półauto</pl>
+			<it>Semiautomatico</it>
 		</text>
 		<text name="DRIVINGLINE_AUTO">
 			<en>auto</en>
@@ -195,6 +219,7 @@
 			<ru>auto</ru>
 			<nl>auto</nl>
 			<pl>auto</pl>
+			<it>Automatico</it>
 		</text>
 		<text name="DRIVINGLINE_GPS">
 			<en>GPS</en>
@@ -202,6 +227,7 @@
 			<ru>GPS</ru>
 			<nl>GPS</nl>
 			<pl>GPS</pl>
+			<it>GPS</it>
 		</text>
 		<text name="DRIVINGLINE_MODE">
 			<en>Mode</en>
@@ -209,6 +235,7 @@
 			<ru>Режим</ru>
 			<nl>Modus</nl>
 			<pl>Tryb</pl>
+			<it>Modalità</it>
 		</text>
 		<text name="DRIVINGLINE_SPWORKWIDTH">
 			<en>Distance</en>
@@ -216,6 +243,7 @@
 			<ru>Расстояние</ru>
 			<nl>Afstand</nl>
 			<pl>Dystans</pl>
+			<it>Distanza</it>
 		</text>
 		<text name="DRIVINGLINE_CURRENTLANE">
 			<en>Track nr.</en>
@@ -223,6 +251,7 @@
 			<ru>Проход №</ru>
 			<nl>Rit nummer</nl>
 			<pl>Ścieżka nr</pl>
+			<it>Passaggio nr.</it>
 		</text>
 		<text name="DRIVINGLINE_WORKWIDTH">
 			<en>Target width:</en>
@@ -230,6 +259,7 @@
 			<ru>Рабочая ширина:</ru>
 			<nl>Werkbreedte:</nl>
 			<pl>Szer. robocza:</pl>
+			<it>Larghezza di lavoro:</it>
 		</text>
 		<text name="DRIVINGLINE_NUMDRILINE">
 			<en>Tramline in: </en>
@@ -237,6 +267,7 @@
 			<ru>Тех.колея на: </ru>
 			<nl>Werkstrook in:</nl>
 			<pl>Ścieżki tech. w:</pl>
+			<it>Corsia di passaggio in:</it>
 		</text>
 		<text name="DRIVINGLINE_TOGGLESHUTOFF">
 			<en>Toggle halfside shutoff</en>
@@ -244,6 +275,7 @@
 			<ru>Изменение стороны отсечения</ru>
 			<nl>Eenzijdige uitschakeling</nl>
 			<pl>Przełączanie odcinania płowy strony</pl>
+			<it>Metà lato spento</it>
 		</text>
 		<text name="FERTILIZATION">
 			<en>fertilization </en>
@@ -251,6 +283,7 @@
 			<ru>Удобрение </ru>
 			<nl>Bemesting</nl>
 			<pl>Nawożenie</pl>
+			<it>Fertilizzazione</it>
 		</text>
 		<text name="RM_UPGRADE_RMright">
 			<en>Ridgemarker right</en>
@@ -258,6 +291,7 @@
 			<ru>Правый маркер</ru>
 			<nl>Spoorwijzer rechts</nl>
 			<pl>Prawy znacznik</pl>
+			<it>Indicatore di porche destro</it>
 		</text>
 		<text name="RM_UPGRADE_RMleft">
 			<en>Ridgemarker left</en>
@@ -265,6 +299,7 @@
 			<ru>Левый маркер</ru>
 			<nl>Spoorwijzer links</nl>
 			<pl>Lewy zancznik</pl>
+			<it>Indicatore di porche sinistro</it>
 		</text>
 	</l10n>
 </modDesc>
