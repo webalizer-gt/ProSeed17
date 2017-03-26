@@ -10,7 +10,7 @@
 .hg
 Mods
 temp
-draw.lua
+#draw.lua
 
 
 # Windows image file caches

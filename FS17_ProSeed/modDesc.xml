@@ -211,7 +211,7 @@
 			<ru>половина</ru>
 			<nl>semi</nl>
 			<pl>Półauto</pl>
-			<it>Semiautomatico</it>
+			<it>Semiauto.</it>
 		</text>
 		<text name="DRIVINGLINE_AUTO">
 			<en>auto</en>
@@ -219,7 +219,7 @@
 			<ru>auto</ru>
 			<nl>auto</nl>
 			<pl>auto</pl>
-			<it>Automatico</it>
+			<it>auto</it>
 		</text>
 		<text name="DRIVINGLINE_GPS">
 			<en>GPS</en>
@@ -238,8 +238,8 @@
 			<it>Modalità</it>
 		</text>
 		<text name="DRIVINGLINE_SPWORKWIDTH">
-			<en>Distance</en>
-			<de>Abstand</de>
+			<en>Target width</en>
+			<de>Zielbreite</de>
 			<ru>Расстояние</ru>
 			<nl>Afstand</nl>
 			<pl>Dystans</pl>
@@ -254,8 +254,8 @@
 			<it>Passaggio nr.</it>
 		</text>
 		<text name="DRIVINGLINE_WORKWIDTH">
-			<en>Target width:</en>
-			<de>Zielbreite:</de>
+			<en>Working width:</en>
+			<de>Arbeitsbreite:</de>
 			<ru>Рабочая ширина:</ru>
 			<nl>Werkbreedte:</nl>
 			<pl>Szer. robocza:</pl>
