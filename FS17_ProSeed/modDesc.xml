@@ -57,7 +57,7 @@
 			<de>ProSeed   Fahrgassen-Schaltung</de>
 			<ru>ProSeed   Управление колеями</ru>
 			<nl>ProSeed   Werkstroken schakeling</nl>
-			<pl>ProSeed   Kontrola toru jazdy</pl>
+			<pl>ProSeed   Ścieżki technologiczne</pl>
 			<it>ProSeed   corsie di percorrenza</it>
 		</text>
 		<text name="input_RM_UPGRADE_RMright">
@@ -81,7 +81,7 @@
 			<de>ProSeed   Halbseitige Abschaltung</de>
 			<ru>ProSeed   Сторона отключения половины</ru>
 			<nl>ProSeed   Eenzijdige  uitschakeling</nl>
-			<pl>ProSeed   Przełączanie odcinania połowy strony</pl>
+			<pl>ProSeed   Wyłączanie siewu na połowie strony</pl>
 			<it>ProSeed   metà lato spento</it>
 		</text>
 		<text name="input_SOWINGCOUNTER_RESETSESSIONHA">
@@ -146,7 +146,7 @@
 			<de>Fahrgassen</de>
 			<ru>Тех.колеи</ru>
 			<nl>Werkstroken</nl>
-			<pl>Ścieżek</pl>
+			<pl>Ścieżki technologiczne</pl>
 			<it>corsie di percorrenza</it>
 		</text>
 		<text name="DRIVINGLINE_OFF">
@@ -154,7 +154,7 @@
 			<de>Fahrgasse ausschalten</de>
 			<ru>Выключить тех.колеи</ru>
 			<nl>Werkstroken aanzetten</nl>
-			<pl>Wyłącz tor jazdy</pl>
+			<pl>Wyłącz ścieżki technologiczne</pl>
 			<it>Disattiva corsie di percorrenza</it>
 		</text>
 		<text name="DRIVINGLINE_ON">
@@ -162,7 +162,7 @@
 			<de>Fahrgasse einschalten</de>
 			<ru>Включить тех.колеи</ru>
 			<nl>Werkstroken uitzetten</nl>
-			<pl>Włącz tor ścieżek</pl>
+			<pl>Włącz ścieżki technologiczne</pl>
 			<it>Attiva corsie di percorrenza</it>
 		</text>
 		<text name="DRIVINGLINE_SHIFT">
@@ -170,7 +170,7 @@
 			<de>Spurzähler hochschalten</de>
 			<ru>Увеличить счетчик проходов</ru>
 			<nl>Spoorteller opschakelen</nl>
-			<pl>Zwiększ licznik ścieżek</pl>
+			<pl>Zwiększ licznik torów jazdy</pl>
 			<it>Aumenta contatore passaggi</it>
 		</text>
 		<text name="DRIVINGLINE_PAUSE">
@@ -178,7 +178,7 @@
 			<de>Spurzähler pausieren</de>
 			<ru>Приостановить счетчик проходов</ru>
 			<nl>Spoorteller stilzetten</nl>
-			<pl>Spauzuj licznik ścieżek</pl>
+			<pl>Spauzuj licznik torów jazdy</pl>
 			<it>Ferma contatore passaggi</it>
 		</text>
 		<text name="DRIVINGLINE_ENABLE">
@@ -186,7 +186,7 @@
 			<de>Spurzähler aktivieren</de>
 			<ru>Включить счетчик проходов</ru>
 			<nl>Spoorteller activeren</nl>
-			<pl>Włącz licznik ścieżek</pl>
+			<pl>Włącz licznik torów jazdy</pl>
 			<it>Attiva contatore passaggi</it>
 		</text>
 		<text name="DRIVINGLINE_GPSRESET">
@@ -194,7 +194,7 @@
 			<de>GPS Spurzähler zurücksetzen</de>
 			<ru>Сбросить GPS счетчик проходов</ru>
 			<nl>GPS spoorteller resetten</nl>
-			<pl>Resetuj licznik ścieżek GPSa</pl>
+			<pl>Resetuj licznik torów jazdy GPSa</pl>
 			<it>Resetta GPS contatore passaggi</it>
 		</text>
 		<text name="DRIVINGLINE_MANUAL">
@@ -210,7 +210,7 @@
 			<de>semi</de>
 			<ru>половина</ru>
 			<nl>semi</nl>
-			<pl>Półauto</pl>
+			<pl>Półautomat</pl>
 			<it>Semiauto.</it>
 		</text>
 		<text name="DRIVINGLINE_AUTO">
@@ -218,7 +218,7 @@
 			<de>auto</de>
 			<ru>auto</ru>
 			<nl>auto</nl>
-			<pl>auto</pl>
+			<pl>Automat</pl>
 			<it>auto</it>
 		</text>
 		<text name="DRIVINGLINE_GPS">
@@ -250,7 +250,7 @@
 			<de>Fahrt Nr.</de>
 			<ru>Проход №</ru>
 			<nl>Rit nummer</nl>
-			<pl>Ścieżka nr</pl>
+			<pl>Tor jazdy</pl>
 			<it>Passaggio nr.</it>
 		</text>
 		<text name="DRIVINGLINE_WORKWIDTH">
@@ -258,7 +258,7 @@
 			<de>Arbeitsbreite:</de>
 			<ru>Рабочая ширина:</ru>
 			<nl>Werkbreedte:</nl>
-			<pl>Szer. robocza:</pl>
+			<pl>Szerokość robocza:</pl>
 			<it>Larghezza di lavoro:</it>
 		</text>
 		<text name="DRIVINGLINE_NUMDRILINE">
@@ -274,7 +274,7 @@
 			<de>Halbseitige Abschaltung</de>
 			<ru>Изменение стороны отсечения</ru>
 			<nl>Eenzijdige uitschakeling</nl>
-			<pl>Przełączanie odcinania płowy strony</pl>
+			<pl>Wyłączanie siewu na połowie strony</pl>
 			<it>Metà lato spento</it>
 		</text>
 		<text name="FERTILIZATION">
