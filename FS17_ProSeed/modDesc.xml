@@ -21,7 +21,7 @@
  	</description>
     <multiplayer supported="true"/>
 	<iconFilename>store.png</iconFilename>
-	<version>1.0.1.0</version>
+	<version>1.0.1.1</version>
 	<extraSourceFiles>
         <sourceFile filename="register.lua" />
     </extraSourceFiles>
@@ -238,8 +238,8 @@
 			<it>Modalità</it>
 		</text>
 		<text name="DRIVINGLINE_SPWORKWIDTH">
-			<en>Target width</en>
-			<de>Zielbreite</de>
+			<en>Distance</en>
+			<de>Abstand Fahrgassen</de>
 			<ru>Расстояние</ru>
 			<nl>Afstand</nl>
 			<pl>Dystans</pl>
@@ -254,8 +254,8 @@
 			<it>Passaggio nr.</it>
 		</text>
 		<text name="DRIVINGLINE_WORKWIDTH">
-			<en>Working width:</en>
-			<de>Arbeitsbreite:</de>
+			<en>Target width:</en>
+			<de>Zielbreite:</de>
 			<ru>Рабочая ширина:</ru>
 			<nl>Werkbreedte:</nl>
 			<pl>Szerokość robocza:</pl>

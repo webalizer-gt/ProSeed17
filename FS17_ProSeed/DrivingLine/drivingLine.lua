@@ -88,8 +88,8 @@ function DrivingLine:load(savegame)
 		self.createDrivingLines = SpecializationUtil.callSpecializationsFunction("self.createDrivingLines");
 		self.createDrivingLines = DrivingLine.createDrivingLines;
 		local worldToDensity = g_currentMission.terrainDetailMapSize / g_currentMission.terrainSize;
-		self.dlLaneWidth = .02;
-		self.dlLineWidth = 1;
+		self.dlLaneWidth = .4;
+		self.dlLineWidth = 1.2;
 		self.drivingLines = {}
 		self.drivingLines = self:createDrivingLines();
 	end;
@@ -664,7 +664,6 @@ function DrivingLine:createDrivingLines()
 	local x = self.wwCenter + self.dlLineWidth;
 	local y = self.yStart;
 	local z = self.zHeight - .2;
-	local worldToDensity = g_currentMission.terrainDetailMapSize / g_currentMission.terrainSize;
 	local hz = z - self.dlLaneWidth;
 	for i=1, 2 do
 		local startId = createTransformGroup("start"..i);
@@ -686,11 +685,10 @@ end;
 
 function DrivingLine:createPeMarkerLines()
 	local peMarkerLines = {};
-	local worldToDensity = g_currentMission.terrainDetailMapSize / g_currentMission.terrainSize;
-	local x = self.wwCenter + .6*worldToDensity;
+	local x = self.wwCenter + self.dlLineWidth;
 	local y = self.yStart;
 	local z = self.zHeight - .2;
-	local hz = z;
+	local hz = z - self.dlLaneWidth;
 	for i=1, 2 do
 		local startId = createTransformGroup("start"..i);
 		link(self.dlRootNode, startId);
@@ -701,7 +699,7 @@ function DrivingLine:createPeMarkerLines()
 		local widthId = createTransformGroup("width"..i);
 		link(self.dlRootNode, widthId);
 		setTranslation(widthId,x,y,z);
-		x = self.wwCenter - .5*worldToDensity;
+		x = self.wwCenter - (self.dlLineWidth-self.dlLaneWidth);
 		table.insert(peMarkerLines, {foldMinLimit=0,start=startId,height=heightId,foldMaxLimit=0.2,width=widthId});
 	end;
 	self.peMarkerPresent = true;
