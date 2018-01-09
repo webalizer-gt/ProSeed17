@@ -1,7 +1,7 @@
 #
 *.bat
 *.bak
-*.zip
+#*.zip
 *.rar
 *.BBCode
 .teaser_images
