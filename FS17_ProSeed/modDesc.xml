@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" standalone="no" ?>
-<modDesc descVersion="32">
+<modDesc descVersion="38">
    <author>gotchTOM/webalizer</author>
     <title>
 		<en>ProSeed</en>
@@ -11,9 +11,21 @@
 	    <it>ProSeed</it>
     </title>
     <description>
-        <en>Additional functionality for sowing machines.</en>
-		<de>Erweiterte Funktionalität für Sämaschinen.</de>
-		<fr>Fonctionnalité supplémentaire pour les machines à coudre.</fr>
+        <en><![CDATA[Additional functionality for sowing machines.
+		
+		Changelog 1.0.1.3
+		- fix for Patch 1.5.3.1
+		- fix distance setting]]></en>
+		<de><![CDATA[Erweiterte Funktionalität für Sämaschinen.
+		
+		Changelog 1.0.1.3
+		- fix for Patch 1.5.3.1
+		- fix distance setting]]></de>
+		<fr><![CDATA[Fonctionnalité supplémentaire pour les machines à coudre.
+		
+		Changelog 1.0.1.3
+		- fix for Patch 1.5.3.1
+		- fix distance setting]]></fr>
 		<ru>Дополнительные функциональные возможности для посевных машин.</ru>
 		<nl>Vermeerderde functionaliteit voor Zaaimachines.</nl>
 	    <pl>Dodatkowa funkcjonalność dla siewników.</pl>
@@ -21,7 +33,7 @@
  	</description>
     <multiplayer supported="true"/>
 	<iconFilename>store.png</iconFilename>
-	<version>1.0.1.2</version>
+	<version>1.0.1.3</version>
 	<extraSourceFiles>
         <sourceFile filename="register.lua" />
     </extraSourceFiles>

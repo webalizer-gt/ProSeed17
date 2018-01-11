@@ -3,8 +3,8 @@
 -- Specialization for driving lines of sowing machines
 --
 --	@author:		gotchTOM & webalizer
---	@date: 			12-Mar-2017
---	@version: 	v1.6.18
+--	@date: 			11-Jan-2018
+--	@version: 	v1.6.19
 --	@history:		v1.0 	- initial implementation (17-Jun-2012)
 --							v1.5  - SowingSupplement implementation
 --							v1.6  -
@@ -88,8 +88,8 @@ function DrivingLine:load(savegame)
 		self.createDrivingLines = SpecializationUtil.callSpecializationsFunction("self.createDrivingLines");
 		self.createDrivingLines = DrivingLine.createDrivingLines;
 		local worldToDensity = g_currentMission.terrainDetailMapSize / g_currentMission.terrainSize;
-		self.dlLaneWidth = .4;
-		self.dlLineWidth = 1.2;
+		self.dlLaneWidth = .6;
+		self.dlLineWidth = 1.6;
 		self.drivingLines = {}
 		self.drivingLines = self:createDrivingLines();
 	end;
@@ -580,7 +580,7 @@ end;
 
 function DrivingLine:setSPworkwidth(raise, noEventSend)
 	if not raise then
-		if self.nSMdrives > 2 and self.spWorkwith < 73 then
+		if self.nSMdrives > 2 and self.spWorkwith < 67 then
 			self.nSMdrives = self.nSMdrives - 1;
 			if self.currentLane > self.nSMdrives then
 				self.currentLane = self.nSMdrives;
@@ -663,7 +663,7 @@ function DrivingLine:createDrivingLines()
 	local drivingLines = {};
 	local x = self.wwCenter + self.dlLineWidth;
 	local y = self.yStart;
-	local z = self.zHeight - .2;
+	local z = self.zHeight - .3;
 	local hz = z - self.dlLaneWidth;
 	for i=1, 2 do
 		local startId = createTransformGroup("start"..i);
@@ -687,7 +687,7 @@ function DrivingLine:createPeMarkerLines()
 	local peMarkerLines = {};
 	local x = self.wwCenter + self.dlLineWidth;
 	local y = self.yStart;
-	local z = self.zHeight - .2;
+	local z = self.zHeight - .3;
 	local hz = z - self.dlLaneWidth;
 	for i=1, 2 do
 		local startId = createTransformGroup("start"..i);
