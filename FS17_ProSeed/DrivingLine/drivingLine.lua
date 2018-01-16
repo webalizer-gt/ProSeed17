@@ -580,7 +580,7 @@ end;
 
 function DrivingLine:setSPworkwidth(raise, noEventSend)
 	if not raise then
-		if self.nSMdrives > 2 and self.spWorkwith < 67 then
+		if self.nSMdrives > 2 and self.spWorkwith < 73 then
 			self.nSMdrives = self.nSMdrives - 1;
 			if self.currentLane > self.nSMdrives then
 				self.currentLane = self.nSMdrives;
